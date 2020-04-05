@@ -1,0 +1,194 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.beaconexchange"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+8-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+11-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:6:5-77
+11-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:6:22-74
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:7:5-67
+12-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:7:22-64
+13    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+13-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:8:5-85
+13-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:8:22-82
+14    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+14-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:9:5-79
+14-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:9:22-76
+15    <uses-permission android:name="android.permission.VIBRATE" />
+15-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:10:5-66
+15-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:10:22-63
+16    <uses-permission
+16-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:11:5-13:36
+17        android:name="android.permission.BLUETOOTH"
+17-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:12:9-52
+18        android:required="false" />
+18-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:13:9-33
+19    <uses-permission
+19-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:14:5-16:36
+20        android:name="android.permission.BLUETOOTH_ADMIN"
+20-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:15:9-58
+21        android:required="false" />
+21-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:16:9-33
+22    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+22-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:17:5-81
+22-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:17:22-78
+23    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+23-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:18:5-81
+23-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:18:22-78
+24
+25    <application
+25-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:12:5-48:19
+26        android:name="com.example.beaconexchange.BeaconExchangeApplication"
+26-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:19:9-49
+27        android:allowBackup="true"
+27-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:13:9-35
+28        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+28-->[androidx.core:core:1.2.0] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/f8a25a8e7a6c14f5ca703a491b755ba2/core-1.2.0/AndroidManifest.xml:24:18-86
+29        android:debuggable="true"
+30        android:extractNativeLibs="false"
+31        android:icon="@mipmap/ic_launcher"
+31-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:14:9-43
+32        android:label="@string/app_name"
+32-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:15:9-41
+33        android:roundIcon="@mipmap/ic_launcher_round"
+33-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:16:9-54
+34        android:supportsRtl="true"
+34-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:17:9-35
+35        android:testOnly="true"
+36        android:theme="@style/AppTheme" >
+36-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:18:9-40
+37        <service
+37-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:20:9-24:19
+38            android:name="com.example.beaconexchange.beacon.BeaconConsumerService"
+38-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:21:13-83
+39            android:enabled="true"
+39-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:22:13-35
+40            android:exported="false" >
+40-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:23:13-37
+41        </service>
+42        <service
+42-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:25:9-29:19
+43            android:name="com.example.beaconexchange.beacon.BeaconSenderService"
+43-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:26:13-81
+44            android:enabled="true"
+44-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:27:13-35
+45            android:exported="false" >
+45-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:28:13-37
+46        </service>
+47        <!-- enable scanning for over 30 minutes on Android 7+ -->
+48        <service android:name="org.altbeacon.beacon.service.BeaconService" >
+48-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:31:9-37:19
+48-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:32:13-70
+49            <meta-data
+49-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:34:13-36:40
+50                android:name="longScanForcingEnabled"
+50-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:35:17-54
+51                android:value="true" />
+51-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:36:17-37
+52        </service>
+53
+54        <activity
+54-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:39:9-47:20
+55            android:name="com.example.beaconexchange.MainActivity"
+55-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:40:13-67
+56            android:label="@string/app_name" >
+56-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:41:13-45
+57            <intent-filter>
+57-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:42:13-46:29
+58                <action android:name="android.intent.action.MAIN" />
+58-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:43:17-69
+58-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:43:25-66
+59
+60                <category android:name="android.intent.category.LAUNCHER" />
+60-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:45:17-77
+60-->/Users/nikolausschauersberger/Projects/socialdistancing/BeaconExchange/app/src/main/AndroidManifest.xml:45:27-74
+61            </intent-filter>
+62        </activity>
+63
+64        <receiver android:name="org.altbeacon.beacon.startup.StartupBroadcastReceiver" >
+64-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:21:9-27:20
+64-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:21:19-87
+65            <intent-filter>
+65-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:22:13-26:29
+66                <action android:name="android.intent.action.BOOT_COMPLETED" />
+66-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:23:17-79
+66-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:23:25-76
+67                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+67-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:24:17-87
+67-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:24:25-84
+68                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+68-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:25:17-90
+68-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:25:25-87
+69            </intent-filter>
+70        </receiver>
+71
+72        <service
+72-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:35:9-38:40
+73            android:name="org.altbeacon.beacon.BeaconIntentProcessor"
+73-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:36:13-70
+74            android:enabled="true"
+74-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:37:13-35
+75            android:exported="false" />
+75-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:38:13-37
+76        <service
+76-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:39:9-48:19
+77            android:name="org.altbeacon.beacon.service.ScanJob"
+77-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:40:13-64
+78            android:permission="android.permission.BIND_JOB_SERVICE" >
+78-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:41:13-69
+79            <meta-data
+79-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:42:13-44:45
+80                android:name="immediateScanJobId"
+80-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:43:17-50
+81                android:value="208352939" />
+81-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:44:17-42
+82            <meta-data
+82-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:45:13-47:45
+83                android:name="periodicScanJobId"
+83-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:46:17-49
+84                android:value="208352940" />
+84-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:47:17-42
+85        </service>
+86        <service
+86-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:49:9-55:19
+87            android:name="org.altbeacon.bluetooth.BluetoothTestJob"
+87-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:50:13-68
+88            android:permission="android.permission.BIND_JOB_SERVICE" >
+88-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:51:13-69
+89            <meta-data
+89-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:52:13-54:46
+90                android:name="jobId"
+90-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:53:17-37
+91                android:value="1799803768" />
+91-->[org.altbeacon:android-beacon-library:2.16.4] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/04ba1362567d35a13d94ba3e951db2c9/jetified-android-beacon-library-2.16.4/AndroidManifest.xml:54:17-43
+92        </service>
+93        <service
+93-->[androidx.room:room-runtime:2.2.5] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/34cbb4bf242c2ae589f663cec2c7c3d4/room-runtime-2.2.5/AndroidManifest.xml:25:9-28:40
+94            android:name="androidx.room.MultiInstanceInvalidationService"
+94-->[androidx.room:room-runtime:2.2.5] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/34cbb4bf242c2ae589f663cec2c7c3d4/room-runtime-2.2.5/AndroidManifest.xml:26:13-74
+95            android:directBootAware="true"
+95-->[androidx.room:room-runtime:2.2.5] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/34cbb4bf242c2ae589f663cec2c7c3d4/room-runtime-2.2.5/AndroidManifest.xml:27:13-43
+96            android:exported="false" />
+96-->[androidx.room:room-runtime:2.2.5] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/34cbb4bf242c2ae589f663cec2c7c3d4/room-runtime-2.2.5/AndroidManifest.xml:28:13-37
+97
+98        <provider
+98-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/85eabf9a2b28957bb4aaa464de53bbd3/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:23:9-27:43
+99            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+99-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/85eabf9a2b28957bb4aaa464de53bbd3/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:24:13-79
+100            android:authorities="com.example.beaconexchange.lifecycle-process"
+100-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/85eabf9a2b28957bb4aaa464de53bbd3/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:25:13-69
+101            android:exported="false"
+101-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/85eabf9a2b28957bb4aaa464de53bbd3/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:26:13-37
+102            android:multiprocess="true" />
+102-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/nikolausschauersberger/.gradle/caches/transforms-2/files-2.1/85eabf9a2b28957bb4aaa464de53bbd3/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:27:13-40
+103    </application>
+104
+105</manifest>

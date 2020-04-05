@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BeaconExchange.iml" filepath="$PROJECT_DIR$/BeaconExchange.iml" group="BeaconExchange" />
+      <module fileurl="file://$PROJECT_DIR$/BeaconExchange-CoChain.iml" filepath="$PROJECT_DIR$/BeaconExchange-CoChain.iml" group="CoChain" />
+      <module fileurl="file://$PROJECT_DIR$/CoChain.iml" filepath="$PROJECT_DIR$/CoChain.iml" group="CoChain" />
+      <module fileurl="file://$PROJECT_DIR$/Projects-socialdistancing-BeaconExchange-CoChain.iml" filepath="$PROJECT_DIR$/Projects-socialdistancing-BeaconExchange-CoChain.iml" group="CoChain" />
+      <module fileurl="file://$PROJECT_DIR$/Projects-socialdistancing-BeaconExchange-CoChain~1.iml" filepath="$PROJECT_DIR$/Projects-socialdistancing-BeaconExchange-CoChain~1.iml" group="CoChain" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="BeaconExchange/app" />
+      <module fileurl="file://$PROJECT_DIR$/socialdistancing-BeaconExchange-CoChain.iml" filepath="$PROJECT_DIR$/socialdistancing-BeaconExchange-CoChain.iml" group="CoChain" />
+    </modules>
+  </component>
+</project>
