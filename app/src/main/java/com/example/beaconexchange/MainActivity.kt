@@ -15,6 +15,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.beaconexchange.Constants.Companion.PERMISSION_REQUEST_BACKGROUND_LOCATION
+import com.example.beaconexchange.Constants.Companion.PERMISSION_REQUEST_FINE_LOCATION
 import com.example.beaconexchange.beacon.BeaconConsumerService
 import com.example.beaconexchange.beacon.BeaconSenderService
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,16 +25,7 @@ import org.altbeacon.beacon.BeaconManager
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private val TAG = "MainActivity"
-
-        private const val PERMISSION_REQUEST_FINE_LOCATION = 1
-        private const val PERMISSION_REQUEST_BACKGROUND_LOCATION = 2
-
-        const val ALTBEACON  =    "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"
-        private const val EDDYSTONE_TLM  = "x,s:0-1=feaa,m:2-2=20,d:3-3,d:4-5,d:6-7,d:8-11,d:12-15"
-        private const val EDDYSTONE_UID =  "s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19"
-        private const val EDDYSTONE_URL = "s:0-1=feaa,m:2-2=10,p:3-3:-41,i:4-20v"
-        private const val IBEACON   =     "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"
+        const val TAG = "MainActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
