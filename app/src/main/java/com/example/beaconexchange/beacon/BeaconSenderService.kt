@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.beaconexchange.Constants.Companion.ALTBEACON
 import com.example.beaconexchange.MainActivity
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconParser
@@ -45,7 +46,7 @@ class BeaconSenderService : Service() {
             .setDataFields(list) // Remove this for beacon layouts without d: fields
             .build()
 
-        val beaconParser = BeaconParser().setBeaconLayout(MainActivity.ALTBEACON)
+        val beaconParser = BeaconParser().setBeaconLayout(ALTBEACON)
 
         val beaconTransmitter = BeaconTransmitter(applicationContext, beaconParser)
 
