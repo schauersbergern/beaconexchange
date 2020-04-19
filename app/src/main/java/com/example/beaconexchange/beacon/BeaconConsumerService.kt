@@ -2,25 +2,26 @@ package com.example.beaconexchange.beacon
 
 import android.app.Service
 import android.content.Intent
-import android.os.Binder
 import android.os.IBinder
+import android.os.Parcelable
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.beaconexchange.AlarmManager
+import com.example.beaconexchange.BluetoothMessage
 import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
 import org.altbeacon.beacon.*
 
-class BeaconServiceBinder(consumerService: BeaconConsumerService) : Binder() {
-    var service: BeaconConsumerService = consumerService
-        get() = field
-}
 
 class BeaconConsumerService : Service(), BeaconConsumer {
 
     private lateinit var beaconManager: BeaconManager
+    private lateinit var alarmManager: AlarmManager
 
     companion object {
         private const val TAG = "BeaconConsumerService"
+        private const val CHANNEL_ID = "BeaconConsumerService"
+        private const val CHANNEL_TITLE = "App is receiving"
     }
 
     private val rangeNotifer = RangeNotifier { beacons: MutableCollection<Beacon>, region: Region ->
@@ -34,10 +35,13 @@ class BeaconConsumerService : Service(), BeaconConsumer {
 
                 val firstBeacon = beacons.iterator().next()
                 val btAddress = firstBeacon.bluetoothAddress
-                val btName = firstBeacon.bluetoothName
+                val btName = firstBeacon.bluetoothName ?: "No Name"
                 val rssi = firstBeacon.rssi
                 val distance = firstBeacon.distance
-                val data = "The beacon with Address $btAddress has the name $btName is about $distance meters away and has rssi of $rssi"
+                val distCentimeters = (distance * 100).toInt()
+                alarmManager.checkDistance(distCentimeters)
+
+                val data = BluetoothMessage(btName, btAddress, distCentimeters, rssi)
 
                 sendMessageToActivity(data)
             }
@@ -45,14 +49,14 @@ class BeaconConsumerService : Service(), BeaconConsumer {
         }
     }
 
-    private fun sendMessageToActivity(msg: String) {
+    private fun sendMessageToActivity(msg: Parcelable) {
         val intent = Intent(BEACON_UPDATE)
         intent.putExtra(BEACON_MESSAGE, msg)
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        return BeaconServiceBinder(this)
+        return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -60,6 +64,8 @@ class BeaconConsumerService : Service(), BeaconConsumer {
 
         beaconManager = BeaconManager.getInstanceForApplication(this)
         beaconManager.bind(this)
+
+        alarmManager = AlarmManager(applicationContext)
 
         // don't need to be sticky... if killed and restarted, the MainActivity BootstrapNotifier will restart the service
         return START_NOT_STICKY

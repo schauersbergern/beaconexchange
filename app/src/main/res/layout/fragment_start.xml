@@ -28,6 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/serviceButton"/>
 
     <ImageView
+        android:id="@+id/alarmImage"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:src="@drawable/bell"

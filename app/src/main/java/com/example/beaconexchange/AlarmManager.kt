@@ -8,22 +8,23 @@ import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 
 class AlarmManager(private val ctx: Context) {
     var notification: Uri
     var r: Ringtone
     var mPlayer: MediaPlayer
     fun checkDistance(distance: Int) {
-        val severity = getSeverity(distance)
 
-        if (severity == SEVERITY_MEDIUM) {
-            vibrate()
-        } else if (severity == SEVERITY_SEVERE) {
-            startAlarm()
-            vibrate()
-        } else {
-            stopAlarm()
+        when (getSeverity(distance)) {
+            SEVERITY_MEDIUM -> vibrate(distance)
+            SEVERITY_SEVERE -> {
+                //startAlarm()
+                vibrate(distance)
+            }
+            else -> stopAlarm()
         }
+
     }
 
     fun alarmbutton() {
@@ -35,22 +36,30 @@ class AlarmManager(private val ctx: Context) {
         }
     }
 
-    private fun getSeverity(distance: Int): Int {
-        var severity = SEVERITY_NO
-        if (distance < 200 && distance > 150) {
-            severity = SEVERITY_MEDIUM
-        } else if (distance < 150) {
-            severity = SEVERITY_SEVERE
-        }
-        return severity
-    }
-
-    fun vibrate() {
+    fun vibrate(distance: Int) {
         val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val amplitude = getAmplitude(distance)
+        Log.i(
+            "Alarmmanager",
+            "Amplitude is $amplitude"
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(250, 50))
+            v.vibrate(VibrationEffect.createOneShot(4000, amplitude))
         } else {
             v.vibrate(250)
+        }
+    }
+
+    private fun getAmplitude(distance: Int) : Int {
+        val maxDistance = DISTANCE_MAX
+        val remaining = maxDistance - distance
+
+        return if (remaining > 0) {
+            val factor = remaining.div(maxDistance.toDouble())
+            val maxAmplitude = AMPLITUDE_MAX
+            (maxAmplitude * factor).toInt()
+        } else {
+             0
         }
     }
 
@@ -67,6 +76,21 @@ class AlarmManager(private val ctx: Context) {
         const val SEVERITY_NO = 0
         const val SEVERITY_MEDIUM = 2
         const val SEVERITY_SEVERE = 3
+
+        const val DISTANCE_MAX = 400
+        const val DISTANCE_MIN = 200
+
+        const val AMPLITUDE_MAX = 255
+
+        fun getSeverity(distance: Int): Int {
+            var severity = SEVERITY_NO
+            if (distance in DISTANCE_MIN..DISTANCE_MAX) {
+                severity = SEVERITY_MEDIUM
+            } else if (distance < DISTANCE_MIN) {
+                severity = SEVERITY_SEVERE
+            }
+            return severity
+        }
     }
 
     init {

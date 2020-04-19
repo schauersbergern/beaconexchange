@@ -1,24 +1,23 @@
 package com.example.beaconexchange.beacon
 
-import android.R
 import android.app.*
 import android.bluetooth.le.AdvertiseCallback
 import android.bluetooth.le.AdvertiseSettings
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.example.beaconexchange.Constants.Companion.ALTBEACON
-import com.example.beaconexchange.MainActivity
+import com.example.beaconexchange.startBeaconForegroundService
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconParser
 import org.altbeacon.beacon.BeaconTransmitter
 
-
 class BeaconSenderService : Service() {
 
-    private val CHANNEL_ID = "ForegroundService Kotlin"
+    companion object {
+        private const val CHANNEL_ID = "BeaconSenderService"
+        private const val CHANNEL_TITLE = "App is sending beacons"
+    }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -28,7 +27,7 @@ class BeaconSenderService : Service() {
         Log.i("BeaconSenderService", "starting service")
 
         intent?.let {
-            startBeaconForegroundService(it)
+            startBeaconForegroundService(it, CHANNEL_ID,CHANNEL_TITLE )
         }
 
         startAdvertising()
@@ -64,33 +63,6 @@ class BeaconSenderService : Service() {
         })
     }
 
-
-    private fun startBeaconForegroundService(intent: Intent) {
-        val input = intent.getStringExtra("inputExtra")
-        createNotificationChannel()
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(
-            this,
-            0, notificationIntent, 0
-        )
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("App is sending Beacons")
-            .setContentText(input)
-            .setSmallIcon(R.drawable.star_big_on)
-            .setContentIntent(pendingIntent)
-            .build()
-
-        startForeground(1, notification)
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val serviceChannel = NotificationChannel(CHANNEL_ID, "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT)
-            val manager = getSystemService(NotificationManager::class.java)
-            manager!!.createNotificationChannel(serviceChannel)
-        }
-    }
 
 
 }
