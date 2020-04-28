@@ -34,13 +34,18 @@ class StartFragment : Fragment() {
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+
+            if (textView3 == null || alarmImage == null) {
+                return
+            }
+
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
 
             val data = "The beacon with Address ${message.blueToothAddress} has the name " +
                     "${message.blueToothName} is about ${message.distCentimeters} centimeters away " +
                     "and has rssi of ${message.rssi}"
 
-            textView3.text = data
+                textView3.text = data
 
             when (getSeverity(message.distCentimeters)) {
                 SEVERITY_MEDIUM -> alarmImage.setColorFilter(Color.YELLOW)

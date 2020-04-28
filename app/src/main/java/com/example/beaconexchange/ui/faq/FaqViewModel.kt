@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class FaqViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "Soon to come"
+        value = "Whitelist"
     }
     val text: LiveData<String> = _text
 }

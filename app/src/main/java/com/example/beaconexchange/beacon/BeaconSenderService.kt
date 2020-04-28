@@ -16,7 +16,7 @@ class BeaconSenderService : Service() {
 
     companion object {
         private const val CHANNEL_ID = "BeaconSenderService"
-        private const val CHANNEL_TITLE = "App is sending beacons"
+        private const val CHANNEL_TITLE = "You are protected"
     }
 
     override fun onBind(intent: Intent?): IBinder? {

@@ -14,15 +14,24 @@ class AlarmManager(private val ctx: Context) {
     var notification: Uri
     var r: Ringtone
     var mPlayer: MediaPlayer
+    val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
     fun checkDistance(distance: Int) {
 
         when (getSeverity(distance)) {
-            SEVERITY_MEDIUM -> vibrate(distance)
-            SEVERITY_SEVERE -> {
-                //startAlarm()
+            SEVERITY_MEDIUM -> {
+                stopAlarm()
                 vibrate(distance)
             }
-            else -> stopAlarm()
+            SEVERITY_SEVERE -> {
+                startAlarm()
+                vibrate(distance)
+            }
+            else -> {
+                stopAlarm()
+                stopVibrate()
+            }
+
         }
 
     }
@@ -36,8 +45,7 @@ class AlarmManager(private val ctx: Context) {
         }
     }
 
-    fun vibrate(distance: Int) {
-        val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private fun vibrate(distance: Int) {
         val amplitude = getAmplitude(distance)
         Log.i(
             "Alarmmanager",
@@ -48,6 +56,10 @@ class AlarmManager(private val ctx: Context) {
         } else {
             v.vibrate(250)
         }
+    }
+
+    private fun stopVibrate() {
+        v.cancel()
     }
 
     private fun getAmplitude(distance: Int) : Int {
@@ -70,6 +82,7 @@ class AlarmManager(private val ctx: Context) {
 
     private fun stopAlarm() {
         mPlayer.stop()
+        v.cancel()
     }
 
     companion object {
@@ -77,8 +90,8 @@ class AlarmManager(private val ctx: Context) {
         const val SEVERITY_MEDIUM = 2
         const val SEVERITY_SEVERE = 3
 
-        const val DISTANCE_MAX = 400
-        const val DISTANCE_MIN = 200
+        const val DISTANCE_MAX = 200
+        const val DISTANCE_MIN = 50
 
         const val AMPLITUDE_MAX = 255
 
@@ -97,5 +110,10 @@ class AlarmManager(private val ctx: Context) {
         notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
         r = RingtoneManager.getRingtone(ctx, notification)
         mPlayer = MediaPlayer.create(ctx, R.raw.alarm)
+        val maxVolume = 50.toDouble()
+        val currVolume = 10.toDouble()
+        val log1 = (Math.log(maxVolume - currVolume) / Math.log(maxVolume)).toFloat()
+        mPlayer.setVolume(log1, log1) //set volume takes two paramater
+
     }
 }

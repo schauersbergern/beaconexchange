@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">BeaconExchange</string>
-    <string name="title_profile">Profile</string>
+    <string name="app_name">Protego</string>
+    <string name="title_profile">Protego</string>
     <string name="title_query">Query</string>
-    <string name="title_faq">FAQ</string>
+    <string name="title_whitelist">Whitelist</string>
 
     <string name="start_heading">Help to keep distance</string>
     <string name="start_subtext">If I sense another device it will be listed here</string>

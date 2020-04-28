@@ -7,6 +7,7 @@ import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.Identifier
 import org.altbeacon.beacon.Region
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver
+import org.altbeacon.beacon.service.ArmaRssiFilter
 import org.altbeacon.beacon.startup.BootstrapNotifier
 import org.altbeacon.beacon.startup.RegionBootstrap
 
@@ -20,8 +21,12 @@ class BeaconExchangeApplication : Application(), BootstrapNotifier {
         super.onCreate()
 
         val beaconManager = BeaconManager.getInstanceForApplication(this)
+        BeaconManager.setRssiFilterImplClass(ArmaRssiFilter::class.java)
+        BeaconManager.setDebug(true)
         regionBootstrap = RegionBootstrap(this, Region("BeaconExchangeScanningRegion", null, null, null))
         backgroundPowerSaver = BackgroundPowerSaver(this)
+
+        org.altbeacon.beacon.logging.LogManager.setVerboseLoggingEnabled(true)
 
         //BeaconManager.setBeaconSimulator(TimedBeaconSimulator())
         //(BeaconManager.getBeaconSimulator() as TimedBeaconSimulator?)?.createTimedSimulatedBeacons()
