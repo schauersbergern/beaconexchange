@@ -1,2 +1,2 @@
 rootProject.name='BeaconExchange'
-include ':app', ':altbeacon'
+include ':app', ':altbeacon', ':buildSrc'
