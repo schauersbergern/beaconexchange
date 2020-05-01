@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setUpBottomNav()
-
         verifyBluetooth()
         verifyPermission()
 
@@ -51,19 +49,6 @@ class MainActivity : AppCompatActivity() {
         val adapter = man.adapter
 
         return adapter != null
-    }
-
-    private fun setUpBottomNav() {
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_start, R.id.navigation_faq
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
     }
 
     private fun verifyBluetooth() {

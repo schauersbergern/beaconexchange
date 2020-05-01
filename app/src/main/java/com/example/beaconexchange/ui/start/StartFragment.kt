@@ -99,5 +99,4 @@ class StartFragment : Fragment() {
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(mMessageReceiver)
     }
 
-
 }
