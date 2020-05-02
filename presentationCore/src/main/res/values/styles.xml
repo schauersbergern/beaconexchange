@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="HeadlineBold">
+        <item name="fontFamily">@font/mulibold</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    
+    <style name="HeadlineRegular">
+        <item name="fontFamily">@font/muli</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+    <style name="TextRegular">
+        <item name="fontFamily">@font/muli</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+    </style>
+    
+</resources>

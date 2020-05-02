@@ -8,7 +8,21 @@
     <fragment
         android:id="@+id/splash"
         android:name="com.example.intro.presentation.SplashFragment"
-        android:label="@string/title_splash"
-        tools:layout="@layout/fragment_splash" />
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+
+        <action
+            android:id="@+id/show_intro_slides"
+            app:destination="@+id/slideshow" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/slideshow"
+        android:name="com.example.intro.presentation.SlideShowFragment"
+        android:label="SlideShowFragment"
+        tools:layout="@layout/fragment_slideshow">
+
+    </fragment>
 
 </navigation>

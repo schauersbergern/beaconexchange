@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_splash">Splash</string>
+    <string name="splash_title">Protego</string>
+    <string name="splash_text">Get an alert when you are not keeping social distance and stay safe.</string>
+    <string name="get_started">Get started</string>
+    <string name="how_it_works">How it works</string>
 </resources>

@@ -1,0 +1,39 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            style="@style/HeadlineBold"
+            android:id="@+id/slideshow_headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/how_it_works"
+            android:paddingLeft="@dimen/spacing2"
+            app:layout_constraintBottom_toTopOf="@id/view_pager"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            app:layout_constraintBottom_toTopOf="@id/indicators"
+            app:layout_constraintTop_toBottomOf="@id/slideshow_headline" />
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/indicators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing3"
+            app:layout_constraintTop_toBottomOf="@id/view_pager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:piv_animationType="worm"
+            app:piv_count="4"
+            app:piv_padding="10dp"
+            app:piv_radius="4.5dp"
+            app:piv_selectedColor="@color/pageindicator_selected"
+            app:piv_unselectedColor="@color/pageindicator_unselected" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
