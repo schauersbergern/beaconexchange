@@ -32,6 +32,7 @@ class SlideShowFragment : Fragment() {
     }
 
     private fun setupViewPager() {
+        var items = viewModel.slideShowData.size
         val viewPager = binding?.viewPager ?: return
         viewPager.adapter = SlideShowAdapter(this, viewModel.slideShowData)
         viewPager.setPageTransformer(MarginPageTransformer(VIEWPAGER_MARGIN))
@@ -39,6 +40,12 @@ class SlideShowFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 binding?.indicators?.selection = position
+
+                if (position+1 == items) {
+                    binding?.splashButton?.visibility = View.VISIBLE
+                } else {
+                    binding?.splashButton?.visibility = View.GONE
+                }
             }
         })
     }
