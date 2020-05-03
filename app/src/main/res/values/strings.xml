@@ -17,5 +17,13 @@
     <string name="query_subtext">Your query of risks</string>
     <string name="query_status">Status:\n{}</string>
     <string name="query_avatar">Avatar</string>
+    <string name="main_headline">Social Distance Tool</string>
+    <string name="tracker_on">Your tracker is on</string>
+    <string name="distance_save">You are keeping a safe distance</string>
+    <string name="access_whitelist">Access Whitelist</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
+    <string name="distance_off">We can not alert you about social distance at the moment</string>
+    <string name="tracker_off">Your tracker is off</string>
 
 </resources>

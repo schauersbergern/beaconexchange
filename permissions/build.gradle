@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 29
@@ -28,15 +27,6 @@ android {
         enabled = true
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
 }
 
 dependencies {
@@ -47,11 +37,7 @@ dependencies {
     implementation Androidx.navigationFragment
     implementation Androidx.navigationUi
     implementation Androidx.constraintLayout
-    implementation Androidx.viewPager
-
-    implementation ThirdPartyLibs.viewPagerDots
-    implementation NetworkLibs.gson
+    implementation ThirdPartyLibs.permissions
 
     implementation project(path: ':presentationCore')
-    implementation project(path: ':permissions')
 }

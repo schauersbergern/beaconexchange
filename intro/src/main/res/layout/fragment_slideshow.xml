@@ -38,7 +38,7 @@
 
         <com.google.android.material.button.MaterialButton
             style="@style/ProtegoButton"
-            android:id="@+id/splash_button"
+            android:id="@+id/quit_slideshow_button"
             android:text="@string/activate"
             android:layout_marginBottom="@dimen/spacing2"
             android:visibility="gone"

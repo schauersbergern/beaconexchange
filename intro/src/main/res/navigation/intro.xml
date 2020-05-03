@@ -23,6 +23,12 @@
         android:label="SlideShowFragment"
         tools:layout="@layout/fragment_slideshow">
 
+        <action
+            android:id="@+id/move_to_permissions"
+            app:destination="@+id/permissions" />
+
     </fragment>
+
+    <include app:graph="@navigation/permissions" />
 
 </navigation>

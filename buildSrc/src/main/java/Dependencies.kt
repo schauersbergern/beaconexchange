@@ -19,11 +19,12 @@ object Androidx {
 }
 
 object ThirdPartyLibs {
-    val viewPagerDots = "com.romandanylyk:pageindicatorview:1.0.3"
+    const val viewPagerDots = "com.romandanylyk:pageindicatorview:1.0.3"
+    const val permissions = "pub.devrel:easypermissions:3.0.0"
 }
 
 object NetworkLibs {
-    val gson = "com.google.code.gson:gson:2.8.5"
+    const val gson = "com.google.code.gson:gson:2.8.5"
 }
 
 object Material {

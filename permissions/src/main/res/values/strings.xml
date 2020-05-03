@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permissions">Permissions</string>
+    <string name="permission_disclaimer">For the tracker to estimate the right distance and alert you in time we need you to “Always Allow” location services and notifications in the next two screens.</string>
+    <string name="grant_permissions">Ok, I understand</string>
+    <string name="permission_refuse">"Skip for now. (Protego will not work) "</string>
+    <string name="permission_needed">To correctly work protego needs your permission</string>
+</resources>

@@ -25,9 +25,9 @@ android {
         }
     }
 
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
-
+    viewBinding {
+        enabled = true
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -57,4 +57,5 @@ dependencies {
 
     implementation project(path: ':altbeacon')
     implementation project(path: ':intro')
+    implementation project(path: ':permissions')
 }

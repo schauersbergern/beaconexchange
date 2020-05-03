@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/intro">
+    app:startDestination="@id/navigation_start">
 
     <fragment
         android:id="@+id/navigation_start"
@@ -17,6 +17,6 @@
         android:label="@string/title_whitelist"
         tools:layout="@layout/fragment_faq" />
 
-    <include app:graph="@navigation/intro" />
+    <include app:graph="@navigation/permissions" />
 
 </navigation>

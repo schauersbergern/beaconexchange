@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.beaconexchange.AlarmManager
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.example.beaconexchange.AlarmManager.Companion.getSeverity
@@ -23,21 +21,15 @@ import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
 import com.example.beaconexchange.R
 import com.example.beaconexchange.beacon.BeaconSenderService
+import com.example.beaconexchange.databinding.FragmentStartBinding
 import com.example.beaconexchange.isServiceRunning
-import kotlinx.android.synthetic.main.fragment_start.*
 
 class StartFragment : Fragment() {
 
-    private lateinit var viewModel: StartViewModel
-
-    private val serviceRuns : MutableLiveData<Boolean> = MutableLiveData(false)
+    private val serviceShouldRun : MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-
-            if (textView3 == null || alarmImage == null) {
-                return
-            }
 
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
 
@@ -45,21 +37,34 @@ class StartFragment : Fragment() {
                     "${message.blueToothName} is about ${message.distCentimeters} centimeters away " +
                     "and has rssi of ${message.rssi}"
 
-                textView3.text = data
 
             when (getSeverity(message.distCentimeters)) {
-                SEVERITY_MEDIUM -> alarmImage.setColorFilter(Color.YELLOW)
-                SEVERITY_SEVERE -> alarmImage.setColorFilter(Color.RED)
-                else -> alarmImage.setColorFilter(Color.GREEN)
+                SEVERITY_MEDIUM -> {
+                    binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_alert))
+                    binding?.mainDistanceSave?.visibility = View.INVISIBLE
+                }
+                SEVERITY_SEVERE -> {
+                    binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_alert))
+                    binding?.mainDistanceSave?.visibility = View.INVISIBLE
+                }
+                else -> {
+                    binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
+                    binding?.mainDistanceSave?.visibility = View.VISIBLE
+                }
+
             }
         }
     }
+
+    private var binding: FragmentStartBinding? = null
+    private val _binding get() = binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_start, container, false)
+        binding = FragmentStartBinding.inflate(inflater, container, false)
+        return _binding?.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -69,29 +74,53 @@ class StartFragment : Fragment() {
             mMessageReceiver, IntentFilter(BEACON_UPDATE)
         )
 
-        viewModel = ViewModelProviders.of(this).get(StartViewModel::class.java)
-
-        serviceRuns.observe(viewLifecycleOwner, Observer {
+        serviceShouldRun.observe(viewLifecycleOwner, Observer {
             if (it) {
-                serviceButton.text = "Stop sending"
+                binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
+                binding?.mainDistanceSave?.visibility = View.VISIBLE
+                binding?.mainDistanceSave?.text = getString(R.string.distance_save)
+                binding?.mainTrackerState?.text = getText(R.string.tracker_on)
+                startService()
             } else {
-                serviceButton.text = "Start sending "
+                binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_off))
+                binding?.mainDistanceSave?.visibility = View.VISIBLE
+                binding?.mainDistanceSave?.text = getString(R.string.distance_off)
+                binding?.mainTrackerState?.text = getText(R.string.tracker_off)
+                stopService()
             }
         })
 
         if (requireContext().isServiceRunning(BeaconSenderService::class.java)) {
-            serviceRuns.value = true
+            serviceShouldRun.postValue(true)
+            toggleTextState(true)
         }
 
-        serviceButton.setOnClickListener {
-            if(serviceRuns.value == true) {
-                activity?.stopService(Intent(requireContext(), BeaconSenderService::class.java))
-                serviceRuns.value = false
+        binding?.mainSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                serviceShouldRun.postValue(true)
             } else {
-                activity?.startService(Intent(requireContext(), BeaconSenderService::class.java))
-                serviceRuns.value = true
+                serviceShouldRun.postValue(false)
             }
+            toggleTextState(isChecked)
         }
+    }
+
+    private fun toggleTextState(serviceRuns: Boolean) {
+        if (serviceRuns) {
+            binding?.trackerOn?.typeface = Typeface.DEFAULT_BOLD
+            binding?.trackerOff?.typeface = Typeface.DEFAULT
+        } else {
+            binding?.trackerOn?.typeface = Typeface.DEFAULT
+            binding?.trackerOff?.typeface = Typeface.DEFAULT_BOLD
+        }
+    }
+
+    private fun startService() {
+        activity?.startService(Intent(requireContext(), BeaconSenderService::class.java))
+    }
+
+    private fun stopService() {
+        activity?.stopService(Intent(requireContext(), BeaconSenderService::class.java))
     }
 
     override fun onDestroy() {

@@ -43,13 +43,19 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <nav-graph android:value="@navigation/mobile_navigation" />
             <nav-graph android:value="@navigation/intro" />
+            <nav-graph android:value="@navigation/permissions" />
         </activity>
+
+        <activity
+            android:name="com.example.intro.presentation.IntroActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
     </application>
 
 </manifest>
