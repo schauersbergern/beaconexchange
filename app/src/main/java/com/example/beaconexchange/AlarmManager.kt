@@ -20,15 +20,15 @@ class AlarmManager(private val ctx: Context) {
 
         when (getSeverity(distance)) {
             SEVERITY_MEDIUM -> {
-                stopAlarm()
+                //stopAlarm()
                 vibrate(distance)
             }
             SEVERITY_SEVERE -> {
-                startAlarm()
+                //startAlarm()
                 vibrate(distance)
             }
             else -> {
-                stopAlarm()
+                //stopAlarm()
                 stopVibrate()
             }
 

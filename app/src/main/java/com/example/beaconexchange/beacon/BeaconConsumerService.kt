@@ -33,11 +33,10 @@ class BeaconConsumerService : Service(), BeaconConsumer {
             val beaconContacts = beacons.map { beacon: Beacon ->
                 Log.d(TAG, "RangeNotifier beacon detected: ${beacon}")
 
-                val firstBeacon = beacons.iterator().next()
-                val btAddress = firstBeacon.bluetoothAddress
-                val btName = firstBeacon.bluetoothName ?: "No Name"
-                val rssi = firstBeacon.rssi
-                val distance = firstBeacon.distance
+                val btAddress = beacon.bluetoothAddress
+                val btName = beacon.bluetoothName ?: "No Name"
+                val rssi = beacon.rssi
+                val distance = beacon.distance
                 val distCentimeters = (distance * 100).toInt()
                 alarmManager.checkDistance(distCentimeters)
 
