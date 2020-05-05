@@ -1,22 +1,7 @@
 <resources>
     <string name="app_name">Protego</string>
     <string name="title_profile">Protego</string>
-    <string name="title_query">Query</string>
     <string name="title_whitelist">Whitelist</string>
-
-    <string name="start_heading">Help to keep distance</string>
-    <string name="start_subtext">If I sense another device it will be listed here</string>
-    <string name="start_switch_fit">I am infected</string>
-    <string name="start_button_how">How does it work?</string>
-
-    <string name="contactViewTextDate">Date:\n{}</string>
-    <string name="contactViewTextDuration">Duration:\n{}</string>
-    <string name="contactViewTextDistance">Distance:\n{}</string>
-    <string name="contactViewAvatarDescription">avatar</string>
-    <string name="query_heading">Collect</string>
-    <string name="query_subtext">Your query of risks</string>
-    <string name="query_status">Status:\n{}</string>
-    <string name="query_avatar">Avatar</string>
     <string name="main_headline">Social Distance Tool</string>
     <string name="tracker_on">Your tracker is on</string>
     <string name="distance_save">You are keeping a safe distance</string>
