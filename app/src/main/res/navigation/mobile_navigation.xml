@@ -11,12 +11,6 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_start" />
 
-    <fragment
-        android:id="@+id/navigation_faq"
-        android:name="com.example.beaconexchange.ui.faq.FaqFragment"
-        android:label="@string/title_whitelist"
-        tools:layout="@layout/fragment_faq" />
-
     <include app:graph="@navigation/permissions" />
 
 </navigation>
