@@ -58,4 +58,5 @@ dependencies {
     implementation project(path: ':altbeacon')
     implementation project(path: ':intro')
     implementation project(path: ':permissions')
+    implementation project(path: ':localDatasource')
 }

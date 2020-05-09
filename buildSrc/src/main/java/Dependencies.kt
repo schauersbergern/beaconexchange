@@ -1,32 +1,42 @@
 const val kotlin = "1.2.71"
+const val ROOM_VERSION = "2.2.5"
+const val NAVIGATION_VERSION = "2.2.1"
+const val KOIN_VERSION = "2.1.5"
 
 object Kotlin {
-    const val kotlinStandardLibrary = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin}"
+    val kotlinStandardLibrary = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin}"
 }
 
 object Androidx {
-    const val core =  "androidx.core:core-ktx:1.2.0"
-    const val appcompat = "androidx.appcompat:appcompat:1.1.0"
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta3"
+    val core = "androidx.core:core-ktx:1.2.0"
+    val appcompat = "androidx.appcompat:appcompat:1.1.0"
+    val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta3"
 
-    const val navigation = "androidx.navigation:navigation-ui:2.2.1"
-    const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:2.2.1"
-    const val navigationUi = "androidx.navigation:navigation-ui-ktx:2.2.1"
-    const val legacySupport = "androidx.legacy:legacy-support-v4:1.0.0"
-    const val lifecycleViewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
-    const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
+    val navigation = "androidx.navigation:navigation-ui:$NAVIGATION_VERSION"
+    val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$NAVIGATION_VERSION"
+    val navigationUi = "androidx.navigation:navigation-ui-ktx:$NAVIGATION_VERSION"
+    val legacySupport = "androidx.legacy:legacy-support-v4:1.0.0"
+    val lifecycleViewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
+
+    val room = "androidx.room:room-runtime:$ROOM_VERSION"
+    val roomAnnotations = "androidx.room:room-compiler:$ROOM_VERSION"
+    val roomKotlin = "androidx.room:room-ktx:$ROOM_VERSION"
+    val sqlCipher = "net.zetetic:android-database-sqlcipher:4.3.0"
+
+    val crypto = "androidx.security:security-crypto:1.0.0-alpha02"
 }
 
 object ThirdPartyLibs {
-    const val viewPagerDots = "com.romandanylyk:pageindicatorview:1.0.3"
-    const val permissions = "pub.devrel:easypermissions:3.0.0"
+    val viewPagerDots = "com.romandanylyk:pageindicatorview:1.0.3"
+    val permissions = "pub.devrel:easypermissions:3.0.0"
 }
 
 object NetworkLibs {
-    const val gson = "com.google.code.gson:gson:2.8.5"
+    val gson = "com.google.code.gson:gson:2.8.5"
 }
 
 object Material {
-    const val main = "com.google.android.material:material:1.1.0"
+    val main = "com.google.android.material:material:1.1.0"
 }

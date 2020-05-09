@@ -95,6 +95,21 @@
         app:layout_constraintBottom_toBottomOf="@id/main_switch"
         />
 
+    <LinearLayout
+        android:id="@+id/add_to_whitelist"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/main_access_whitelist">
+
+        <TextView
+            android:id="@+id/add_to_whitelist_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/main_access_whitelist"

@@ -10,28 +10,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.example.beaconexchange.AlarmManager.Companion.getSeverity
 import com.example.beaconexchange.BluetoothMessage
+import com.example.beaconexchange.Constants
 import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
 import com.example.beaconexchange.R
+import com.example.beaconexchange.beacon.BeaconConsumerService
 import com.example.beaconexchange.beacon.BeaconSenderService
 import com.example.beaconexchange.databinding.FragmentStartBinding
-import com.example.beaconexchange.isServiceRunning
 
 class StartFragment : Fragment() {
 
-    private val serviceShouldRun : MutableLiveData<Boolean> = MutableLiveData(false)
+    private lateinit var viewModel : StartViewModel
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
 
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
+            setWhitelistText(message.deviceId)
 
             val data = "The beacon with Address ${message.blueToothAddress} has the name " +
                     "${message.blueToothName} is about ${message.distCentimeters} centimeters away " +
@@ -40,18 +42,14 @@ class StartFragment : Fragment() {
 
             when (getSeverity(message.distCentimeters)) {
                 SEVERITY_MEDIUM -> {
-                    binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_alert))
-                    binding?.mainDistanceSave?.visibility = View.INVISIBLE
+                    viewModel.setAlarm()
                 }
                 SEVERITY_SEVERE -> {
-                    binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_alert))
-                    binding?.mainDistanceSave?.visibility = View.INVISIBLE
+                    viewModel.setAlarm()
                 }
                 else -> {
-                    binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
-                    binding?.mainDistanceSave?.visibility = View.VISIBLE
+                    viewModel.setSurveilance()
                 }
-
             }
         }
     }
@@ -64,7 +62,59 @@ class StartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStartBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(StartViewModel::class.java)
         return _binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            if (state.deviceId != "" && state.serviceShouldRun && !state.alarmState) {
+                startServices(state.deviceId)
+                setSurveillanceState()
+            } else if (state.serviceShouldRun && state.alarmState) {
+                setAlarmState()
+            } else if (!state.serviceShouldRun) {
+                setOffState()
+                stopServices()
+            }
+        })
+
+        binding?.mainSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                viewModel.setSurveilance()
+            } else {
+                viewModel.setOff()
+            }
+        }
+    }
+
+    private fun setWhitelistText(deviceId: String) {
+        binding?.addToWhitelistText?.text = "Add $deviceId to whitelist?"
+        binding?.addToWhitelist?.setOnClickListener {
+            //viewmodel.addToWhitelist()
+        }
+    }
+
+    private fun setAlarmState() {
+        binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_alert))
+        binding?.mainDistanceSave?.text = getString(R.string.distance_close)
+    }
+
+    private fun setSurveillanceState() {
+        binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
+        binding?.mainDistanceSave?.text = getString(R.string.distance_save)
+        binding?.mainTrackerState?.text = getText(R.string.tracker_on)
+        binding?.trackerOn?.typeface = Typeface.DEFAULT_BOLD
+        binding?.trackerOff?.typeface = Typeface.DEFAULT
+    }
+
+    private fun setOffState() {
+        binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_off))
+        binding?.mainDistanceSave?.text = getString(R.string.distance_off)
+        binding?.mainTrackerState?.text = getText(R.string.tracker_off)
+        binding?.trackerOn?.typeface = Typeface.DEFAULT
+        binding?.trackerOff?.typeface = Typeface.DEFAULT_BOLD
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -73,54 +123,22 @@ class StartFragment : Fragment() {
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
             mMessageReceiver, IntentFilter(BEACON_UPDATE)
         )
+    }
 
-        serviceShouldRun.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
-                binding?.mainDistanceSave?.visibility = View.VISIBLE
-                binding?.mainDistanceSave?.text = getString(R.string.distance_save)
-                binding?.mainTrackerState?.text = getText(R.string.tracker_on)
-                startService()
-            } else {
-                binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_off))
-                binding?.mainDistanceSave?.visibility = View.VISIBLE
-                binding?.mainDistanceSave?.text = getString(R.string.distance_off)
-                binding?.mainTrackerState?.text = getText(R.string.tracker_off)
-                stopService()
-            }
-        })
-
-        if (requireContext().isServiceRunning(BeaconSenderService::class.java)) {
-            serviceShouldRun.postValue(true)
-            toggleTextState(true)
-        }
-
-        binding?.mainSwitch?.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                serviceShouldRun.postValue(true)
-            } else {
-                serviceShouldRun.postValue(false)
-            }
-            toggleTextState(isChecked)
+    private fun getSenderServiceIntent(deviceId : String) : Intent {
+        return Intent(requireContext(), BeaconSenderService::class.java).apply {
+            putExtra(Constants.DEVICE_ID, deviceId)
         }
     }
 
-    private fun toggleTextState(serviceRuns: Boolean) {
-        if (serviceRuns) {
-            binding?.trackerOn?.typeface = Typeface.DEFAULT_BOLD
-            binding?.trackerOff?.typeface = Typeface.DEFAULT
-        } else {
-            binding?.trackerOn?.typeface = Typeface.DEFAULT
-            binding?.trackerOff?.typeface = Typeface.DEFAULT_BOLD
-        }
+    private fun startServices(deviceId : String) {
+        activity?.startService(getSenderServiceIntent(deviceId))
+        activity?.startService(Intent(requireContext(), BeaconConsumerService::class.java))
     }
 
-    private fun startService() {
-        activity?.startService(Intent(requireContext(), BeaconSenderService::class.java))
-    }
-
-    private fun stopService() {
+    private fun stopServices() {
         activity?.stopService(Intent(requireContext(), BeaconSenderService::class.java))
+        activity?.stopService(Intent(requireContext(), BeaconConsumerService::class.java))
     }
 
     override fun onDestroy() {

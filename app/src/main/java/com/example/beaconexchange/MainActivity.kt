@@ -8,8 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.beaconexchange.beacon.BeaconConsumerService
-import com.example.beaconexchange.beacon.BeaconSenderService
 import com.example.intro.presentation.IntroActivity
 import org.altbeacon.beacon.BeaconManager
 
@@ -30,11 +28,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         verifyBluetooth()
 
-        if (bluetoothLeIsAvailable()) {
-            startService(Intent(this, BeaconConsumerService::class.java))
-            startService(Intent(this, BeaconSenderService::class.java))
-        } else {
-            Toast.makeText(this, "Blueooth is not supported", Toast.LENGTH_SHORT).show();
+        if (!bluetoothLeIsAvailable()) {
+            Toast.makeText(this, "Blueooth is not supported", Toast.LENGTH_SHORT).show()
         }
     }
 

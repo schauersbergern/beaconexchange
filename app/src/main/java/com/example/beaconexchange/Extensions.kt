@@ -1,6 +1,5 @@
 package com.example.beaconexchange
 
-import android.R
 import android.app.*
 import android.content.Context
 import android.content.Intent
@@ -24,7 +23,7 @@ fun Service.startBeaconForegroundService(intent: Intent, channelId : String, tit
     val notification = NotificationCompat.Builder(this, channelId)
         .setContentTitle(title)
         .setContentText(input)
-        .setSmallIcon(R.drawable.star_big_on)
+        .setSmallIcon(R.drawable.shield)
         .setContentIntent(pendingIntent)
         .build()
 

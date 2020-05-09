@@ -5,6 +5,7 @@
     <string name="main_headline">Social Distance Tool</string>
     <string name="tracker_on">Your tracker is on</string>
     <string name="distance_save">You are keeping a safe distance</string>
+    <string name="distance_close">You are too close</string>
     <string name="access_whitelist">Access Whitelist</string>
     <string name="off">OFF</string>
     <string name="on">ON</string>

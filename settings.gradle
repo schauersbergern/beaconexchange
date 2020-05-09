@@ -3,4 +3,5 @@ include ':app',
         ':buildSrc',
         ':intro',
         ':presentationCore',
-        ':permissions'
+        ':permissions',
+        ':localDatasource'
