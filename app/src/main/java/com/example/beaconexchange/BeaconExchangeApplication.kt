@@ -2,6 +2,7 @@ package com.example.beaconexchange
 
 import android.app.Application
 import android.util.Log
+import com.example.beaconexchange.Constants.Companion.REGION_ID
 import com.example.beaconexchange.ui.TimedBeaconSimulator
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.Identifier
@@ -22,11 +23,11 @@ class BeaconExchangeApplication : Application(), BootstrapNotifier {
 
         val beaconManager = BeaconManager.getInstanceForApplication(this)
         BeaconManager.setRssiFilterImplClass(ArmaRssiFilter::class.java)
-        BeaconManager.setDebug(true)
-        regionBootstrap = RegionBootstrap(this, Region("BeaconExchangeScanningRegion", null, null, null))
+        //BeaconManager.setDebug(true)
+        regionBootstrap = RegionBootstrap(this, Region(REGION_ID, null, null, null))
         backgroundPowerSaver = BackgroundPowerSaver(this)
 
-        org.altbeacon.beacon.logging.LogManager.setVerboseLoggingEnabled(true)
+        //org.altbeacon.beacon.logging.LogManager.setVerboseLoggingEnabled(true)
 
         //BeaconManager.setBeaconSimulator(TimedBeaconSimulator())
         //(BeaconManager.getBeaconSimulator() as TimedBeaconSimulator?)?.createTimedSimulatedBeacons()

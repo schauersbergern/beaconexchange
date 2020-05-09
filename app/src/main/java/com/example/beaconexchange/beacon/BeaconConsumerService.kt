@@ -12,6 +12,7 @@ import com.example.beaconexchange.BluetoothMessage
 import com.example.beaconexchange.Constants
 import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
+import com.example.beaconexchange.Constants.Companion.REGION_ID
 import com.example.localdatasource.LocalDatabase
 import com.example.localdatasource.WhiteListRepository
 import com.example.localdatasource.entities.Device
@@ -92,7 +93,7 @@ class BeaconConsumerService : Service(), BeaconConsumer {
 
     override fun onBeaconServiceConnect() {
         Log.i(TAG, "beaconService connected, start range scanning...")
-        beaconManager.startRangingBeaconsInRegion(Region("BeaconExchangeScanningRegion", null, null, null))
+        beaconManager.startRangingBeaconsInRegion(Region(REGION_ID, null, null, null))
         beaconManager.addRangeNotifier(rangeNotifier)
 
     }
