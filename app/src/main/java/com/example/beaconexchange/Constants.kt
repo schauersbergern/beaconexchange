@@ -8,10 +8,8 @@ class Constants {
         const val PROTEGO_UUID = "38144dcd-4e27-4213-af7d-b80dd366cd96"
         const val DEVICE_ID = "DeviceId"
 
-        const val CHANNEL_SENDER_ID = "BeaconSenderService"
-        const val CONSTANT_NOTIFICATION_TEXT = "Your safety distance alert is active"
-
-        const val REGION_ID = "jakdfj2323nj"
+        const val REGION_ID = "ProtegoRegion"
+        const val SERVICE_CHANNEL = "BackgroundService"
 
         const val PERMISSION_REQUEST_FINE_LOCATION = 1
         const val PERMISSION_REQUEST_BACKGROUND_LOCATION = 2

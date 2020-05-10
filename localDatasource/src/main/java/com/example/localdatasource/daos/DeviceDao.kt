@@ -11,7 +11,6 @@ interface DeviceDao {
     @Query("SELECT * FROM device")
     fun getAll(): List<Device>
 
-
     @Query("SELECT * FROM device where :uid")
     fun findByUid(uid: String): Device
 

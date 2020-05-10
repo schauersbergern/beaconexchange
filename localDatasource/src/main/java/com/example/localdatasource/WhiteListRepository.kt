@@ -7,4 +7,7 @@ class WhiteListRepository(private val deviceDao: DeviceDao) {
     fun getWhiteList() : List<Device>{
         return deviceDao.getAll()
     }
+    fun addToWhiteList(deviceId: String) {
+        deviceDao.insert(Device(uid = deviceId))
+    }
 }

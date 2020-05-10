@@ -17,12 +17,10 @@ import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.example.beaconexchange.AlarmManager.Companion.getSeverity
 import com.example.beaconexchange.BluetoothMessage
-import com.example.beaconexchange.Constants
 import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
+import com.example.beaconexchange.MainActivity
 import com.example.beaconexchange.R
-import com.example.beaconexchange.beacon.BeaconConsumerService
-import com.example.beaconexchange.beacon.BeaconSenderService
 import com.example.beaconexchange.databinding.FragmentStartBinding
 
 class StartFragment : Fragment() {
@@ -34,11 +32,6 @@ class StartFragment : Fragment() {
 
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
             setWhitelistText(message.deviceId)
-
-            val data = "The beacon with Address ${message.blueToothAddress} has the name " +
-                    "${message.blueToothName} is about ${message.distCentimeters} centimeters away " +
-                    "and has rssi of ${message.rssi}"
-
 
             when (getSeverity(message.distCentimeters)) {
                 SEVERITY_MEDIUM -> {
@@ -70,13 +63,13 @@ class StartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             if (state.deviceId != "" && state.serviceShouldRun && !state.alarmState) {
-                startServices(state.deviceId)
+                (requireActivity() as MainActivity).startServices(state.deviceId)
                 setSurveillanceState()
             } else if (state.serviceShouldRun && state.alarmState) {
                 setAlarmState()
             } else if (!state.serviceShouldRun) {
                 setOffState()
-                stopServices()
+                (requireActivity() as MainActivity).stopServices()
             }
         })
 
@@ -92,7 +85,7 @@ class StartFragment : Fragment() {
     private fun setWhitelistText(deviceId: String) {
         binding?.addToWhitelistText?.text = "Add $deviceId to whitelist?"
         binding?.addToWhitelist?.setOnClickListener {
-            //viewmodel.addToWhitelist()
+            viewModel.addToWhitelist(deviceId)
         }
     }
 
@@ -105,6 +98,7 @@ class StartFragment : Fragment() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
         binding?.mainDistanceSave?.text = getString(R.string.distance_save)
         binding?.mainTrackerState?.text = getText(R.string.tracker_on)
+        binding?.addToWhitelistText?.text = ""
         binding?.trackerOn?.typeface = Typeface.DEFAULT_BOLD
         binding?.trackerOff?.typeface = Typeface.DEFAULT
     }
@@ -113,6 +107,7 @@ class StartFragment : Fragment() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_off))
         binding?.mainDistanceSave?.text = getString(R.string.distance_off)
         binding?.mainTrackerState?.text = getText(R.string.tracker_off)
+        binding?.addToWhitelistText?.text = ""
         binding?.trackerOn?.typeface = Typeface.DEFAULT
         binding?.trackerOff?.typeface = Typeface.DEFAULT_BOLD
     }
@@ -123,22 +118,6 @@ class StartFragment : Fragment() {
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
             mMessageReceiver, IntentFilter(BEACON_UPDATE)
         )
-    }
-
-    private fun getSenderServiceIntent(deviceId : String) : Intent {
-        return Intent(requireContext(), BeaconSenderService::class.java).apply {
-            putExtra(Constants.DEVICE_ID, deviceId)
-        }
-    }
-
-    private fun startServices(deviceId : String) {
-        activity?.startService(getSenderServiceIntent(deviceId))
-        activity?.startService(Intent(requireContext(), BeaconConsumerService::class.java))
-    }
-
-    private fun stopServices() {
-        activity?.stopService(Intent(requireContext(), BeaconSenderService::class.java))
-        activity?.stopService(Intent(requireContext(), BeaconConsumerService::class.java))
     }
 
     override fun onDestroy() {
