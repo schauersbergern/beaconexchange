@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.fragment.findNavController
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.example.beaconexchange.AlarmManager.Companion.getSeverity
@@ -26,27 +27,6 @@ import com.example.beaconexchange.databinding.FragmentStartBinding
 class StartFragment : Fragment() {
 
     private lateinit var viewModel : StartViewModel
-
-    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-
-            val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
-            setWhitelistText(message.deviceId)
-
-            when (getSeverity(message.distCentimeters)) {
-                SEVERITY_MEDIUM -> {
-                    viewModel.setAlarm()
-                }
-                SEVERITY_SEVERE -> {
-                    viewModel.setAlarm()
-                }
-                else -> {
-                    viewModel.setSurveilance()
-                }
-            }
-        }
-    }
-
     private var binding: FragmentStartBinding? = null
     private val _binding get() = binding
 
@@ -79,6 +59,14 @@ class StartFragment : Fragment() {
             } else {
                 viewModel.setOff()
             }
+        }
+
+        binding?.mainAccessWhitelist?.setOnClickListener {
+            findNavController().navigate(StartFragmentDirections.showWhitelist())
+        }
+
+        binding?.showSettings?.setOnClickListener {
+            findNavController().navigate(StartFragmentDirections.showSettings())
         }
     }
 
@@ -125,4 +113,23 @@ class StartFragment : Fragment() {
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(mMessageReceiver)
     }
 
+    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+
+            val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
+            setWhitelistText(message.deviceId)
+
+            when (getSeverity(message.distCentimeters)) {
+                SEVERITY_MEDIUM -> {
+                    viewModel.setAlarm()
+                }
+                SEVERITY_SEVERE -> {
+                    viewModel.setAlarm()
+                }
+                else -> {
+                    viewModel.setSurveilance()
+                }
+            }
+        }
+    }
 }

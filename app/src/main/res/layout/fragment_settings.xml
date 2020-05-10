@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/HeadlineBold"
+        android:id="@+id/settings_headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_headline"
+        android:paddingLeft="@dimen/spacing2" />
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        style="@style/TextRegular"
+        android:id="@+id/main_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Warn with audio alarm"
+        android:layout_margin="@dimen/spacing3" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/ProtegoButton"
+        android:layout_gravity="center"
+        android:id="@+id/set_alarmtone_button"
+        android:text="@string/set_alarmtone"
+        android:layout_marginBottom="@dimen/spacing3"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/ProtegoButton"
+        android:layout_gravity="center"
+        android:id="@+id/calibrate_button"
+        android:text="@string/calibrate" />
+
+
+</LinearLayout>

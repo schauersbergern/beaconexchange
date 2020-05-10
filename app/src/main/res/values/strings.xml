@@ -16,5 +16,8 @@
     <string name="prompt_enable">Please enable bluetooth in settings and restart this application</string>
     <string name="not_available">Bluetooth LE not available</string>
     <string name="no_ble_support">Sorry, this device does not support Bluetooth LE</string>
+    <string name="settings_headline">Settings</string>
+    <string name="calibrate">Calibrate</string>
+    <string name="set_alarmtone">Set alarm tone</string>
 
 </resources>

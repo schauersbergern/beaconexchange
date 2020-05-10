@@ -9,6 +9,23 @@
         android:id="@+id/navigation_start"
         android:name="com.example.beaconexchange.ui.start.StartFragment"
         android:label="@string/title_profile"
+        tools:layout="@layout/fragment_start">
+
+        <action android:id="@+id/show_whitelist" app:destination="@id/navigation_whitelist" />
+        <action android:id="@+id/show_settings" app:destination="@id/navigation_settings" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_whitelist"
+        android:name="com.example.beaconexchange.ui.whitelist.WhiteListFragment"
+        android:label="@string/title_whitelist"
+        tools:layout="@layout/fragment_start" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.beaconexchange.ui.settings.SettingsFragment"
+        android:label="@string/title_profile"
         tools:layout="@layout/fragment_start" />
 
     <include app:graph="@navigation/permissions" />

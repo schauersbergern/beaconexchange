@@ -1,20 +1,16 @@
 package com.example.beaconexchange
 
 import android.app.Activity
-import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.os.RemoteException
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.beaconexchange.beacon.BeaconSenderService
 import com.example.intro.presentation.IntroActivity
 import org.altbeacon.beacon.*
-
 
 class MainActivity : AppCompatActivity(), BeaconConsumer {
 
@@ -43,14 +39,10 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     private fun init() {
         setContentView(R.layout.activity_main)
+        beaconManager = BeaconManager.getInstanceForApplication(this)
+        //TODO: Deactivate UI if Bluetooth not available
         verifyBluetooth()
-
-        if (!bluetoothLeIsAvailable()) {
-            Toast.makeText(this, "Blueooth is not supported", Toast.LENGTH_SHORT).show()
-        } else {
-            beaconManager = BeaconManager.getInstanceForApplication(this)
-            beaconManager.bind(this)
-        }
+        beaconManager.bind(this)
     }
 
     private fun startIntro() {
@@ -71,12 +63,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
     private fun shouldShowOnboarding(): Boolean {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
         return sharedPref.getBoolean("SHOWOB", true)
-    }
-
-    private fun bluetoothLeIsAvailable(): Boolean {
-        val man = applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        val adapter = man.adapter
-        return adapter != null
     }
 
     private fun verifyBluetooth() {
