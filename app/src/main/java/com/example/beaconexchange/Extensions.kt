@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.beaconexchange.Constants.Companion.SERVICE_CHANNEL
+import com.example.beaconexchange.domain.BluetoothMessage
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
@@ -66,7 +67,8 @@ fun Beacon.getBluetoothMessage() : BluetoothMessage {
         bluetoothName ?: "No Name",
         bluetoothAddress,
         (distance * 100).toInt(),
-        rssi)
+        rssi
+    )
 }
 
 fun Beacon.isProtego() : Boolean{

@@ -1,4 +1,4 @@
-package com.example.beaconexchange.beacon
+package com.example.beaconexchange.service
 
 import android.app.*
 import android.bluetooth.le.AdvertiseCallback

@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.example.beaconexchange.AlarmManager.Companion.getSeverity
-import com.example.beaconexchange.BluetoothMessage
+import com.example.beaconexchange.domain.BluetoothMessage
 import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
 import com.example.beaconexchange.MainActivity

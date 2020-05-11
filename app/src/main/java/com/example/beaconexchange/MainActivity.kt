@@ -8,7 +8,7 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.beaconexchange.beacon.BeaconSenderService
+import com.example.beaconexchange.service.BeaconSenderService
 import com.example.intro.presentation.IntroActivity
 import org.altbeacon.beacon.*
 

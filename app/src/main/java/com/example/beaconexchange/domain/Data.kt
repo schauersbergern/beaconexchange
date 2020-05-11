@@ -1,4 +1,4 @@
-package com.example.beaconexchange
+package com.example.beaconexchange.domain
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
