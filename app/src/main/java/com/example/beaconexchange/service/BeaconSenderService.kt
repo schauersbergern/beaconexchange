@@ -42,6 +42,7 @@ class BeaconSenderService : Service() {
         val beaconParser = BeaconParser().setBeaconLayout(ALTBEACON)
         beaconTransmitter = BeaconTransmitter(applicationContext, beaconParser)
 
+        beaconTransmitter.advertiseMode = AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY
         beaconTransmitter.startAdvertising(beacon, object : AdvertiseCallback() {
             override fun onStartFailure(errorCode: Int) {
                 Log.e(
