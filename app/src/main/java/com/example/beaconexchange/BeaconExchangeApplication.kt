@@ -3,7 +3,6 @@ package com.example.beaconexchange
 import android.app.*
 import android.content.Intent
 import android.util.Log
-import com.example.beaconexchange.Constants.Companion.REGION_ID
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.Region
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver
@@ -26,7 +25,7 @@ class BeaconExchangeApplication : Application(), BootstrapNotifier {
 
         BeaconManager.setRssiFilterImplClass(ArmaRssiFilter::class.java)
         // Enable/Disable verbose logging
-        BeaconManager.setDebug(false)
+        BeaconManager.setDebug(true)
     }
 
     private fun getRegionBootstrap() : RegionBootstrap {

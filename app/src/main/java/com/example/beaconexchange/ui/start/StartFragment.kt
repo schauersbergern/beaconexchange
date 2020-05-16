@@ -16,7 +16,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
-import com.example.beaconexchange.AlarmManager.Companion.getSeverity
+import com.example.beaconexchange.AlarmManager.Companion.getRssiSeverity
 import com.example.beaconexchange.domain.BluetoothMessage
 import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
@@ -70,10 +70,10 @@ class StartFragment : Fragment() {
         }
     }
 
-    private fun setWhitelistText(deviceId: String) {
-        binding?.addToWhitelistText?.text = "Add $deviceId to whitelist?"
+    private fun setWhitelistText(msg: BluetoothMessage) {
+        binding?.addToWhitelistText?.text = "Seeing id ${msg.deviceId} with distance ${msg.distCentimeters}cm and RSSI ${msg.rssi} ?"
         binding?.addToWhitelist?.setOnClickListener {
-            viewModel.addToWhitelist(deviceId)
+            viewModel.addToWhitelist(msg.deviceId)
         }
     }
 
@@ -86,7 +86,7 @@ class StartFragment : Fragment() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
         binding?.mainDistanceSave?.text = getString(R.string.distance_save)
         binding?.mainTrackerState?.text = getText(R.string.tracker_on)
-        binding?.addToWhitelistText?.text = ""
+        //binding?.addToWhitelistText?.text = ""
         binding?.trackerOn?.typeface = Typeface.DEFAULT_BOLD
         binding?.trackerOff?.typeface = Typeface.DEFAULT
     }
@@ -117,9 +117,9 @@ class StartFragment : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
 
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
-            setWhitelistText(message.deviceId)
+            setWhitelistText(message)
 
-            when (getSeverity(message.distCentimeters)) {
+            when (getRssiSeverity(message.rssi)) {
                 SEVERITY_MEDIUM -> {
                     viewModel.setAlarm()
                 }

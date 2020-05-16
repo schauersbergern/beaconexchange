@@ -8,6 +8,7 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.beaconexchange.Constants.Companion.ONBOARDING_KEY
 import com.example.beaconexchange.service.BeaconSenderService
 import com.example.intro.presentation.IntroActivity
 import org.altbeacon.beacon.*
@@ -55,14 +56,14 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean("SHOWOB", false)?.commit()
+            getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean(ONBOARDING_KEY, false)?.commit()
             init()
         }
     }
 
     private fun shouldShowOnboarding(): Boolean {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        return sharedPref.getBoolean("SHOWOB", true)
+        return sharedPref.getBoolean(ONBOARDING_KEY, true)
     }
 
     private fun verifyBluetooth() {
@@ -119,7 +120,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
                 if (beacon.isProtego() && serviceRunning) {
                     val data = beacon.getBluetoothMessage()
-                    alarmManager.checkDistance(data.distCentimeters)
+                    alarmManager.checkRssiDistance(data.rssi)
                     sendMessageToFragment(data)
                 }
             }

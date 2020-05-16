@@ -11,6 +11,8 @@ class Constants {
         const val REGION_ID = "ProtegoRegion"
         const val SERVICE_CHANNEL = "BackgroundService"
 
+        const val ONBOARDING_KEY = "asdfd"
+
         const val PERMISSION_REQUEST_FINE_LOCATION = 1
         const val PERMISSION_REQUEST_BACKGROUND_LOCATION = 2
 

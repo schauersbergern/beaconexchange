@@ -15,15 +15,17 @@ import org.altbeacon.beacon.BeaconTransmitter
 
 class BeaconSenderService : Service() {
 
-    private lateinit var beaconTransmitter : BeaconTransmitter
+    private var beaconTransmitter : BeaconTransmitter? = null
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        initTransmitter()
         intent?.getStringExtra(Constants.DEVICE_ID)?.let {
-            Log.i("BeaconSenderService", "starting service")
+            Log.i(name(), "starting service")
+
             startAdvertising(it)
         }
         return START_STICKY
@@ -39,16 +41,10 @@ class BeaconSenderService : Service() {
             .setDataFields(mutableListOf(0L))
             .build()
 
-        val beaconParser = BeaconParser().setBeaconLayout(ALTBEACON)
-        beaconTransmitter = BeaconTransmitter(applicationContext, beaconParser)
-
-        beaconTransmitter.advertiseMode = AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY
-        beaconTransmitter.startAdvertising(beacon, object : AdvertiseCallback() {
+        beaconTransmitter?.startAdvertising(beacon, object : AdvertiseCallback() {
             override fun onStartFailure(errorCode: Int) {
-                Log.e(
-                    name(),
-                    "Advertisement start failed with code: $errorCode"
-                )
+                Log.e(name(), "Advertisement start failed with code: $errorCode")
+                restartFresh(deviceId)
             }
 
             override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
@@ -57,10 +53,21 @@ class BeaconSenderService : Service() {
         })
     }
 
+    private fun restartFresh(deviceId: String) {
+        initTransmitter()
+        startAdvertising(deviceId)
+    }
+
+    private fun initTransmitter() {
+        beaconTransmitter = BeaconTransmitter(applicationContext, BeaconParser().setBeaconLayout(ALTBEACON))
+        beaconTransmitter?.advertiseMode = AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY
+    }
+
     override fun onDestroy() {
-        Log.i(name(), "${name()} destroyed")
-        beaconTransmitter.stopAdvertising()
         super.onDestroy()
+        Log.i(name(), "${name()} destroyed")
+        beaconTransmitter?.stopAdvertising()
+        beaconTransmitter = null
     }
 
     private fun name() : String {
