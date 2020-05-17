@@ -1,6 +1,9 @@
 package com.example.beaconexchange
 
+import android.content.Context
 import android.media.RingtoneManager
+import android.os.PowerManager
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.localdatasource.entities.Settings
 import org.altbeacon.beacon.Region
 

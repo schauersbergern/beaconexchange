@@ -3,6 +3,7 @@ package com.example.beaconexchange
 import android.app.*
 import android.content.Intent
 import android.util.Log
+import com.example.beaconexchange.Constants.Companion.FOREGROUND_ID
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.Region
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver
@@ -40,8 +41,8 @@ class BeaconExchangeApplication : Application(), BootstrapNotifier {
     fun startBeaconForegroundService() {
         regionBootstrap.disable()
         beaconManager.enableForegroundServiceScanning(
-            getBackgroundNotification(getString(R.string.bg_notification_title)),
-            456
+            getForegroundNotification(getString(R.string.bg_notification_title)),
+            FOREGROUND_ID
         )
         beaconManager.setUpForBackgroundRunning()
         regionBootstrap = getRegionBootstrap()

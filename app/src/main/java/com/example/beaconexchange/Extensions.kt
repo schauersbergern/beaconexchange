@@ -4,7 +4,9 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.PowerManager
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.example.beaconexchange.Constants.Companion.SERVICE_CHANNEL
 import com.example.beaconexchange.domain.BluetoothMessage
 import org.altbeacon.beacon.Beacon
@@ -17,7 +19,7 @@ fun <T> Context.isServiceRunning(service: Class<T>) = (getSystemService(Context.
     .getRunningServices(Integer.MAX_VALUE)
     .any { it.service.className == service.name }
 
-fun Application.getBackgroundNotification(title: String, body: String? = null) : Notification {
+fun Application.getForegroundNotification(title: String, body: String? = null) : Notification {
     createNotificationChannel(SERVICE_CHANNEL)
     val notificationIntent = Intent(this, MainActivity::class.java)
     val pendingIntent = PendingIntent.getActivity(
@@ -73,4 +75,12 @@ fun Beacon.getBluetoothMessage() : BluetoothMessage {
 
 fun Beacon.isProtego() : Boolean{
     return (id1.toString() ==  Constants.PROTEGO_UUID)
+}
+
+fun Activity.getWakeLock() : PowerManager.WakeLock{
+    return (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
+        newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyApp::MyWakelockTag").apply {
+            acquire()
+        }
+    }
 }

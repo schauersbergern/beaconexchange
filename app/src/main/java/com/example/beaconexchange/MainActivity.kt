@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.os.PowerManager
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.findNavController
 import com.example.beaconexchange.Constants.Companion.ONBOARDING_KEY
 import com.example.beaconexchange.Constants.Companion.ONBOARDING_REQUEST
 import com.example.beaconexchange.service.BeaconSenderService
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
     private lateinit var viewModel : SettingsViewModel
 
     private var serviceRunning = false
+
+    private var wakeLock: PowerManager.WakeLock? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,6 +108,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     fun startServices(deviceId: String) {
         if (!serviceRunning){
+            wakeLock = getWakeLock()
             beaconManager.unbind(this)
             startService(getSenderServiceIntent(deviceId))
             (application as BeaconExchangeApplication).startBeaconForegroundService()
@@ -114,6 +119,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     fun stopServices() {
         if (serviceRunning) {
+            wakeLock?.release()
             beaconManager.unbind(this)
             stopService(Intent(this, BeaconSenderService::class.java))
             (application as BeaconExchangeApplication).stopBeaconForegroundService()
@@ -150,6 +156,15 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         }
 
         beaconManager.startRangingBeaconsInRegion(RegionFactory.getRegion())
+    }
+
+    override fun onBackPressed() {
+        val dest = findNavController(R.id.nav_host_fragment).currentDestination
+        if (dest?.id == R.id.navigation_start) {
+            moveTaskToBack(false)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun name(): String {

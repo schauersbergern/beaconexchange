@@ -8,7 +8,10 @@ import android.os.IBinder
 import android.util.Log
 import com.example.beaconexchange.Constants
 import com.example.beaconexchange.Constants.Companion.ALTBEACON
+import com.example.beaconexchange.Constants.Companion.FOREGROUND_ID
 import com.example.beaconexchange.Constants.Companion.PROTEGO_UUID
+import com.example.beaconexchange.R
+import com.example.beaconexchange.getForegroundNotification
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconParser
 import org.altbeacon.beacon.BeaconTransmitter
@@ -29,6 +32,7 @@ class BeaconSenderService : Service() {
 
                 startAdvertising(it)
             }
+            startForeground(FOREGROUND_ID, application.getForegroundNotification(getString(R.string.bg_notification_title)))
         }
         return START_STICKY
     }
