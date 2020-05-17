@@ -38,5 +38,5 @@ object NetworkLibs {
 }
 
 object Material {
-    val main = "com.google.android.material:material:1.1.0"
+    val main = "com.google.android.material:material:1.2.0-alpha06"
 }

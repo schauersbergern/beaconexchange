@@ -14,9 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
+import com.example.beaconexchange.AlarmManager
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
-import com.example.beaconexchange.AlarmManager.Companion.getRssiSeverity
 import com.example.beaconexchange.domain.BluetoothMessage
 import com.example.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.example.beaconexchange.Constants.Companion.BEACON_UPDATE
@@ -119,7 +119,7 @@ class StartFragment : Fragment() {
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
             setWhitelistText(message)
 
-            when (getRssiSeverity(message.rssi)) {
+            when ((activity as MainActivity).alarmManager.getRssiSeverity(message.rssi)) {
                 SEVERITY_MEDIUM -> {
                     viewModel.setAlarm()
                 }

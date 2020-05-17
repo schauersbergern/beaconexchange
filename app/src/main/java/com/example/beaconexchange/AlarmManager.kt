@@ -1,7 +1,6 @@
 package com.example.beaconexchange
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
@@ -9,47 +8,33 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import com.example.localdatasource.entities.Settings
 
 class AlarmManager(private val ctx: Context) {
-    var notification: Uri
     var r: Ringtone
-    var mPlayer: MediaPlayer
     val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    var settings : Settings = getStandardSettings()
 
-    /*
-    fun checkDistance(distance: Int) {
+    init {
+        r = syncRingTone()
+    }
 
-        when (getSeverity(distance)) {
-            SEVERITY_MEDIUM -> {
-                //stopAlarm()
-                vibrate(distance)
-            }
-            SEVERITY_SEVERE -> {
-                //startAlarm()
-                vibrate(distance)
-            }
-            else -> {
-                //stopAlarm()
-                stopVibrate()
-            }
-        }
-    }*/
+    fun syncRingTone() : Ringtone{
+        return RingtoneManager.getRingtone(ctx, Uri.parse(settings.ringtone))
+    }
+
+    fun changeSettings(settings: Settings) {
+        this.settings = settings
+        r = syncRingTone()
+    }
 
     fun checkRssiDistance(rssi: Int) {
         when (getRssiSeverity(rssi)) {
             SEVERITY_SEVERE -> {
-                //startAlarm()
+                startAlarm()
                 vibrate()
             }
-        }
-    }
-
-    fun alarmbutton() {
-        if (mPlayer.isPlaying) {
-            mPlayer.stop()
-        } else {
-            mPlayer = MediaPlayer.create(ctx, R.raw.alarm)
-            mPlayer.start()
+            else -> stopAlarm()
         }
     }
 
@@ -64,10 +49,12 @@ class AlarmManager(private val ctx: Context) {
     }
 
     private fun vibrate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(400, 250))
-        } else {
-            v.vibrate(250)
+        if (settings.isVibrationActive) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(400, 250))
+            } else {
+                v.vibrate(250)
+            }
         }
     }
 
@@ -89,13 +76,23 @@ class AlarmManager(private val ctx: Context) {
     }
 
     private fun startAlarm() {
-        mPlayer = MediaPlayer.create(ctx, R.raw.alarm)
-        mPlayer.start()
+        if (settings.isAlarmActive) {
+            r.play()
+        } else {
+            r.stop()
+        }
     }
 
     private fun stopAlarm() {
-        mPlayer.stop()
-        v.cancel()
+        r.stop()
+    }
+
+    fun getRssiSeverity(rssi: Int): Int {
+        var severity = SEVERITY_NO
+        if (rssi > settings.rssi) {
+            severity = SEVERITY_SEVERE
+        }
+        return severity
     }
 
     companion object {
@@ -106,28 +103,10 @@ class AlarmManager(private val ctx: Context) {
         const val DISTANCE_MAX = 200
         const val DISTANCE_MIN = 50
 
-        const val RSSI_MAX = -60
-        const val RSSI_MIN = -60
+        //const val RSSI_MAX = -60
+        //const val RSSI_MIN = -60
 
         const val AMPLITUDE_MAX = 255
-
-        fun getRssiSeverity(rssi: Int): Int {
-            var severity = SEVERITY_NO
-            if (rssi > RSSI_MAX) {
-                severity = SEVERITY_SEVERE
-            }
-            return severity
-        }
-    }
-
-    init {
-        notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        r = RingtoneManager.getRingtone(ctx, notification)
-        mPlayer = MediaPlayer.create(ctx, R.raw.alarm)
-        val maxVolume = 50.toDouble()
-        val currVolume = 10.toDouble()
-        val log1 = (Math.log(maxVolume - currVolume) / Math.log(maxVolume)).toFloat()
-        mPlayer.setVolume(log1, log1) //set volume takes two paramater
     }
 
     private fun name(): String {

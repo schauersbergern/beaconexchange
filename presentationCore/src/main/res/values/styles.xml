@@ -27,5 +27,13 @@
         <item name="background">@color/blue</item>
         <item name="cornerRadius">6dp</item>
     </style>
+
+    <style name="ProtegoSwitch" parent="TextRegular">
+        <item name="android:layout_marginTop">@dimen/spacing3</item>
+        <item name="android:layout_marginStart">@dimen/spacing3</item>
+        <item name="android:layout_marginEnd">@dimen/spacing3</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
     
 </resources>

@@ -22,11 +22,13 @@ class BeaconSenderService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        initTransmitter()
-        intent?.getStringExtra(Constants.DEVICE_ID)?.let {
-            Log.i(name(), "starting service")
+        if (beaconTransmitter == null || (beaconTransmitter != null && !beaconTransmitter!!.isStarted) ) {
+            initTransmitter()
+            intent?.getStringExtra(Constants.DEVICE_ID)?.let {
+                Log.i(name(), "starting service")
 
-            startAdvertising(it)
+                startAdvertising(it)
+            }
         }
         return START_STICKY
     }

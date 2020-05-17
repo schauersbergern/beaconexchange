@@ -19,5 +19,7 @@
     <string name="settings_headline">Settings</string>
     <string name="calibrate">Calibrate</string>
     <string name="set_alarmtone">Set alarm tone</string>
+    <string name="warn_with_vibration">Warn with vibration</string>
+    <string name="warn_with_audio">Warn with audio</string>
 
 </resources>

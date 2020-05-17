@@ -8,15 +8,19 @@ import com.example.localdatasource.entities.AppData
 import com.example.localdatasource.entities.Device
 import com.example.localdatasource.daos.AppDataDao
 import com.example.localdatasource.daos.DeviceDao
+import com.example.localdatasource.daos.SettingsDao
+import com.example.localdatasource.entities.Settings
 
 @Database(entities = [
     AppData::class,
-    Device::class
-], version = 1)
+    Device::class,
+    Settings::class
+], version = 6)
 
 abstract class LocalDatabase : RoomDatabase() {
     abstract fun appDataDao() : AppDataDao
     abstract fun deviceDao(): DeviceDao
+    abstract fun settingsDao(): SettingsDao
 
     companion object {
         @Volatile
@@ -32,7 +36,7 @@ abstract class LocalDatabase : RoomDatabase() {
                     context.applicationContext,
                     LocalDatabase::class.java,
                     "protego_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 // return instance
                 instance

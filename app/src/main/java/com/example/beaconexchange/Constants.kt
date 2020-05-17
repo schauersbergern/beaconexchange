@@ -15,6 +15,8 @@ class Constants {
 
         const val PERMISSION_REQUEST_FINE_LOCATION = 1
         const val PERMISSION_REQUEST_BACKGROUND_LOCATION = 2
+        const val ALARM_REQUEST = 25
+        const val ONBOARDING_REQUEST = 24
 
         const val ALTBEACON  =    "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"
         const val EDDYSTONE_TLM  = "x,s:0-1=feaa,m:2-2=20,d:3-3,d:4-5,d:6-7,d:8-11,d:12-15"

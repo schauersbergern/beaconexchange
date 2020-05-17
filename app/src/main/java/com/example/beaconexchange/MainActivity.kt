@@ -7,16 +7,26 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.beaconexchange.Constants.Companion.ONBOARDING_KEY
+import com.example.beaconexchange.Constants.Companion.ONBOARDING_REQUEST
 import com.example.beaconexchange.service.BeaconSenderService
+import com.example.beaconexchange.ui.settings.SettingsViewModel
 import com.example.intro.presentation.IntroActivity
+import com.example.localdatasource.LocalDatabase
+import com.example.localdatasource.SettingsRepository
+import com.example.localdatasource.entities.Settings
+import kotlinx.coroutines.*
 import org.altbeacon.beacon.*
 
 class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     private lateinit var beaconManager: BeaconManager
-    private lateinit var alarmManager: AlarmManager
+    lateinit var alarmManager: AlarmManager
+
+    private lateinit var viewModel : SettingsViewModel
 
     private var serviceRunning = false
 
@@ -24,6 +34,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         super.onCreate(savedInstanceState)
 
         alarmManager = AlarmManager(this)
+        viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
         if (shouldShowOnboarding()) {
             startIntro()
@@ -44,19 +55,27 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         //TODO: Deactivate UI if Bluetooth not available
         verifyBluetooth()
         beaconManager.bind(this)
+
+        viewModel.settings.observe(this, Observer {
+            if (it == null) {
+                alarmManager.changeSettings(getStandardSettings())
+            } else {
+                alarmManager.changeSettings(it)
+            }
+        })
     }
 
     private fun startIntro() {
         Intent(this, IntroActivity::class.java).apply {
-            startActivityForResult(this, 1)
+            startActivityForResult(this, ONBOARDING_REQUEST)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == Activity.RESULT_OK) {
-            getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean(ONBOARDING_KEY, false)?.commit()
+        if (requestCode == ONBOARDING_REQUEST && resultCode == Activity.RESULT_OK) {
+            getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean(ONBOARDING_KEY, false)?.apply()
             init()
         }
     }
@@ -84,19 +103,23 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
 
     fun startServices(deviceId: String) {
-        beaconManager.unbind(this)
-        startService(getSenderServiceIntent(deviceId))
-        (application as BeaconExchangeApplication).startBeaconForegroundService()
-        beaconManager.bind(this)
-        serviceRunning = true
+        if (!serviceRunning){
+            beaconManager.unbind(this)
+            startService(getSenderServiceIntent(deviceId))
+            (application as BeaconExchangeApplication).startBeaconForegroundService()
+            beaconManager.bind(this)
+            serviceRunning = true
+        }
     }
 
     fun stopServices() {
-        beaconManager.unbind(this)
-        stopService(Intent(this, BeaconSenderService::class.java))
-        (application as BeaconExchangeApplication).stopBeaconForegroundService()
-        beaconManager.bind(this)
-        serviceRunning = false
+        if (serviceRunning) {
+            beaconManager.unbind(this)
+            stopService(Intent(this, BeaconSenderService::class.java))
+            (application as BeaconExchangeApplication).stopBeaconForegroundService()
+            beaconManager.bind(this)
+            serviceRunning = false
+        }
     }
 
     private fun getSenderServiceIntent(deviceId: String): Intent {
