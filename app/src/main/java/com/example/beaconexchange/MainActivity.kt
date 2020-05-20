@@ -17,22 +17,24 @@ import com.example.beaconexchange.Constants.Companion.ONBOARDING_REQUEST
 import com.example.beaconexchange.service.BeaconSenderService
 import com.example.beaconexchange.ui.settings.SettingsViewModel
 import com.example.intro.presentation.IntroActivity
-import com.example.localdatasource.LocalDatabase
-import com.example.localdatasource.SettingsRepository
-import com.example.localdatasource.entities.Settings
-import kotlinx.coroutines.*
-import org.altbeacon.beacon.*
+import org.altbeacon.beacon.Beacon
+import org.altbeacon.beacon.BeaconConsumer
+import org.altbeacon.beacon.BeaconManager
+import timber.log.Timber
+
 
 class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     private lateinit var beaconManager: BeaconManager
+    private lateinit var viewModel : SettingsViewModel
+    private lateinit var log: Timber.Tree
     lateinit var alarmManager: AlarmManager
 
-    private lateinit var viewModel : SettingsViewModel
-
     private var serviceRunning = false
-
     private var wakeLock: PowerManager.WakeLock? = null
+
+    private var timestamp: String = ""
+    get() {return (System.currentTimeMillis() / 1000).toString()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     private fun init() {
         setContentView(R.layout.activity_main)
+        log = initLogger(this)
         beaconManager = BeaconManager.getInstanceForApplication(this)
         //TODO: Deactivate UI if Bluetooth not available
         verifyBluetooth()
@@ -108,6 +111,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     fun startServices(deviceId: String) {
         if (!serviceRunning){
+            log.i(", $timestamp, start")
             wakeLock = getWakeLock()
             beaconManager.unbind(this)
             startService(getSenderServiceIntent(deviceId))
@@ -119,6 +123,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     fun stopServices() {
         if (serviceRunning) {
+            log.i(", $timestamp, stop")
             wakeLock?.release()
             beaconManager.unbind(this)
             stopService(Intent(this, BeaconSenderService::class.java))
@@ -151,6 +156,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                     val data = beacon.getBluetoothMessage()
                     alarmManager.checkRssiDistance(data.rssi)
                     sendMessageToFragment(data)
+                    log.i(", $timestamp, ${data.deviceId}, ${data.rssi}")
                 }
             }
         }
@@ -166,6 +172,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
             super.onBackPressed()
         }
     }
+
 
     private fun name(): String {
         return javaClass.simpleName

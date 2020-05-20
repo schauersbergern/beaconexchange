@@ -31,6 +31,8 @@ object Androidx {
 object ThirdPartyLibs {
     val viewPagerDots = "com.romandanylyk:pageindicatorview:1.0.3"
     val permissions = "pub.devrel:easypermissions:3.0.0"
+    val timber = "com.jakewharton.timber:timber:4.7.1"
+    val timberTrees = "fr.bipi.treessence:treessence:0.3.2"
 }
 
 object NetworkLibs {

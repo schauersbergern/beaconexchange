@@ -1,0 +1,83 @@
+plugins {
+    id "com.jfrog.bintray" version "1.8.4"
+    id "fr.coppernic.versioning" version "3.1.2"
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'checkstyle'
+
+repositories {
+    google()
+    jcenter()
+    maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile rootProject.file('config/checkstyle.xml')
+    source 'src/main/java'
+    ignoreFailures false
+    showViolations true
+    include '**/*.java'
+
+    classpath = files()
+}
+
+afterEvaluate {
+    if (project.tasks.findByName('check')) {
+        check.dependsOn('checkstyle')
+    }
+}
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 29
+        versionCode versioning.info.versionCode
+        versionName versioning.info.display
+
+        testInstrumentationRunner "androidx.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            ext.alwaysUpdateBuildId = false
+        }
+    }
+
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'org.jetbrains:annotations:16.0.1'
+
+    compileOnly 'org.slf4j:slf4j-android:1.7.25'
+    compileOnly 'io.sentry:sentry-android:1.7.10'
+    compileOnly 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
+    testImplementation "org.robolectric:robolectric:4.3.1"
+    testImplementation "org.awaitility:awaitility:3.0.0"
+    testImplementation "org.hamcrest:java-hamcrest:2.0.0.0"
+    testImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+}

@@ -55,8 +55,12 @@ dependencies {
     implementation Androidx.legacySupport
     implementation Androidx.lifecycleViewmodel
 
+    implementation ThirdPartyLibs.timber
+    //implementation ThirdPartyLibs.timberTrees
+
     implementation project(path: ':altbeacon')
     implementation project(path: ':intro')
     implementation project(path: ':permissions')
     implementation project(path: ':localDatasource')
+    implementation project(path: ':treessence')
 }

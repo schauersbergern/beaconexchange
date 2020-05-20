@@ -66,7 +66,8 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun getPermissions() {
         val perms = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            Manifest.permission.WAKE_LOCK
         )
         if (!EasyPermissions.hasPermissions(requireContext(), *perms)) {
             EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *perms)
