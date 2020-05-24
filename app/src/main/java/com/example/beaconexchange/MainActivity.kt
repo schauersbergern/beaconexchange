@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     fun startServices(deviceId: String) {
         if (!serviceRunning){
-            log.i(", $timestamp, start")
+            "start".log()
             wakeLock = getWakeLock()
             beaconManager.unbind(this)
             startService(getSenderServiceIntent(deviceId))
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     fun stopServices() {
         if (serviceRunning) {
-            log.i(", $timestamp, stop")
+            "stop".log()
             wakeLock?.release()
             beaconManager.unbind(this)
             stopService(Intent(this, BeaconSenderService::class.java))
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                     val data = beacon.getBluetoothMessage()
                     alarmManager.checkRssiDistance(data.rssi)
                     sendMessageToFragment(data)
-                    log.i(", $timestamp, ${data.deviceId}, ${data.rssi}")
+                    "${data.deviceId}, ${data.rssi}".log()
                 }
             }
         }
@@ -172,6 +172,11 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         }
     }
 
+    private fun String.log() {
+        if (viewModel.isLoggingEnabled()) {
+            log.i(", $timestamp, $this")
+        }
+    }
 
     private fun name(): String {
         return javaClass.simpleName

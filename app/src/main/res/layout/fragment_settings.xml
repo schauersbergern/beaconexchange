@@ -77,5 +77,18 @@
         tools:text="ringtone"
         />
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        style="@style/ProtegoSwitch"
+        android:id="@+id/logging_switch"
+        android:text="@string/log_to_file" />
+
+    <TextView
+        style="@style/TextRegular"
+        android:id="@+id/logdir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="This is the logdirectory"
+        />
 
 </LinearLayout>

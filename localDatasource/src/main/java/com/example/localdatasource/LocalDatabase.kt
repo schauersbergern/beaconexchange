@@ -15,7 +15,7 @@ import com.example.localdatasource.entities.Settings
     AppData::class,
     Device::class,
     Settings::class
-], version = 6)
+], version = 7)
 
 abstract class LocalDatabase : RoomDatabase() {
     abstract fun appDataDao() : AppDataDao

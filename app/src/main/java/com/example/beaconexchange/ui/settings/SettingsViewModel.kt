@@ -3,9 +3,7 @@ package com.example.beaconexchange.ui.settings
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.beaconexchange.getStandardSettings
 import com.example.localdatasource.LocalDatabase
 import com.example.localdatasource.SettingsRepository
 import com.example.localdatasource.entities.Settings
@@ -31,13 +29,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-
     fun toggleAlarm(active: Boolean) = viewModelScope.launch {
         settings.value?.apply {
             repository.updateSettings(this.copy(isAlarmActive = active))
         }
     }
-
 
     fun toggleVibration(active: Boolean) = viewModelScope.launch {
         settings.value?.apply {
@@ -45,6 +41,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun toggleLogging(active: Boolean) = viewModelScope.launch {
+        settings.value?.apply {
+            repository.updateSettings(this.copy(loggingEnabled = active))
+        }
+    }
 
     fun setRssi(rssi: Int) = viewModelScope.launch {
         settings.value?.apply {
@@ -54,5 +55,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun saveAll(settings: Settings) = viewModelScope.launch {
         repository.updateSettings(settings)
+    }
+
+    fun isLoggingEnabled() : Boolean {
+        return settings.value?.loggingEnabled ?: false
     }
 }

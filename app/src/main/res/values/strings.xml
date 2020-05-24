@@ -21,5 +21,7 @@
     <string name="set_alarmtone">Set alarm tone</string>
     <string name="warn_with_vibration">Warn with vibration</string>
     <string name="warn_with_audio">Warn with audio</string>
+    <string name="log_to_file">Log to file</string>
+    <string name="log_dir">Logdir:</string>
 
 </resources>

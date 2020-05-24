@@ -10,5 +10,6 @@ data class Settings(
     val rssi: Int,
     val ringtone: String,
     val isAlarmActive: Boolean,
-    val isVibrationActive: Boolean
+    val isVibrationActive: Boolean,
+    val loggingEnabled: Boolean
 )

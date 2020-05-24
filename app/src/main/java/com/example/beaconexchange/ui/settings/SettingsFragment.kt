@@ -12,6 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.beaconexchange.Constants.Companion.ALARM_REQUEST
+import com.example.beaconexchange.Constants.Companion.LOG_DIR
+import com.example.beaconexchange.Constants.Companion.LOG_FILE
+import com.example.beaconexchange.R
 import com.example.beaconexchange.databinding.FragmentSettingsBinding
 import com.example.beaconexchange.getStandardSettings
 
@@ -76,6 +79,16 @@ class SettingsFragment : Fragment() {
 
         binding?.vibrationSwitch?.setOnCheckedChangeListener { _, isChecked ->
             viewModel.toggleVibration(isChecked)
+        }
+
+        binding?.loggingSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.toggleLogging(isChecked)
+
+            if (isChecked) {
+                binding?.logdir?.text = "${getString(R.string.log_dir)}   $LOG_DIR/$LOG_FILE"
+            } else {
+                binding?.logdir?.text = ""
+            }
         }
     }
 
