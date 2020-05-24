@@ -71,8 +71,9 @@ class StartFragment : Fragment() {
     }
 
     private fun setWhitelistText(msg: BluetoothMessage) {
-        binding?.addToWhitelistText?.text = "Seeing id ${msg.deviceId} with distance ${msg.distCentimeters}cm and RSSI ${msg.rssi} ?"
-        binding?.addToWhitelist?.setOnClickListener {
+        binding?.debugText?.text = "Seeing id ${msg.deviceId} with distance ${msg.distCentimeters}cm and RSSI ${msg.rssi}"
+        binding?.addToWhitelistText?.text = "Add ${msg.deviceId} to whitelist?"
+        binding?.addToWhitelistText?.setOnClickListener {
             viewModel.addToWhitelist(msg.deviceId)
         }
     }
@@ -95,6 +96,7 @@ class StartFragment : Fragment() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_off))
         binding?.mainDistanceSave?.text = getString(R.string.distance_off)
         binding?.mainTrackerState?.text = getText(R.string.tracker_off)
+        binding?.debugText?.text = ""
         binding?.addToWhitelistText?.text = ""
         binding?.trackerOn?.typeface = Typeface.DEFAULT
         binding?.trackerOff?.typeface = Typeface.DEFAULT_BOLD

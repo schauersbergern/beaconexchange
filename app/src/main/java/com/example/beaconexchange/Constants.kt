@@ -5,7 +5,7 @@ class Constants {
         const val BEACON_UPDATE = "BaconUpdate"
         const val BEACON_MESSAGE = "BeaconMessage"
 
-        const val PROTEGO_UUID = "38144dcd-4e27-4213-af7d-b80dd366cd96"
+        const val PROTEGO_ID = "65463"
         const val DEVICE_ID = "DeviceId"
 
         const val REGION_ID = "ProtegoRegion"

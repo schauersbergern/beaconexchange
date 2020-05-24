@@ -65,7 +65,7 @@ fun Context.alertDialog(title: String, message: String) : AlertDialog.Builder {
 
 fun Beacon.getBluetoothMessage() : BluetoothMessage {
     return BluetoothMessage(
-        id2.toString(),
+        id1.toString(),
         bluetoothName ?: "No Name",
         bluetoothAddress,
         (distance * 100).toInt(),
@@ -74,7 +74,7 @@ fun Beacon.getBluetoothMessage() : BluetoothMessage {
 }
 
 fun Beacon.isProtego() : Boolean{
-    return (id1.toString() ==  Constants.PROTEGO_UUID)
+    return (id2.toString() ==  Constants.PROTEGO_ID)
 }
 
 fun Activity.getWakeLock() : PowerManager.WakeLock{

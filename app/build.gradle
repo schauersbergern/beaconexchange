@@ -56,6 +56,7 @@ dependencies {
     implementation Androidx.lifecycleViewmodel
 
     implementation ThirdPartyLibs.timber
+    //implementation ThirdPartyLibs.altBeacon
     //implementation ThirdPartyLibs.timberTrees
 
     implementation project(path: ':altbeacon')

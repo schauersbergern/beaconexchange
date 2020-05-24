@@ -9,7 +9,7 @@ import android.util.Log
 import com.example.beaconexchange.Constants
 import com.example.beaconexchange.Constants.Companion.ALTBEACON
 import com.example.beaconexchange.Constants.Companion.FOREGROUND_ID
-import com.example.beaconexchange.Constants.Companion.PROTEGO_UUID
+import com.example.beaconexchange.Constants.Companion.PROTEGO_ID
 import com.example.beaconexchange.R
 import com.example.beaconexchange.getForegroundNotification
 import org.altbeacon.beacon.Beacon
@@ -39,8 +39,8 @@ class BeaconSenderService : Service() {
 
     private fun startAdvertising(deviceId: String) {
         val beacon = Beacon.Builder()
-            .setId1(PROTEGO_UUID)
-            .setId2(deviceId)
+            .setId1(deviceId)
+            .setId2(PROTEGO_ID)
             .setId3("0")
             .setManufacturer(0x0118) // Radius Networks.  Change this for other beacon layouts
             .setTxPower(-59)

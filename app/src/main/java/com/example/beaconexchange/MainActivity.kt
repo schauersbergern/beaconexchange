@@ -128,7 +128,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
             beaconManager.unbind(this)
             stopService(Intent(this, BeaconSenderService::class.java))
             (application as BeaconExchangeApplication).stopBeaconForegroundService()
-            beaconManager.bind(this)
             serviceRunning = false
         }
     }

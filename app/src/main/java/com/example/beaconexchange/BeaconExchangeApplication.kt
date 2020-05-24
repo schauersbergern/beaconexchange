@@ -35,6 +35,7 @@ class BeaconExchangeApplication : Application(), BootstrapNotifier {
     fun stopBeaconForegroundService() {
         regionBootstrap.disable()
         beaconManager.disableForegroundServiceScanning()
+        beaconManager.beaconParsers.clear()
     }
 
     fun startBeaconForegroundService() {

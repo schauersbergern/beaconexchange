@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -42,8 +46,8 @@
         android:id="@+id/grant_button"
         style="@style/ProtegoButton"
         android:text="@string/grant_permissions"
-        android:layout_marginBottom="@dimen/spacing2"
-        app:layout_constraintBottom_toTopOf="@+id/permission_refuse"
+        android:layout_marginTop="@dimen/spacing3"
+        app:layout_constraintTop_toBottomOf="@+id/permission_disclaimer"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -54,10 +58,11 @@
         android:layout_height="wrap_content"
         android:text="@string/permission_refuse"
         android:gravity="center"
-        android:layout_marginBottom="@dimen/spacing2"
+        android:layout_marginTop="@dimen/spacing3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/grant_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
