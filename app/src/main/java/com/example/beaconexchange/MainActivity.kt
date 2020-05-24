@@ -16,6 +16,7 @@ import com.example.beaconexchange.Constants.Companion.ONBOARDING_KEY
 import com.example.beaconexchange.Constants.Companion.ONBOARDING_REQUEST
 import com.example.beaconexchange.service.BeaconSenderService
 import com.example.beaconexchange.ui.settings.SettingsViewModel
+import com.example.beaconexchange.ui.whitelist.WhiteListViewModel
 import com.example.intro.presentation.IntroActivity
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconConsumer
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     private lateinit var beaconManager: BeaconManager
     private lateinit var viewModel : SettingsViewModel
+    private lateinit var whiteListViewModel : WhiteListViewModel
     private lateinit var log: Timber.Tree
     lateinit var alarmManager: AlarmManager
 
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
         alarmManager = AlarmManager(this)
         viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
+        whiteListViewModel = ViewModelProvider(this).get(WhiteListViewModel::class.java)
 
         if (shouldShowOnboarding()) {
             startIntro()
@@ -68,6 +71,12 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                 alarmManager.changeSettings(getStandardSettings())
             } else {
                 alarmManager.changeSettings(it)
+            }
+        })
+
+        whiteListViewModel.whiteListLive.observe(this, Observer { whitelist ->
+            if (whitelist != null) {
+                whiteListViewModel.addWhiteList(whitelist)
             }
         })
     }
@@ -151,7 +160,12 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
             beacons.map { beacon: Beacon ->
                 Log.d(name(), "RangeNotifier beacon detected: $beacon")
 
-                if (beacon.isProtego() && serviceRunning) {
+                var send = true
+                if (whiteListViewModel.isInWhitelist(beacon.id1.toString())) {
+                    send = false
+                }
+
+                if (beacon.isProtego() && serviceRunning && send) {
                     val data = beacon.getBluetoothMessage()
                     alarmManager.checkRssiDistance(data.rssi)
                     sendMessageToFragment(data)
@@ -159,8 +173,11 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                 }
             }
         }
-
         beaconManager.startRangingBeaconsInRegion(RegionFactory.getRegion())
+    }
+
+    fun addToWhiteList(deviceId: String) {
+        whiteListViewModel.addToWhitelist(deviceId)
     }
 
     override fun onBackPressed() {

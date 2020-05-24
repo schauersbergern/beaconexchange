@@ -3,6 +3,8 @@ package com.example.beaconexchange.ui.whitelist
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -31,8 +33,13 @@ class WhiteListFragment : Fragment() {
         binding?.whitelist?.setHasFixedSize(true)
         binding?.whitelist?.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
-            binding?.whitelist?.adapter = WhiteListAdapter(state.devices)
+        viewModel.devices.observe(viewLifecycleOwner, Observer { devices ->
+            if (devices.isNotEmpty()) {
+                binding?.whitelist?.adapter = WhiteListAdapter(devices)
+                binding?.noEntries?.visibility = GONE
+            } else {
+                binding?.noEntries?.visibility = VISIBLE
+            }
         })
 
     }

@@ -18,7 +18,6 @@ class RegionFactory {
     }
 }
 
-
 fun getDefaultRingtone() : String {
     return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString()
 }
@@ -32,8 +31,6 @@ fun getStandardSettings() : Settings {
         isVibrationActive = true,
         loggingEnabled = false)
 }
-
-fun getTimestamp() = (System.currentTimeMillis() / 1000).toString()
 
 fun initLogger(ctx : Context) = FileLoggerTree.Builder()
         .withFileName(LOG_FILE)

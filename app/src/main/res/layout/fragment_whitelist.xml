@@ -17,6 +17,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/whitelist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    <TextView
+        style="@style/HeadlineBold"
+        android:id="@+id/no_entries"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing3"
+        android:paddingLeft="@dimen/spacing2"
+        android:text="@string/no_devices_in_whitelist"/>
 
 </LinearLayout>

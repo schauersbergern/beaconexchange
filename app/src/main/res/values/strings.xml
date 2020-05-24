@@ -23,5 +23,6 @@
     <string name="warn_with_audio">Warn with audio</string>
     <string name="log_to_file">Log to file</string>
     <string name="log_dir">Logdir:</string>
+    <string name="no_devices_in_whitelist">There are no devices in the whitelist. Go and add one!</string>
 
 </resources>

@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
-import com.example.beaconexchange.AlarmManager
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.example.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.example.beaconexchange.domain.BluetoothMessage
@@ -74,7 +73,7 @@ class StartFragment : Fragment() {
         binding?.debugText?.text = "Seeing id ${msg.deviceId} with distance ${msg.distCentimeters}cm and RSSI ${msg.rssi}"
         binding?.addToWhitelistText?.text = "Add ${msg.deviceId} to whitelist?"
         binding?.addToWhitelistText?.setOnClickListener {
-            viewModel.addToWhitelist(msg.deviceId)
+            (activity as MainActivity).addToWhiteList(msg.deviceId)
         }
     }
 

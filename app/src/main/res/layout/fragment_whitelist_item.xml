@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/TextRegular"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    tools:text="Device 1" />
+    android:orientation="horizontal">
+
+    <TextView
+        style="@style/TextRegular"
+        android:id="@+id/device_name"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/spacing1"
+        tools:text="Device 1" />
+
+    <TextView
+        style="@style/TextRegular"
+        android:id="@+id/device_id"
+        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_marginStart="@dimen/spacing3"
+        tools:text="234hgkj2g3j4hg" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <ImageView
+        android:id="@+id/delete_button"
+        android:src="@drawable/delete"
+        android:layout_marginEnd="@dimen/spacing1"
+        android:layout_gravity="right"
+        android:layout_width="28dp"
+        android:layout_height="28dp" />
+
+</LinearLayout>

@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.localdatasource.AppDataRepository
 import com.example.localdatasource.LocalDatabase
-import com.example.localdatasource.WhiteListRepository
 import kotlin.concurrent.thread
 
 data class ServiceState(
@@ -42,14 +41,6 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setOff() {
         state.postValue( state.value?.copy(serviceShouldRun = false, alarmState = false) )
-    }
-
-    fun addToWhitelist(deviceId : String) {
-        thread(start = true) {
-            val deviceDao = LocalDatabase.getDatabase(app).deviceDao()
-            val repository = WhiteListRepository(deviceDao)
-            repository.addToWhiteList(deviceId)
-        }
     }
 
 }
