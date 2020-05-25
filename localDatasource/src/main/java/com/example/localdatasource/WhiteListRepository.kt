@@ -11,4 +11,8 @@ class WhiteListRepository(private val deviceDao: DeviceDao) {
     suspend fun addToWhiteList(deviceId: String) {
         deviceDao.insert(Device(uid = deviceId))
     }
+
+    suspend fun deleteFromWhiteList(deviceId: String) {
+        deviceDao.deleteByUid(deviceId)
+    }
 }

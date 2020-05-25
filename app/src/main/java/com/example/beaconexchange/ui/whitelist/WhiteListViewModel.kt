@@ -11,25 +11,20 @@ import kotlinx.coroutines.launch
 
 class WhiteListViewModel(application: Application) : AndroidViewModel(application) {
 
-    var devices: LiveData<List<Device>>
     var whiteListLive: LiveData<List<Device>>
     var whiteList: List<Device> = listOf()
 
-    private var whiteListRepository: WhiteListRepository
     private var repository: WhiteListRepository
     private var app = application
 
     init {
         val deviceDao = LocalDatabase.getDatabase(app).deviceDao()
         repository = WhiteListRepository(deviceDao)
-        devices = repository.getWhiteList()
-
-        whiteListRepository = WhiteListRepository(deviceDao)
-        whiteListLive = whiteListRepository.getWhiteList()
+        whiteListLive = repository.getWhiteList()
     }
 
     fun addToWhitelist(deviceId : String) = viewModelScope.launch {
-        whiteListRepository.addToWhiteList(deviceId)
+        repository.addToWhiteList(deviceId)
     }
 
     fun isInWhitelist(deviceId : String) : Boolean {
@@ -44,5 +39,9 @@ class WhiteListViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun addWhiteList(list : List<Device>) {
         whiteList = list
+    }
+
+    fun deleteFromWhiteList(uid: String) = viewModelScope.launch {
+        repository.deleteFromWhiteList(uid)
     }
 }

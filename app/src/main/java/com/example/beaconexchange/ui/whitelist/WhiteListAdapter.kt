@@ -8,7 +8,7 @@ import com.example.beaconexchange.R
 import com.example.localdatasource.entities.Device
 import kotlinx.android.synthetic.main.fragment_whitelist_item.view.*
 
-class WhiteListAdapter(private val myDataset: List<Device>) :
+class WhiteListAdapter(private val myDataset: List<Device>, private val onclick : (String) -> Unit) :
     RecyclerView.Adapter<WhiteListAdapter.WLViewHolder>() {
 
     class WLViewHolder(val linearLayout: LinearLayout) : RecyclerView.ViewHolder(linearLayout)
@@ -21,8 +21,12 @@ class WhiteListAdapter(private val myDataset: List<Device>) :
     }
 
     override fun onBindViewHolder(holder: WLViewHolder, position: Int) {
+        val uid = myDataset[position].uid
+
         holder.linearLayout.device_name.text = "Device $position"
-        holder.linearLayout.device_id.text = myDataset[position].uid
+        holder.linearLayout.device_id.text = uid
+
+        holder.linearLayout.delete_button.setOnClickListener {onclick(uid)}
     }
 
     override fun getItemCount() = myDataset.size

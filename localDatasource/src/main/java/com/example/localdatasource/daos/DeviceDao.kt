@@ -12,12 +12,15 @@ interface DeviceDao {
     @Query("SELECT * FROM device")
     fun getAll(): LiveData<List<Device>>
 
-    @Query("SELECT * FROM device where :uid")
+    @Query("SELECT * FROM device where uid = :uid")
     fun findByUid(uid: String): Device
+
+    @Query("DELETE FROM device where uid = :uid")
+    suspend fun deleteByUid(uid: String)
 
     @Insert
     suspend fun insert(vararg device: Device)
 
     @Delete
-    fun delete(device: Device)
+    suspend fun delete(device: Device)
 }

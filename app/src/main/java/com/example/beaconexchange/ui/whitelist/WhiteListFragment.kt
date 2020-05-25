@@ -33,12 +33,14 @@ class WhiteListFragment : Fragment() {
         binding?.whitelist?.setHasFixedSize(true)
         binding?.whitelist?.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.devices.observe(viewLifecycleOwner, Observer { devices ->
+        viewModel.whiteListLive.observe(viewLifecycleOwner, Observer { devices ->
             if (devices.isNotEmpty()) {
-                binding?.whitelist?.adapter = WhiteListAdapter(devices)
                 binding?.noEntries?.visibility = GONE
             } else {
                 binding?.noEntries?.visibility = VISIBLE
+            }
+            binding?.whitelist?.adapter = WhiteListAdapter(devices) {
+                viewModel.deleteFromWhiteList(it)
             }
         })
 
