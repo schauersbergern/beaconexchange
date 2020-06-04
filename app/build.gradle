@@ -59,9 +59,10 @@ dependencies {
     //implementation ThirdPartyLibs.altBeacon
     //implementation ThirdPartyLibs.timberTrees
 
-    implementation project(path: ':altbeacon')
+    implementation project(path: ':altbeaconlib')
     implementation project(path: ':intro')
     implementation project(path: ':permissions')
     implementation project(path: ':localDatasource')
+    implementation project(path: ':presentationCore')
     implementation project(path: ':treessence')
 }

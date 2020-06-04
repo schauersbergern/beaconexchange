@@ -19,6 +19,7 @@ class Constants {
         const val ONBOARDING_REQUEST = 24
 
         const val FOREGROUND_ID = 34
+        const val MANUFACTURER = 0x0118 // Radius Networks.  Change this for other beacon layouts
 
         const val LOG_DIR = "/log"
         const val LOG_FILE = "protego%g.csv"

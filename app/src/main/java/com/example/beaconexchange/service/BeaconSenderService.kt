@@ -9,6 +9,7 @@ import android.util.Log
 import com.example.beaconexchange.Constants
 import com.example.beaconexchange.Constants.Companion.ALTBEACON
 import com.example.beaconexchange.Constants.Companion.FOREGROUND_ID
+import com.example.beaconexchange.Constants.Companion.MANUFACTURER
 import com.example.beaconexchange.Constants.Companion.PROTEGO_ID
 import com.example.beaconexchange.R
 import com.example.beaconexchange.getForegroundNotification
@@ -42,7 +43,7 @@ class BeaconSenderService : Service() {
             .setId1(deviceId)
             .setId2(PROTEGO_ID)
             .setId3("0")
-            .setManufacturer(0x0118) // Radius Networks.  Change this for other beacon layouts
+            .setManufacturer(MANUFACTURER)
             .setTxPower(-59)
             .setDataFields(mutableListOf(0L))
             .build()

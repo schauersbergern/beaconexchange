@@ -6,12 +6,14 @@ import android.content.Intent
 import android.os.Build
 import android.os.PowerManager
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.beaconexchange.Constants.Companion.SERVICE_CHANNEL
 import com.example.beaconexchange.domain.BluetoothMessage
+import com.example.presentationcore.ProgressDialogFragment
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
+import timber.log.Timber
 
 
 @Suppress("DEPRECATION")
@@ -50,6 +52,7 @@ fun BeaconManager.setUpForBackgroundRunning() {
 
     val parser = BeaconParser()
     parser.setBeaconLayout(Constants.ALTBEACON)
+    parser.setHardwareAssistManufacturerCodes(intArrayOf(Constants.MANUFACTURER))
     beaconParsers.clear()
     beaconParsers.add(parser)
     backgroundScanPeriod = 1000
@@ -84,3 +87,28 @@ fun Activity.getWakeLock() : PowerManager.WakeLock{
         }
     }
 }
+
+
+const val PROGRESS_DIALOG_FRAGMENT_TAG = "PROGRESS_DIALOG_FRAGMENT_TAG"
+
+private val Fragment.existingProgressDialog
+    get() = childFragmentManager.findFragmentByTag(PROGRESS_DIALOG_FRAGMENT_TAG) as? ProgressDialogFragment
+
+fun Fragment.syncProgressDialogVisibility(show: Boolean = true) =
+    if (show) showProgressDialog() else hideProgressDialog()
+
+private fun Fragment.showNewProgressDialog() {
+    ProgressDialogFragment().apply { isCancelable = false }
+        .show(childFragmentManager, PROGRESS_DIALOG_FRAGMENT_TAG)
+    childFragmentManager.executePendingTransactions()
+}
+
+fun Fragment.showProgressDialog() {
+    val existing = existingProgressDialog ?: return showNewProgressDialog()
+    if (existing.isAdded) return
+    // After some testing we assume this does not happen.
+    // If it does we are save not showing the blocking dialog in these cases.
+    Timber.tag(PROGRESS_DIALOG_FRAGMENT_TAG).w("Not added ProgressDialog is still on backstack.")
+}
+
+fun Fragment.hideProgressDialog() = existingProgressDialog?.run { if (isAdded) dismiss() }

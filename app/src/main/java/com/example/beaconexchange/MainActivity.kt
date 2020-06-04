@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.os.PowerManager
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -64,7 +65,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         beaconManager = BeaconManager.getInstanceForApplication(this)
         //TODO: Deactivate UI if Bluetooth not available
         verifyBluetooth()
-        beaconManager.bind(this)
 
         viewModel.settings.observe(this, Observer {
             if (it == null) {
@@ -178,6 +178,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     fun addToWhiteList(deviceId: String) {
         whiteListViewModel.addToWhitelist(deviceId)
+        Toast.makeText(this, "Added $deviceId to whitelist", Toast.LENGTH_LONG).show()
     }
 
     override fun onBackPressed() {
