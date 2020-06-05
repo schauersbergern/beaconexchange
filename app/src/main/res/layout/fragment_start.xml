@@ -115,26 +115,14 @@
         />
 
     <TextView
-        android:id="@+id/debug_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/spacing2"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tracker_on"
-        tools:text="Neat debug message"/>
-
-    <TextView
         android:id="@+id/add_to_whitelist_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing2"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/debug_text"
+        app:layout_constraintTop_toBottomOf="@id/tracker_on"
         tools:text="add to whitelist?"/>
-
 
     <TextView
         android:id="@+id/main_access_whitelist"

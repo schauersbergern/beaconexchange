@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_start"
-        android:name="com.example.beaconexchange.ui.start.StartFragment"
+        android:name="com.protego.beaconexchange.ui.start.StartFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_start">
 
@@ -32,13 +32,13 @@
 
     <fragment
         android:id="@+id/navigation_whitelist"
-        android:name="com.example.beaconexchange.ui.whitelist.WhiteListFragment"
+        android:name="com.protego.beaconexchange.ui.whitelist.WhiteListFragment"
         android:label="@string/title_whitelist"
         tools:layout="@layout/fragment_start" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.beaconexchange.ui.settings.SettingsFragment"
+        android:name="com.protego.beaconexchange.ui.settings.SettingsFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_start" />
 
