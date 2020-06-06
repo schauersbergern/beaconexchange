@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "16605464800",
+    "firebase_url": "https://protego-alert.firebaseio.com",
+    "project_id": "protego-alert",
+    "storage_bucket": "protego-alert.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16605464800:android:0a4ac9cde845515ec62885",
+        "android_client_info": {
+          "package_name": "com.protego.beaconexchange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16605464800-u2hv1heq53jjqgkcq9c3ug225r9c83h4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApPmtz-vsjssouq0ImdlaZBNWaFd_jpHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16605464800-u2hv1heq53jjqgkcq9c3ug225r9c83h4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

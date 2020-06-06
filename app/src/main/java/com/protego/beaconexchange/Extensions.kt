@@ -4,8 +4,10 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.protego.beaconexchange.Constants.Companion.SERVICE_CHANNEL
@@ -95,6 +97,18 @@ fun Activity.openPowerManager() {
             startActivityForResult(intent, Constants.POWERMANAGER_REQUEST)
         }
     }
+}
+
+fun Activity.optimizeBattery() {
+    val intent = Intent()
+    val pkgName: String = packageName
+    val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+
+    if (pm.isIgnoringBatteryOptimizations(pkgName)) return
+
+    intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+    intent.data = Uri.parse("package:$pkgName")
+    startActivity(intent)
 }
 
 const val PROGRESS_DIALOG_FRAGMENT_TAG = "PROGRESS_DIALOG_FRAGMENT_TAG"

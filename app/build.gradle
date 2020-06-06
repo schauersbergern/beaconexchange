@@ -2,7 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
@@ -56,8 +58,9 @@ dependencies {
     implementation Androidx.lifecycleViewmodel
 
     implementation ThirdPartyLibs.timber
-    //implementation ThirdPartyLibs.altBeacon
-    //implementation ThirdPartyLibs.timberTrees
+
+    implementation Google.analytics
+    implementation Google.crashlythics
 
     implementation project(path: ':altbeaconlib')
     implementation project(path: ':intro')

@@ -33,7 +33,6 @@ class SettingsFragment : Fragment() {
         return _binding?.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,7 +42,7 @@ class SettingsFragment : Fragment() {
 
             var liveSettings = settings
             if (settings == null) {
-                val standardSettings = getStandardSettings()
+                val standardSettings = getStandardSettings(requireContext())
                 viewModel.saveAll(standardSettings)
                 liveSettings = standardSettings
             }

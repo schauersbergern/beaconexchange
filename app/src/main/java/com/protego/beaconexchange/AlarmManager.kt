@@ -11,9 +11,9 @@ import android.util.Log
 import com.protego.localdatasource.entities.Settings
 
 class AlarmManager(private val ctx: Context) {
-    var r: Ringtone
-    val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    var settings : Settings = getStandardSettings()
+    private var r: Ringtone
+    private val v = ctx.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private var settings : Settings = getStandardSettings(ctx)
 
     init {
         r = syncRingTone()

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="rssi_value_max_range">-80</integer>
+    <integer name="rssi_value_min_range">-40</integer>
+    <integer name="rssi_value_step_size">1</integer>
+</resources>

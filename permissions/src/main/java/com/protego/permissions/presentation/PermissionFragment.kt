@@ -3,7 +3,11 @@ package com.protego.permissions.presentation
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +16,6 @@ import com.protego.permissions.R
 import com.protego.permissions.databinding.FragmentPermissionBinding
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
-
 
 class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
@@ -46,11 +49,31 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        goToMain()
+        optimizeBattery()
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        goToMain()
+        optimizeBattery()
+    }
+
+    private fun optimizeBattery() {
+        val intent = Intent()
+        val pkgName: String = requireActivity().packageName
+        val pm = requireActivity().getSystemService(Context.POWER_SERVICE) as PowerManager
+
+        if (pm.isIgnoringBatteryOptimizations(pkgName)) goToMain()
+
+        intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+        intent.data = Uri.parse("package:$pkgName")
+        startActivityForResult(intent, 400)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 400) {
+            goToMain()
+        }
     }
 
      override fun onRequestPermissionsResult(

@@ -56,12 +56,13 @@
         android:layout_height="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:valueFrom="-70"
-        android:valueTo="-40"
-        android:stepSize="1" />
+        android:valueFrom="@integer/rssi_value_max_range"
+        android:valueTo="@integer/rssi_value_min_range"
+        android:stepSize="@integer/rssi_value_step_size" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/ProtegoButton"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:id="@+id/set_alarmtone_button"
         android:text="@string/set_alarmtone"
@@ -70,6 +71,7 @@
 
     <TextView
         style="@style/TextRegular"
+        android:visibility="gone"
         android:id="@+id/ringtone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,11 +81,13 @@
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         style="@style/ProtegoSwitch"
+        android:visibility="gone"
         android:id="@+id/logging_switch"
         android:text="@string/log_to_file" />
 
     <TextView
         style="@style/TextRegular"
+        android:visibility="gone"
         android:id="@+id/logdir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

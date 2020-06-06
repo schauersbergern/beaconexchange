@@ -22,10 +22,10 @@ fun getDefaultRingtone() : String {
     return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString()
 }
 
-fun getStandardSettings() : Settings {
+fun getStandardSettings(context: Context) : Settings {
     return Settings(
         0,
-        -70,
+        context.resources.getInteger(R.integer.rssi_value_max_range),
         getDefaultRingtone(),
         isAlarmActive = false,
         isVibrationActive = true,

@@ -35,6 +35,11 @@ object ThirdPartyLibs {
     val timberTrees = "fr.bipi.treessence:treessence:0.3.2"
 }
 
+object Google {
+    val analytics = "com.google.firebase:firebase-analytics:17.2.2"
+    val crashlythics = "com.google.firebase:firebase-crashlytics:17.0.1"
+}
+
 object NetworkLibs {
     val gson = "com.google.code.gson:gson:2.8.5"
 }

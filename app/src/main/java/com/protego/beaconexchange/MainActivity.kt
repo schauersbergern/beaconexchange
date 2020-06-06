@@ -3,11 +3,9 @@ package com.protego.beaconexchange
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.PowerManager
-import android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -71,7 +69,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
         viewModel.settings.observe(this, Observer {
             if (it == null) {
-                alarmManager.changeSettings(getStandardSettings())
+                alarmManager.changeSettings(getStandardSettings(this))
             } else {
                 alarmManager.changeSettings(it)
             }
