@@ -35,6 +35,7 @@ class Constants {
 
 
         const val POWERMANAGER_REQUEST = 321
+        const val LOCATION_REQUEST_CODE = 322
 
         val POWERMANAGER_INTENTS =
             arrayOf(

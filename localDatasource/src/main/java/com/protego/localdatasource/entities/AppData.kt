@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class AppData(
     @PrimaryKey val id: Int,
-    val generatedKey: String
+    val generatedKey: String,
+    val deviceName: String
 )

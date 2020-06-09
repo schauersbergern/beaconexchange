@@ -57,21 +57,17 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun optimizeBattery() {
-        val intent = Intent()
-        val pkgName: String = requireActivity().packageName
-        val pm = requireActivity().getSystemService(Context.POWER_SERVICE) as PowerManager
-
-        if (pm.isIgnoringBatteryOptimizations(pkgName)) goToMain()
-
-        intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-        intent.data = Uri.parse("package:$pkgName")
-        startActivityForResult(intent, 400)
+        if (ignoresBatteryOptimizations()) {
+            goToMain()
+        } else {
+            activateBatteryOptimizations()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 400) {
+        if (requestCode == BATTERY_OPTIMIZATIONS_REQUEST) {
             goToMain()
         }
     }
@@ -87,13 +83,8 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     @AfterPermissionGranted(LOCATION)
     private fun getPermissions() {
-        val perms = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-            Manifest.permission.WAKE_LOCK
-        )
-        if (!EasyPermissions.hasPermissions(requireContext(), *perms)) {
-            EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *perms)
+        if (!hasPermissions(requireContext())) {
+            EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *permissions)
         } else {
             goToMain()
         }
@@ -101,5 +92,11 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     companion object {
         const val LOCATION = 1
+        const val BATTERY_OPTIMIZATIONS_REQUEST = 25
+        val permissions = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            Manifest.permission.WAKE_LOCK
+        )
     }
 }

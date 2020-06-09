@@ -1,7 +1,10 @@
 package com.protego.namegenerator;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +15,10 @@ public class Dictionary {
 
     private final int prime;
 
-    public Dictionary() {
+    public Dictionary(Context ctx) {
         try {
-            load("a.txt", adjectives);
-            load("n.txt", nouns);
+            load(ctx, "a.txt", adjectives);
+            load(ctx,"n.txt", nouns);
         } catch (IOException e) {
             throw new Error(e);
         }
@@ -48,11 +51,12 @@ public class Dictionary {
         int a = i%adjectives.size();
         int n = i/adjectives.size();
 
-        return adjectives.get(a)+"_"+nouns.get(n);
+        return adjectives.get(a)+" "+nouns.get(n);
     }
 
-    private void load(String name, List<String> col) throws IOException {
-        BufferedReader r = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(name),"US-ASCII"));
+    private void load(Context ctx, String name, List<String> col) throws IOException {
+       InputStream in = ctx.getAssets().open(name);
+        BufferedReader r = new BufferedReader(new InputStreamReader(in,"US-ASCII"));
         try {
             String line;
             while ((line=r.readLine())!=null)
@@ -62,5 +66,4 @@ public class Dictionary {
         }
     }
 
-    static final Dictionary INSTANCE = new Dictionary();
 }

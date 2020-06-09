@@ -12,10 +12,12 @@
     <string name="distance_off">We can not alert you about social distance at the moment</string>
     <string name="tracker_off">Your tracker is off</string>
     <string name="bg_notification_title">"Your safety distance alert is active"</string>
-    <string name="not_enabled">Bluetooth not enabled</string>
-    <string name="prompt_enable">Please enable bluetooth in settings and restart this application</string>
-    <string name="not_available">Bluetooth LE not available</string>
-    <string name="no_ble_support">Sorry, this device does not support Bluetooth LE</string>
+    <string name="not_enabled_location">Location is not enabled</string>
+    <string name="prompt_enable_location">Please enable location</string>
+    <string name="not_enabled_ble">Bluetooth is not enabled</string>
+    <string name="prompt_enable_ble">Allow Protego to enable Bluetooth</string>
+    <string name="not_available_ble">Bluetooth LE not available</string>
+    <string name="not_supported_ble">Sorry, this device does not support Bluetooth LE</string>
     <string name="settings_headline">Settings</string>
     <string name="calibrate">Calibrate</string>
     <string name="set_alarmtone">Set alarm tone</string>

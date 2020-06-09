@@ -2,7 +2,10 @@
 <resources>
     <string name="permissions">Permissions</string>
     <string name="permission_disclaimer">For the tracker to estimate the right distance and alert you in time we need you to “Always Allow” location services and notifications in the next two screens.</string>
-    <string name="grant_permissions">Ok, I understand</string>
-    <string name="permission_refuse">"Skip for now. (Protego will not work) "</string>
+    <string name="grant_permissions">OK, I understand</string>
     <string name="permission_needed">To correctly work protego needs your permission</string>
+    <string name="permission_text">Allow Protego to access this device\'s location?</string>
+    <string name="permission_answer_always">Allow all the time</string>
+    <string name="permission_answer_while_usage">Allow only while using the app</string>
+    <string name="permission_answer_refuse">Deny</string>
 </resources>

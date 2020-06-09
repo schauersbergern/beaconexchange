@@ -1,11 +1,14 @@
-package com.protego.beaconexchange.ui.start
+package com.protego.beaconexchange.ui.monitoring
 
+import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Typeface
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,26 +17,33 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
+import com.protego.beaconexchange.*
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
-import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.protego.beaconexchange.Constants.Companion.BEACON_UPDATE
-import com.protego.beaconexchange.MainActivity
-import com.protego.beaconexchange.R
-import com.protego.beaconexchange.databinding.FragmentStartBinding
+import com.protego.beaconexchange.Constants.Companion.LOCATION_REQUEST_CODE
+import com.protego.beaconexchange.databinding.FragmentMonitoringBinding
+import com.protego.beaconexchange.domain.BluetoothMessage
+import com.protego.permissions.presentation.activateBatteryOptimizations
+import com.protego.permissions.presentation.hasPermissions
+import com.protego.permissions.presentation.ignoresBatteryOptimizations
+import java.util.*
+import kotlin.concurrent.schedule
 
-class StartFragment : Fragment() {
+class MonitoringFragment : Fragment() {
 
-    private lateinit var viewModel : StartViewModel
-    private var binding: FragmentStartBinding? = null
+    private lateinit var viewModel: StartViewModel
+    private var binding: FragmentMonitoringBinding? = null
     private val _binding get() = binding
+
+    private var timer: TimerTask? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentStartBinding.inflate(inflater, container, false)
+        binding = FragmentMonitoringBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(StartViewModel::class.java)
         return _binding?.root
     }
@@ -54,18 +64,18 @@ class StartFragment : Fragment() {
 
         binding?.mainSwitch?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                viewModel.setSurveilance()
+                viewModel.startService()
             } else {
                 viewModel.setOff()
             }
         }
 
         binding?.mainAccessWhitelist?.setOnClickListener {
-            findNavController().navigate(StartFragmentDirections.showWhitelist())
+            findNavController().navigate(MonitoringFragmentDirections.showWhitelist())
         }
 
         binding?.showSettings?.setOnClickListener {
-            findNavController().navigate(StartFragmentDirections.showSettings())
+            findNavController().navigate(MonitoringFragmentDirections.showSettings())
         }
     }
 
@@ -79,13 +89,14 @@ class StartFragment : Fragment() {
     private fun setAlarmState() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_alert))
         binding?.mainDistanceSave?.text = getString(R.string.distance_close)
+        initSwitchToSurveillance()
     }
 
     private fun setSurveillanceState() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
         binding?.mainDistanceSave?.text = getString(R.string.distance_save)
         binding?.mainTrackerState?.text = getText(R.string.tracker_on)
-        //binding?.addToWhitelistText?.text = ""
+        binding?.addToWhitelistText?.text = ""
         binding?.trackerOn?.typeface = Typeface.DEFAULT_BOLD
         binding?.trackerOff?.typeface = Typeface.DEFAULT
     }
@@ -99,6 +110,13 @@ class StartFragment : Fragment() {
         binding?.trackerOff?.typeface = Typeface.DEFAULT_BOLD
     }
 
+    private fun initSwitchToSurveillance() {
+        timer?.cancel()
+        timer = Timer(name(), false).schedule(1500) {
+            viewModel.setSurveilance()
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -110,6 +128,73 @@ class StartFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(mMessageReceiver)
+    }
+
+    private fun checkPreConditions() {
+        verifyBluetooth()
+        verifyPermissions()
+        verifyLocationEnabled()
+        verifyBatteryOptimizations()
+    }
+
+    private fun verifyLocationEnabled() {
+        var lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            requireContext().alertDialog(
+                getString(R.string.not_enabled_location),
+                getString(R.string.prompt_enable_location),
+                {
+                    startActivityForResult(
+                        Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+                        LOCATION_REQUEST_CODE
+                    )
+                },
+                {
+                    viewModel.disableLocation()
+                }
+            ).show()
+        } else {
+            viewModel.enableLocation()
+        }
+    }
+
+    private fun verifyBluetooth() {
+        val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        if (mBluetoothAdapter == null) {
+            requireContext().alertDialog(
+                getString(R.string.not_available_ble),
+                getString(R.string.not_supported_ble),
+                {viewModel.disableBlueTooth()},
+                {viewModel.disableBlueTooth()}
+            ).show()
+        } else if (!mBluetoothAdapter.isEnabled) {
+            requireContext().alertDialog(
+                getString(R.string.not_enabled_ble),
+                getString(R.string.prompt_enable_ble),
+                {
+                    BluetoothAdapter.getDefaultAdapter().enable()
+                    viewModel.enableBlueTooth()
+                },
+                {viewModel.disableBlueTooth()}
+            ).show()
+        } else {
+            viewModel.enableBlueTooth()
+        }
+    }
+
+    private fun verifyPermissions() {
+        if (!hasPermissions(requireContext())) {
+            findNavController().navigate(MonitoringFragmentDirections.showPermissions())
+        }
+    }
+
+    private fun verifyBatteryOptimizations() {
+        if (!ignoresBatteryOptimizations()) {
+            activateBatteryOptimizations()
+        } else {
+            viewModel.enableBackGround()
+        }
     }
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {

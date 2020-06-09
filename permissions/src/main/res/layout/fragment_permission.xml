@@ -7,7 +7,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/slideshow_headline"
@@ -15,19 +15,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/permissions"
-        android:paddingLeft="@dimen/spacing2"
+        android:paddingStart="@dimen/spacing2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/permission_img"
         android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:src="@drawable/permission_img"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/spacing7"
+        android:background="@drawable/permission_border"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/slideshow_headline" />
+        app:layout_constraintTop_toBottomOf="@id/slideshow_headline">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="@dimen/spacing2"
+            android:src="@drawable/needle" />
+
+        <TextView
+            style="@style/permission_headline"
+            android:text="@string/permission_text"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <TextView
+            style="@style/permission_option"
+            android:text="@string/permission_answer_always" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <TextView
+            style="@style/permission_option"
+            android:text="@string/permission_answer_while_usage" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <TextView
+            style="@style/permission_option"
+            android:text="@string/permission_answer_refuse" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/permission_disclaimer"
@@ -50,19 +91,6 @@
         app:layout_constraintTop_toBottomOf="@+id/permission_disclaimer"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
-
-    <TextView
-        android:id="@+id/permission_refuse"
-        style="@style/TextRegular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/permission_refuse"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/spacing3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grant_button" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

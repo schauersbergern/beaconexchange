@@ -13,6 +13,7 @@ import com.protego.beaconexchange.Constants.Companion.MANUFACTURER
 import com.protego.beaconexchange.Constants.Companion.PROTEGO_ID
 import com.protego.beaconexchange.R
 import com.protego.beaconexchange.getForegroundNotification
+import com.protego.beaconexchange.name
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconParser
 import org.altbeacon.beacon.BeaconTransmitter
@@ -75,10 +76,6 @@ class BeaconSenderService : Service() {
         Log.i(name(), "${name()} destroyed")
         beaconTransmitter?.stopAdvertising()
         beaconTransmitter = null
-    }
-
-    private fun name() : String {
-        return javaClass.simpleName
     }
 
 }

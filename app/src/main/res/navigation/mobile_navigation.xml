@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_start">
+    app:startDestination="@id/navigation_monitoring">
 
     <fragment
-        android:id="@+id/navigation_start"
-        android:name="com.protego.beaconexchange.ui.start.StartFragment"
+        android:id="@+id/navigation_monitoring"
+        android:name="com.protego.beaconexchange.ui.monitoring.MonitoringFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_start">
+        tools:layout="@layout/fragment_monitoring">
 
         <action
             android:id="@+id/show_whitelist"
@@ -28,19 +28,27 @@
             app:popEnterAnim="@anim/stay_in_place"
             app:popExitAnim="@anim/slide_out_right"/>
 
+        <action
+            android:id="@+id/show_permissions"
+            app:destination="@id/permission"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/stay_in_place"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_right"/>
+
     </fragment>
 
     <fragment
         android:id="@+id/navigation_whitelist"
         android:name="com.protego.beaconexchange.ui.whitelist.WhiteListFragment"
         android:label="@string/title_whitelist"
-        tools:layout="@layout/fragment_start" />
+        tools:layout="@layout/fragment_monitoring" />
 
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.protego.beaconexchange.ui.settings.SettingsFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_start" />
+        tools:layout="@layout/fragment_monitoring" />
 
     <include app:graph="@navigation/permissions" />
 

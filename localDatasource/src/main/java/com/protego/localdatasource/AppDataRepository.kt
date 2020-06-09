@@ -1,10 +1,12 @@
 package com.protego.localdatasource
 
+import android.content.Context
 import com.protego.localdatasource.daos.AppDataDao
 import com.protego.localdatasource.entities.AppData
+import com.protego.namegenerator.RandomNameGenerator
 import java.util.*
 
-class AppDataRepository(private val dataDao: AppDataDao) {
+class AppDataRepository(private val dataDao: AppDataDao, private val ctx: Context) {
 
     fun getDeviceId() : String{
         val data = dataDao.getAppData()
@@ -18,7 +20,8 @@ class AppDataRepository(private val dataDao: AppDataDao) {
 
     private fun generateAndSaveAppID() : String {
         val uuid = UUID.randomUUID().toString()
-        dataDao.insert(AppData(0, uuid))
+        val deviceName = RandomNameGenerator(ctx).next()
+        dataDao.insert(AppData(0, uuid, deviceName))
         return uuid
     }
 

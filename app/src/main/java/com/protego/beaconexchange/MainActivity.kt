@@ -28,7 +28,7 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     private lateinit var beaconManager: BeaconManager
-    private lateinit var viewModel : SettingsViewModel
+    private lateinit var settingsViewModel : SettingsViewModel
     private lateinit var whiteListViewModel : WhiteListViewModel
     private lateinit var log: Timber.Tree
     lateinit var alarmManager: AlarmManager
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         super.onCreate(savedInstanceState)
 
         alarmManager = AlarmManager(this)
-        viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
+        settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
         whiteListViewModel = ViewModelProvider(this).get(WhiteListViewModel::class.java)
 
         if (shouldShowOnboarding()) {
@@ -65,9 +65,9 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         log = initLogger(this)
         beaconManager = BeaconManager.getInstanceForApplication(this)
         //TODO: Deactivate UI if Bluetooth not available
-        verifyBluetooth()
+        //verifyBluetooth()
 
-        viewModel.settings.observe(this, Observer {
+        settingsViewModel.settings.observe(this, Observer {
             if (it == null) {
                 alarmManager.changeSettings(getStandardSettings(this))
             } else {
@@ -100,22 +100,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
     private fun shouldShowOnboarding(): Boolean {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
         return sharedPref.getBoolean(ONBOARDING_KEY, true)
-    }
-
-    private fun verifyBluetooth() {
-        try {
-            if (!beaconManager.checkAvailability()) {
-                alertDialog(
-                    getString(R.string.not_enabled),
-                    getString(R.string.prompt_enable)
-                ).show()
-            }
-        } catch (e: RuntimeException) {
-            alertDialog(
-                getString(R.string.not_available),
-                getString(R.string.no_ble_support)
-            ).show()
-        }
     }
 
 
@@ -184,7 +168,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     override fun onBackPressed() {
         val dest = findNavController(R.id.nav_host_fragment).currentDestination
-        if (dest?.id == R.id.navigation_start) {
+        if (dest?.id == R.id.navigation_monitoring) {
             moveTaskToBack(false)
         } else {
             super.onBackPressed()
@@ -192,12 +176,8 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
     }
 
     private fun String.log() {
-        if (viewModel.isLoggingEnabled()) {
+        if (settingsViewModel.isLoggingEnabled()) {
             log.i(", $timestamp, $this")
         }
-    }
-
-    private fun name(): String {
-        return javaClass.simpleName
     }
 }

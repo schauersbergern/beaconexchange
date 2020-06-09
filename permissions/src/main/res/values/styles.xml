@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="permission_headline">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/spacing7</item>
+    </style>
+    <style name="permission_option">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/spacing4</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+</resources>

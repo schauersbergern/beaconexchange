@@ -1,26 +1,27 @@
 package com.protego.intro.presentation
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.protego.intro.R
 
-class SlideShowViewModel :ViewModel() {
+class SlideShowViewModel(application: Application) : AndroidViewModel(application) {
 
     val slideShowData by lazy {
         listOf(
             SlideShowElement(
-                "Download the App and turn on your Bluetooth",
+                application.getString(R.string.slideshow_1),
                 R.drawable.slideshow_img_1
             ),
             SlideShowElement(
-                "Allow always access to location and notifications",
+                application.getString(R.string.slideshow_2),
                 R.drawable.slideshow_img_2
             ),
             SlideShowElement(
-                "If you keep less than 2m distance to someone else, Protego will alert you with vibration and sound.",
+                application.getString(R.string.slideshow_3),
                 R.drawable.slideshow_img_3
             ),
             SlideShowElement(
-                "Your phone might alert you with someone or something you decide to be close to. Whitelist it and  don’t get alerts with them again.",
+                application.getString(R.string.slideshow_4),
                 R.drawable.slideshow_img_4
             )
         )

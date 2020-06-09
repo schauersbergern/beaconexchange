@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
@@ -16,13 +16,14 @@ class SlideShowFragment : Fragment() {
     private var binding: FragmentSlideshowBinding? = null
     private val _binding get() = binding
 
-    private val viewModel: SlideShowViewModel by activityViewModels()
+    private lateinit var viewModel: SlideShowViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSlideshowBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(SlideShowViewModel::class.java)
         return _binding?.root
     }
 

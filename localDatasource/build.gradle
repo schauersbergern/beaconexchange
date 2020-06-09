@@ -32,6 +32,8 @@ dependencies {
     implementation Androidx.appcompat
     implementation Androidx.core
 
+    implementation project(path: ':nameGenerator')
+
     api Androidx.room
     api Androidx.roomKotlin
     kapt Androidx.roomAnnotations

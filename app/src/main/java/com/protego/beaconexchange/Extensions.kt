@@ -2,6 +2,7 @@ package com.protego.beaconexchange
 
 import android.app.*
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -62,12 +63,13 @@ fun BeaconManager.setUpForBackgroundRunning() {
     backgroundBetweenScanPeriod = 0
 }
 
-fun Context.alertDialog(title: String, message: String) : AlertDialog.Builder {
-    return AlertDialog.Builder(this)
+fun Context.alertDialog(title: String, message: String, positive: () -> Unit, negative: () -> Unit): AlertDialog.Builder = 
+    AlertDialog.Builder(this)
         .setTitle(title)
         .setMessage(message)
-        .setPositiveButton(android.R.string.ok, null)
-}
+        .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int -> positive() }
+        .setNegativeButton(android.R.string.no ) { _: DialogInterface, _: Int -> negative() }
+
 
 fun Beacon.getBluetoothMessage() : BluetoothMessage {
     return BluetoothMessage(
@@ -134,3 +136,7 @@ fun Fragment.showProgressDialog() {
 }
 
 fun Fragment.hideProgressDialog() = existingProgressDialog?.run { if (isAdded) dismiss() }
+
+fun Activity.name() = javaClass.simpleName
+fun Fragment.name() = javaClass.simpleName
+fun Service.name() = javaClass.simpleName
