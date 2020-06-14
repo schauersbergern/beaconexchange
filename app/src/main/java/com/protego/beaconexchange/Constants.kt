@@ -37,6 +37,8 @@ class Constants {
         const val POWERMANAGER_REQUEST = 321
         const val LOCATION_REQUEST_CODE = 322
 
+        const val WAKELOCK_TIMEOUT = 500L
+
         val POWERMANAGER_INTENTS =
             arrayOf(
                 Intent().setComponent(

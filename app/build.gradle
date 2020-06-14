@@ -14,8 +14,8 @@ android {
         applicationId "com.protego.beaconexchange"
         minSdkVersion 26
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -58,6 +58,7 @@ dependencies {
     implementation Androidx.lifecycleViewmodel
 
     implementation ThirdPartyLibs.timber
+    implementation ThirdPartyLibs.ringtonePicker
 
     implementation Google.analytics
     implementation Google.crashlythics

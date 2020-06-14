@@ -37,7 +37,7 @@
             style="@style/TextRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set sensitivity:" />
+            android:text="@string/set_sensivity" />
 
         <TextView
             style="@style/TextRegular"
@@ -47,7 +47,6 @@
             android:layout_marginLeft="@dimen/spacing2" />
 
     </LinearLayout>
-
 
 
     <com.google.android.material.slider.Slider
@@ -60,24 +59,22 @@
         android:valueTo="@integer/rssi_value_min_range"
         android:stepSize="@integer/rssi_value_step_size" />
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/ProtegoButton"
-        android:visibility="gone"
-        android:layout_gravity="center"
-        android:id="@+id/set_alarmtone_button"
-        android:text="@string/set_alarmtone"
-        android:layout_marginBottom="@dimen/spacing3"
-        android:layout_marginTop="@dimen/spacing3"/>
-
     <TextView
         style="@style/TextRegular"
-        android:visibility="gone"
-        android:id="@+id/ringtone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        tools:text="ringtone"
+        android:text="@string/set_alarmtone"
+        android:layout_marginTop="@dimen/spacing3"
         />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/ProtegoButton"
+        android:layout_gravity="center"
+        android:id="@+id/set_alarmtone_button"
+        android:text="@string/set_alarmtone"
+        android:layout_marginTop="@dimen/spacing1"
+        android:layout_marginBottom="@dimen/spacing3" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         style="@style/ProtegoSwitch"

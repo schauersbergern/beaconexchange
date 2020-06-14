@@ -33,6 +33,7 @@ object ThirdPartyLibs {
     val permissions = "pub.devrel:easypermissions:3.0.0"
     val timber = "com.jakewharton.timber:timber:4.7.1"
     val timberTrees = "fr.bipi.treessence:treessence:0.3.2"
+    val ringtonePicker = "com.kevalpatel2106:ringtonepicker:1.2"
 }
 
 object Google {
