@@ -11,15 +11,15 @@
         android:id="@+id/slideshow_headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_whitelist"
-        android:paddingLeft="@dimen/spacing2" />
+        android:text="@string/title_excluded"
+        android:paddingStart="@dimen/spacing2" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/whitelist"
+        android:id="@+id/excluded_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:itemCount="5"
-        tools:listitem="@layout/fragment_whitelist_item"/>
+        tools:listitem="@layout/fragment_excluded_item"/>
 
     <TextView
         style="@style/HeadlineBold"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing3"
-        android:paddingLeft="@dimen/spacing2"
-        android:text="@string/no_devices_in_whitelist"/>
+        android:paddingStart="@dimen/spacing2"
+        android:text="@string/no_devices_in_excluded"/>
 
 </LinearLayout>

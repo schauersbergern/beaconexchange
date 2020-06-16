@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_monitoring">
 
         <action
-            android:id="@+id/show_whitelist"
-            app:destination="@id/navigation_whitelist"
+            android:id="@+id/show_excluded"
+            app:destination="@id/navigation_excluded"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/stay_in_place"
             app:popEnterAnim="@anim/stay_in_place"
@@ -39,9 +39,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_whitelist"
-        android:name="com.protego.beaconexchange.ui.whitelist.WhiteListFragment"
-        android:label="@string/title_whitelist"
+        android:id="@+id/navigation_excluded"
+        android:name="com.protego.beaconexchange.ui.excluded.ExcludedFragment"
+        android:label="@string/title_excluded"
         tools:layout="@layout/fragment_monitoring" />
 
     <fragment

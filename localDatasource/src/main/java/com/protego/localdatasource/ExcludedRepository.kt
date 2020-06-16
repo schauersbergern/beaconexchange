@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import com.protego.localdatasource.daos.DeviceDao
 import com.protego.localdatasource.entities.Device
 
-class WhiteListRepository(private val deviceDao: DeviceDao) {
-    fun getWhiteList() : LiveData<List<Device>>{
+class ExcludedRepository(private val deviceDao: DeviceDao) {
+    fun getExcluded() : LiveData<List<Device>>{
         return deviceDao.getAll()
     }
-    suspend fun addToWhiteList(deviceId: String) {
+    suspend fun addToExcluded(deviceId: String) {
         deviceDao.insert(Device(uid = deviceId))
     }
 
-    suspend fun deleteFromWhiteList(deviceId: String) {
+    suspend fun deleteFromExcluded(deviceId: String) {
         deviceDao.deleteByUid(deviceId)
     }
 }

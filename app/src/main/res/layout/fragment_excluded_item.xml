@@ -34,7 +34,7 @@
         android:id="@+id/delete_button"
         android:src="@drawable/delete"
         android:layout_marginEnd="@dimen/spacing1"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_width="23dp"
         android:layout_height="23dp" />
 

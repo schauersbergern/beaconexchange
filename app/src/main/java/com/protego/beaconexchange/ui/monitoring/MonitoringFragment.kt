@@ -70,8 +70,8 @@ class MonitoringFragment : Fragment() {
             }
         }
 
-        binding?.mainAccessWhitelist?.setOnClickListener {
-            findNavController().navigate(MonitoringFragmentDirections.showWhitelist())
+        binding?.mainAccessExcluded?.setOnClickListener {
+            findNavController().navigate(MonitoringFragmentDirections.showExcluded())
         }
 
         binding?.showSettings?.setOnClickListener {
@@ -79,10 +79,11 @@ class MonitoringFragment : Fragment() {
         }
     }
 
-    private fun setWhitelistText(msg: BluetoothMessage) {
-        binding?.addToWhitelistText?.text = "Add ${msg.deviceId} to whitelist?"
-        binding?.addToWhitelistText?.setOnClickListener {
-            (activity as MainActivity).addToWhiteList(msg.deviceId)
+    private fun setExcludedText(msg: BluetoothMessage) {
+        val txt = getString(R.string.add_device_to_excluded_q).replace("%s", msg.deviceId)
+        binding?.addToExcludedText?.text = txt
+        binding?.addToExcludedText?.setOnClickListener {
+            (activity as MainActivity).addToExcluded(msg.deviceId)
         }
     }
 
@@ -96,7 +97,7 @@ class MonitoringFragment : Fragment() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
         binding?.mainDistanceSave?.text = getString(R.string.distance_save)
         binding?.mainTrackerState?.text = getText(R.string.tracker_on)
-        binding?.addToWhitelistText?.text = ""
+        binding?.addToExcludedText?.text = ""
         binding?.trackerOn?.typeface = Typeface.DEFAULT_BOLD
         binding?.trackerOff?.typeface = Typeface.DEFAULT
     }
@@ -105,7 +106,7 @@ class MonitoringFragment : Fragment() {
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_off))
         binding?.mainDistanceSave?.text = getString(R.string.distance_off)
         binding?.mainTrackerState?.text = getText(R.string.tracker_off)
-        binding?.addToWhitelistText?.text = ""
+        binding?.addToExcludedText?.text = ""
         binding?.trackerOn?.typeface = Typeface.DEFAULT
         binding?.trackerOff?.typeface = Typeface.DEFAULT_BOLD
     }
@@ -138,7 +139,7 @@ class MonitoringFragment : Fragment() {
     }
 
     private fun verifyLocationEnabled() {
-        var lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             requireContext().alertDialog(
@@ -201,7 +202,7 @@ class MonitoringFragment : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
 
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
-            setWhitelistText(message)
+            setExcludedText(message)
 
             when ((activity as MainActivity).alarmManager.getRssiSeverity(message.rssi)) {
                 SEVERITY_MEDIUM -> {

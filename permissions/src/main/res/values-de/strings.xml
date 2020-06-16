@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permissions">Erlaubnis</string>
+    <string name="permission_disclaimer">Damit der Tracker die richtige Entfernung abschätzen und Sie rechtzeitig benachrichtigen kann, müssen Sie im nächsten Bildschirm die Ortungsdienste und Benachrichtigungen "Immer zulassen".</string>
+    <string name="grant_permissions">Ich verstehe</string>
+    <string name="permission_needed">Um richtig zu funktionieren, benötigt protego Ihre Erlaubnis</string>
+    <string name="permission_text">Zulassen, dass die App Protego den Gerätestandort abruft?</string>
+    <string name="permission_answer_always">Immer zulassen</string>
+    <string name="permission_answer_while_usage">Zugriff nur während der Nutzung der App zulassen</string>
+    <string name="permission_answer_refuse">Ablehnen</string>
+</resources>

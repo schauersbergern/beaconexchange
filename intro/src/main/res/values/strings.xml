@@ -6,8 +6,8 @@
     <string name="how_it_works">How it works</string>
     <string name="activate">Activate</string>
 
-    <string name="slideshow_1">Download the App and turn on your Bluetooth</string>
-    <string name="slideshow_2">Allow always access to location and notifications</string>
+    <string name="slideshow_1">Install the App and turn on your Bluetooth</string>
+    <string name="slideshow_2">Always allow access to location and notifications</string>
     <string name="slideshow_3">If you keep less than 2m distance to someone else, Protego will alert you with vibration and sound.</string>
-    <string name="slideshow_4">Your phone might alert you with someone or something you decide to be close to. Whitelist it and  don’t get alerts with them again.</string>
+    <string name="slideshow_4">Your phone might alert you with someone you decide to be close to. exclude it and  don’t get alerts with them again.</string>
 </resources>

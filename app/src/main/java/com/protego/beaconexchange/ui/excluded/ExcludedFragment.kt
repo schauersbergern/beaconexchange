@@ -1,4 +1,4 @@
-package com.protego.beaconexchange.ui.whitelist
+package com.protego.beaconexchange.ui.excluded
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,37 +10,37 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.protego.beaconexchange.databinding.FragmentWhitelistBinding
+import com.protego.beaconexchange.databinding.FragmentExcludedBinding
 
-class WhiteListFragment : Fragment() {
+class ExcludedFragment : Fragment() {
 
-    private lateinit var viewModel : WhiteListViewModel
-    private var binding: FragmentWhitelistBinding? = null
+    private lateinit var viewModel : ExcludedViewModel
+    private var binding: FragmentExcludedBinding? = null
     private val _binding get() = binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentWhitelistBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(WhiteListViewModel::class.java)
+        binding = FragmentExcludedBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(ExcludedViewModel::class.java)
         return _binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.whitelist?.setHasFixedSize(true)
-        binding?.whitelist?.layoutManager = LinearLayoutManager(requireContext())
+        binding?.excludedList?.setHasFixedSize(true)
+        binding?.excludedList?.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.whiteListLive.observe(viewLifecycleOwner, Observer { devices ->
+        viewModel.excludedLive.observe(viewLifecycleOwner, Observer { devices ->
             if (devices.isNotEmpty()) {
                 binding?.noEntries?.visibility = GONE
             } else {
                 binding?.noEntries?.visibility = VISIBLE
             }
-            binding?.whitelist?.adapter = WhiteListAdapter(devices) {
-                viewModel.deleteFromWhiteList(it)
+            binding?.excludedList?.adapter = ExcludedAdapter(devices) {
+                viewModel.deleteFromExcluded(it)
             }
         })
 

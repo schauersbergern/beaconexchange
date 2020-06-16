@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Protego</string>
     <string name="title_profile">Protego</string>
-    <string name="title_whitelist">Whitelist</string>
+    <string name="title_excluded">Excluded devices</string>
     <string name="main_headline">Social Distance Tool</string>
     <string name="tracker_on">Your tracker is on</string>
     <string name="distance_save">You are keeping a safe distance</string>
     <string name="distance_close">You are too close</string>
-    <string name="access_whitelist">Access Whitelist</string>
+    <string name="access_excluded">Access Excluded Devices</string>
     <string name="off">OFF</string>
     <string name="on">ON</string>
     <string name="distance_off">We can not alert you about social distance at the moment</string>
@@ -19,14 +19,15 @@
     <string name="not_available_ble">Bluetooth LE not available</string>
     <string name="not_supported_ble">Sorry, this device does not support Bluetooth LE</string>
     <string name="settings_headline">Settings</string>
-    <string name="calibrate">Calibrate</string>
     <string name="set_alarmtone">Set alarm tone</string>
     <string name="set_sensivity">Set sensivity</string>
     <string name="warn_with_vibration">Warn with vibration</string>
     <string name="warn_with_audio">Warn with audio</string>
     <string name="log_to_file">Log to file</string>
     <string name="log_dir">Logdir:</string>
-    <string name="no_devices_in_whitelist">There are no devices in the whitelist. Go and add one!</string>
+    <string name="no_devices_in_excluded">There are no devices excluded. Go and add one!</string>
     <string name="cancel">Cancel</string>
+    <string name="add_device_to_excluded">Device %s was excluded</string>
+    <string name="add_device_to_excluded_q">Exclude %s ?</string>
 
 </resources>

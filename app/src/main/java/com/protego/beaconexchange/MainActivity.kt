@@ -17,7 +17,7 @@ import com.protego.beaconexchange.Constants.Companion.ONBOARDING_KEY
 import com.protego.beaconexchange.Constants.Companion.ONBOARDING_REQUEST
 import com.protego.beaconexchange.service.BeaconSenderService
 import com.protego.beaconexchange.ui.settings.SettingsViewModel
-import com.protego.beaconexchange.ui.whitelist.WhiteListViewModel
+import com.protego.beaconexchange.ui.excluded.ExcludedViewModel
 import com.protego.intro.presentation.IntroActivity
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconConsumer
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     private lateinit var beaconManager: BeaconManager
     private lateinit var settingsViewModel : SettingsViewModel
-    private lateinit var whiteListViewModel : WhiteListViewModel
+    private lateinit var excludedViewModel : ExcludedViewModel
     private lateinit var log: Timber.Tree
     lateinit var alarmManager: AlarmManager
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
         alarmManager = AlarmManager(this)
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-        whiteListViewModel = ViewModelProvider(this).get(WhiteListViewModel::class.java)
+        excludedViewModel = ViewModelProvider(this).get(ExcludedViewModel::class.java)
 
         if (shouldShowOnboarding()) {
             startIntro()
@@ -75,9 +75,9 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
             }
         })
 
-        whiteListViewModel.whiteListLive.observe(this, Observer { whitelist ->
-            if (whitelist != null) {
-                whiteListViewModel.addWhiteList(whitelist)
+        excludedViewModel.excludedLive.observe(this, Observer { excluded ->
+            if (excluded != null) {
+                excludedViewModel.addExcluded(excluded)
             }
         })
     }
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                 Log.d(name(), "RangeNotifier beacon detected: $beacon")
 
                 var send = true
-                if (whiteListViewModel.isInWhitelist(beacon.id1.toString())) {
+                if (excludedViewModel.isInExcluded(beacon.id1.toString())) {
                     send = false
                 }
 
@@ -161,9 +161,13 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         beaconManager.startRangingBeaconsInRegion(RegionFactory.getRegion())
     }
 
-    fun addToWhiteList(deviceId: String) {
-        whiteListViewModel.addToWhitelist(deviceId)
-        Toast.makeText(this, "Added $deviceId to whitelist", Toast.LENGTH_LONG).show()
+    fun addToExcluded(deviceId: String) {
+        excludedViewModel.addToExcluded(deviceId)
+        Toast.makeText(
+            this,
+            getString(R.string.add_device_to_excluded).replace("%s", deviceId),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onBackPressed() {
