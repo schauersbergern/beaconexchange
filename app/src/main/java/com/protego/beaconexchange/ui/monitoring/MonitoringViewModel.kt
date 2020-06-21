@@ -16,7 +16,7 @@ data class ServiceState(
     val backgroundEnabled: Boolean = false
 )
 
-class StartViewModel(application: Application) : AndroidViewModel(application) {
+class MonitoringViewModel(application: Application) : AndroidViewModel(application) {
 
     var state : MutableLiveData<ServiceState> = MutableLiveData( ServiceState())
     var app = application
@@ -29,62 +29,56 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
 
             state.postValue(state.value?.copy(
                 deviceId = deviceId,
-                serviceShouldRun = true,
+                serviceShouldRun = false,
                 alarmState = false))
         }
     }
 
     fun setAlarm() {
-        state.postValue( state.value?.copy(alarmState = true) )
+        state.value = state.value?.copy(alarmState = true)
     }
 
     fun setSurveilance() {
-        state.postValue( state.value?.copy( alarmState = false) )
+        state.value = state.value?.copy( alarmState = false)
     }
 
     fun setOff() {
-        state.postValue( state.value?.copy(serviceShouldRun = false, alarmState = false) )
+        state.value = state.value?.copy(serviceShouldRun = false, alarmState = false)
     }
 
     fun enableLocation() {
-        state.postValue( state.value?.copy(locationEnabled = true) )
-        toggleMonitoring()
+        state.value = state.value?.copy(locationEnabled = true)
     }
 
     fun disableLocation() {
-        state.postValue( state.value?.copy(locationEnabled = false) )
-        toggleMonitoring()
+        state.value = state.value?.copy(locationEnabled = false)
     }
 
     fun enableBlueTooth() {
-        state.postValue( state.value?.copy(blueToothEnabled = true) )
-        toggleMonitoring()
+        state.value = state.value?.copy(blueToothEnabled = true)
     }
 
     fun disableBlueTooth() {
-        state.postValue( state.value?.copy(blueToothEnabled = false) )
-        toggleMonitoring()
+        state.value = state.value?.copy(blueToothEnabled = false)
     }
 
     fun enableBackGround() {
-        state.postValue( state.value?.copy(backgroundEnabled = true) )
-        toggleMonitoring()
+        state.value = state.value?.copy(backgroundEnabled = true)
     }
 
     fun disableBackGround() {
-        state.postValue( state.value?.copy(backgroundEnabled = false) )
-        toggleMonitoring()
+        state.value = state.value?.copy(backgroundEnabled = false)
     }
 
     fun startService() {
-        state.postValue( state.value?.copy(serviceShouldRun = true, alarmState = false) )
+        state.value = state.value?.copy(serviceShouldRun = true, alarmState = false)
     }
 
     fun stopService() {
-        state.postValue( state.value?.copy(serviceShouldRun = false) )
+        state.value = state.value?.copy(serviceShouldRun = false)
     }
 
-    private fun toggleMonitoring() {
+    fun startServiceIfAllEnabledOrStop() {
         state.value?.apply {
             if (locationEnabled && blueToothEnabled && backgroundEnabled) {
                 startService()

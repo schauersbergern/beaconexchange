@@ -82,7 +82,6 @@
         android:id="@+id/main_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="true"
         android:layout_marginTop="@dimen/spacing3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

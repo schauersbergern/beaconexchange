@@ -30,7 +30,7 @@
 
         <action
             android:id="@+id/show_permissions"
-            app:destination="@id/permission"
+            app:destination="@id/permissions"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/stay_in_place"
             app:popEnterAnim="@anim/stay_in_place"

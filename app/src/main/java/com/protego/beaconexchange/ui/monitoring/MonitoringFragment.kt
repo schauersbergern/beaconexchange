@@ -22,7 +22,6 @@ import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.protego.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.protego.beaconexchange.Constants.Companion.BEACON_UPDATE
-import com.protego.beaconexchange.Constants.Companion.LOCATION_REQUEST_CODE
 import com.protego.beaconexchange.databinding.FragmentMonitoringBinding
 import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.permissions.presentation.activateBatteryOptimizations
@@ -33,7 +32,7 @@ import kotlin.concurrent.schedule
 
 class MonitoringFragment : Fragment() {
 
-    private lateinit var viewModel: StartViewModel
+    private lateinit var viewModel: MonitoringViewModel
     private var binding: FragmentMonitoringBinding? = null
     private val _binding get() = binding
 
@@ -44,7 +43,7 @@ class MonitoringFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMonitoringBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(StartViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MonitoringViewModel::class.java)
         return _binding?.root
     }
 
@@ -64,7 +63,8 @@ class MonitoringFragment : Fragment() {
 
         binding?.mainSwitch?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                viewModel.startService()
+                checkPreConditions()
+                viewModel.startServiceIfAllEnabledOrStop()
             } else {
                 viewModel.setOff()
             }
@@ -88,12 +88,14 @@ class MonitoringFragment : Fragment() {
     }
 
     private fun setAlarmState() {
+        binding?.mainSwitch?.isChecked = true
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_alert))
         binding?.mainDistanceSave?.text = getString(R.string.distance_close)
         initSwitchToSurveillance()
     }
 
     private fun setSurveillanceState() {
+        binding?.mainSwitch?.isChecked = true
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_on))
         binding?.mainDistanceSave?.text = getString(R.string.distance_save)
         binding?.mainTrackerState?.text = getText(R.string.tracker_on)
@@ -103,6 +105,7 @@ class MonitoringFragment : Fragment() {
     }
 
     private fun setOffState() {
+        binding?.mainSwitch?.isChecked = false
         binding?.alarmImage?.setImageDrawable(requireActivity().getDrawable(R.drawable.img_off))
         binding?.mainDistanceSave?.text = getString(R.string.distance_off)
         binding?.mainTrackerState?.text = getText(R.string.tracker_off)
@@ -131,6 +134,12 @@ class MonitoringFragment : Fragment() {
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(mMessageReceiver)
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkPreConditions()
+        viewModel.startServiceIfAllEnabledOrStop()
+    }
+
     private fun checkPreConditions() {
         verifyBluetooth()
         verifyPermissions()
@@ -148,7 +157,7 @@ class MonitoringFragment : Fragment() {
                 {
                     startActivityForResult(
                         Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),
-                        LOCATION_REQUEST_CODE
+                        Constants.LOCATION_REQUEST_CODE
                     )
                 },
                 {

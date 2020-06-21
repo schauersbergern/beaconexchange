@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         super.onCreate(savedInstanceState)
 
         alarmManager = AlarmManager(this)
+        beaconManager = BeaconManager.getInstanceForApplication(this)
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
         excludedViewModel = ViewModelProvider(this).get(ExcludedViewModel::class.java)
 
@@ -63,7 +64,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         setContentView(R.layout.activity_main)
 
         log = initLogger(this)
-        beaconManager = BeaconManager.getInstanceForApplication(this)
         //TODO: Deactivate UI if Bluetooth not available
         //verifyBluetooth()
 
