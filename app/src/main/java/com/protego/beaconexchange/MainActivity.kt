@@ -64,8 +64,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         setContentView(R.layout.activity_main)
 
         log = initLogger(this)
-        //TODO: Deactivate UI if Bluetooth not available
-        //verifyBluetooth()
 
         settingsViewModel.settings.observe(this, Observer {
             if (it == null) {
