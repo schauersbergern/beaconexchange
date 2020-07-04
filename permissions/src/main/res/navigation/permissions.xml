@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/permission"
         android:name="com.protego.permissions.presentation.PermissionFragment"
-        android:label="SplashFragment"
+        android:label="PermissionFragment"
         tools:layout="@layout/fragment_permission">
 
     </fragment>

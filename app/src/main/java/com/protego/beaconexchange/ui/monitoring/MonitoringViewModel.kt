@@ -39,7 +39,7 @@ class MonitoringViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun setSurveilance() {
-        state.value = state.value?.copy( alarmState = false)
+        state.postValue(state.value?.copy( alarmState = false))
     }
 
     fun setOff() {

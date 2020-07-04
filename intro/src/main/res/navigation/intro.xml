@@ -13,7 +13,9 @@
 
         <action
             android:id="@+id/show_intro_slides"
-            app:destination="@+id/slideshow" />
+            app:destination="@+id/slideshow"
+            app:popUpTo="@id/splash"
+            app:popUpToInclusive="true"/>
 
     </fragment>
 
@@ -25,7 +27,9 @@
 
         <action
             android:id="@+id/move_to_permissions"
-            app:destination="@+id/permissions" />
+            app:destination="@+id/permissions"
+            app:popUpTo="@id/slideshow"
+            app:popUpToInclusive="true"/>
 
     </fragment>
 

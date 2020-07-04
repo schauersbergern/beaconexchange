@@ -53,11 +53,6 @@
             <nav-graph android:value="@navigation/permissions" />
         </activity>
 
-        <activity
-            android:name="com.protego.intro.presentation.IntroActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-
     </application>
 
 </manifest>

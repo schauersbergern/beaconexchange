@@ -1,15 +1,18 @@
 package com.protego.permissions.presentation
 
 import android.Manifest
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.protego.permissions.R
 import com.protego.permissions.databinding.FragmentPermissionBinding
+import com.protego.permissions.presentation.Constants.Companion.ONBOARDING_KEY
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -39,9 +42,9 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding = null
     }
 
-    private fun goToMain() {
-        activity?.setResult(Activity.RESULT_OK)
-        activity?.finish()
+    private fun finishHim() {
+        requireActivity().getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean(ONBOARDING_KEY, false)?.commit()
+        findNavController().navigate(Uri.parse("https://www.protego.com/start"))
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -54,7 +57,7 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun optimizeBattery() {
         if (ignoresBatteryOptimizations()) {
-            goToMain()
+            finishHim()
         } else {
             activateBatteryOptimizations()
         }
@@ -64,7 +67,7 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == BATTERY_OPTIMIZATIONS_REQUEST) {
-            goToMain()
+            finishHim()
         }
     }
 
@@ -81,8 +84,6 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun getPermissions() {
         if (!hasPermissions(requireContext())) {
             EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *permissions)
-        } else {
-            goToMain()
         }
     }
 

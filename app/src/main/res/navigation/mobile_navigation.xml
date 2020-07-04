@@ -11,6 +11,8 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_monitoring">
 
+        <deepLink app:uri="https://www.protego.com/start" />
+
         <action
             android:id="@+id/show_excluded"
             app:destination="@id/navigation_excluded"
@@ -18,7 +20,6 @@
             app:exitAnim="@anim/stay_in_place"
             app:popEnterAnim="@anim/stay_in_place"
             app:popExitAnim="@anim/slide_out_right"/>
-
 
         <action
             android:id="@+id/show_settings"
@@ -36,6 +37,16 @@
             app:popEnterAnim="@anim/stay_in_place"
             app:popExitAnim="@anim/slide_out_right"/>
 
+        <action
+            android:id="@+id/show_intro"
+            app:destination="@id/intro"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/stay_in_place"
+            app:popEnterAnim="@anim/stay_in_place"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_monitoring"
+            app:popUpToInclusive="true"/>
+
     </fragment>
 
     <fragment
@@ -50,7 +61,6 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_monitoring" />
 
-    <include app:graph="@navigation/permissions" />
     <include app:graph="@navigation/intro" />
 
 </navigation>

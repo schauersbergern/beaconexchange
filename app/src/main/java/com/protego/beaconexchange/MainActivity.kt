@@ -1,7 +1,5 @@
 package com.protego.beaconexchange
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -13,12 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
-import com.protego.beaconexchange.Constants.Companion.ONBOARDING_KEY
-import com.protego.beaconexchange.Constants.Companion.ONBOARDING_REQUEST
 import com.protego.beaconexchange.service.BeaconSenderService
 import com.protego.beaconexchange.ui.settings.SettingsViewModel
 import com.protego.beaconexchange.ui.excluded.ExcludedViewModel
-import com.protego.intro.presentation.IntroActivity
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconConsumer
 import org.altbeacon.beacon.BeaconManager
@@ -41,27 +36,12 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         alarmManager = AlarmManager(this)
         beaconManager = BeaconManager.getInstanceForApplication(this)
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
         excludedViewModel = ViewModelProvider(this).get(ExcludedViewModel::class.java)
-
-        if (shouldShowOnboarding()) {
-            startIntro()
-            return
-        }
-
-        init()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        beaconManager.unbind(this)
-    }
-
-    private fun init() {
-        setContentView(R.layout.activity_main)
 
         log = initLogger(this)
 
@@ -80,26 +60,10 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         })
     }
 
-    private fun startIntro() {
-        Intent(this, IntroActivity::class.java).apply {
-            startActivityForResult(this, ONBOARDING_REQUEST)
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        beaconManager.unbind(this)
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == ONBOARDING_REQUEST && resultCode == Activity.RESULT_OK) {
-            getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean(ONBOARDING_KEY, false)?.apply()
-            init()
-        }
-    }
-
-    private fun shouldShowOnboarding(): Boolean {
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        return sharedPref.getBoolean(ONBOARDING_KEY, true)
-    }
-
 
     fun startServices(deviceId: String) {
         if (!serviceRunning){

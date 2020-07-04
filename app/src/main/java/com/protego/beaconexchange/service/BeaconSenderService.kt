@@ -7,8 +7,8 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.protego.beaconexchange.Constants
-import com.protego.beaconexchange.Constants.Companion.ALTBEACON
 import com.protego.beaconexchange.Constants.Companion.FOREGROUND_ID
+import com.protego.beaconexchange.Constants.Companion.IBEACON
 import com.protego.beaconexchange.Constants.Companion.MANUFACTURER
 import com.protego.beaconexchange.Constants.Companion.PROTEGO_ID
 import com.protego.beaconexchange.R
@@ -67,7 +67,7 @@ class BeaconSenderService : Service() {
     }
 
     private fun initTransmitter() {
-        beaconTransmitter = BeaconTransmitter(applicationContext, BeaconParser().setBeaconLayout(ALTBEACON))
+        beaconTransmitter = BeaconTransmitter(applicationContext, BeaconParser().setBeaconLayout(IBEACON))
         beaconTransmitter?.advertiseMode = AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY
     }
 

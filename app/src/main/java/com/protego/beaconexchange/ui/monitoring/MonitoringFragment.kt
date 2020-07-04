@@ -79,6 +79,17 @@ class MonitoringFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        if (shouldShowOnboarding()) {
+            findNavController().navigate(MonitoringFragmentDirections.showIntro())
+        }
+    }
+
+    private fun shouldShowOnboarding() =
+        requireActivity().getPreferences(Context.MODE_PRIVATE).getBoolean(com.protego.permissions.presentation.Constants.ONBOARDING_KEY, true)
+
     private fun setExcludedText(msg: BluetoothMessage) {
         val txt = getString(R.string.add_device_to_excluded_q).replace("%s", msg.deviceId)
         binding?.addToExcludedText?.text = txt
@@ -195,7 +206,7 @@ class MonitoringFragment : Fragment() {
 
     private fun verifyPermissions() {
         if (!hasPermissions(requireContext())) {
-            findNavController().navigate(MonitoringFragmentDirections.showPermissions())
+            //findNavController().navigate(MonitoringFragmentDirections.showPermissions())
         }
     }
 

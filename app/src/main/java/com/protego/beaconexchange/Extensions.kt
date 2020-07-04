@@ -60,7 +60,7 @@ fun BeaconManager.setUpForBackgroundRunning() {
     setEnableScheduledScanJobs(false)
 
     val parser = BeaconParser()
-    parser.setBeaconLayout(Constants.ALTBEACON)
+    parser.setBeaconLayout(Constants.IBEACON)
     parser.setHardwareAssistManufacturerCodes(intArrayOf(Constants.MANUFACTURER))
     beaconParsers.clear()
     beaconParsers.add(parser)
