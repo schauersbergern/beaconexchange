@@ -61,10 +61,17 @@ class MonitoringFragment : Fragment() {
             }
         })
 
+        viewModel.commands.observe(viewLifecycleOwner, Observer {command ->
+            when (command) {
+                is ShowFirstUseNotification -> requireContext().showNotification("you are not alone", "Thommy!")
+            }
+        })
+
         binding?.mainSwitch?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 checkPreConditions()
                 viewModel.startServiceIfAllEnabledOrStop()
+                viewModel.checkAndShowFirstNotification()
             } else {
                 viewModel.setOff()
             }

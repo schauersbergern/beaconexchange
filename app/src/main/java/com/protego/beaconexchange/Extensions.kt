@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import com.kevalpatel.ringtonepicker.RingtonePickerDialog
 import com.kevalpatel.ringtonepicker.RingtonePickerListener
@@ -18,11 +19,11 @@ import com.protego.beaconexchange.Constants.Companion.SERVICE_CHANNEL
 import com.protego.beaconexchange.Constants.Companion.WAKELOCK_TIMEOUT
 import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.presentationcore.ProgressDialogFragment
-import kotlinx.coroutines.Job
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
 import timber.log.Timber
+import kotlin.random.Random
 
 
 @Suppress("DEPRECATION")
@@ -30,7 +31,7 @@ fun <T> Context.isServiceRunning(service: Class<T>) = (getSystemService(Context.
     .getRunningServices(Integer.MAX_VALUE)
     .any { it.service.className == service.name }
 
-fun Application.getForegroundNotification(title: String, body: String? = null) : Notification {
+fun Context.getForegroundNotification(title: String, body: String? = null) : Notification {
     createNotificationChannel(SERVICE_CHANNEL)
     val notificationIntent = Intent(this, MainActivity::class.java)
     val pendingIntent = PendingIntent.getActivity(
@@ -46,7 +47,7 @@ fun Application.getForegroundNotification(title: String, body: String? = null) :
 
 }
 
-private fun Application.createNotificationChannel(channelId : String) {
+private fun Context.createNotificationChannel(channelId : String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val serviceChannel = NotificationChannel(
             channelId, "Foreground Service Channel",
@@ -77,6 +78,21 @@ fun Context.alertDialog(title: String, message: String, positive: () -> Unit, ne
 
 
 fun Context.getRingtoneName(uri : Uri) = RingtoneManager.getRingtone(this, uri).getTitle(this)
+
+fun Context.showNotification(title: String, message: String) {
+    val channelId = randomString(5)
+    val id = Random.nextInt(1200)
+
+    createNotificationChannel(channelId)
+    val builder = NotificationCompat.Builder(this, channelId)
+        .setSmallIcon(R.drawable.shield)
+        .setContentTitle(title)
+        .setContentText(message)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setAutoCancel(true)
+
+    NotificationManagerCompat.from(this).notify(id, builder.build())
+}
 
 fun Beacon.getBluetoothMessage() : BluetoothMessage {
     return BluetoothMessage(

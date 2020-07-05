@@ -34,7 +34,7 @@ class BeaconSenderService : Service() {
 
                 startAdvertising(it)
             }
-            startForeground(FOREGROUND_ID, application.getForegroundNotification(getString(R.string.bg_notification_title)))
+            startForeground(FOREGROUND_ID, baseContext.getForegroundNotification(getString(R.string.bg_notification_title)))
         }
         return START_STICKY
     }
@@ -46,7 +46,7 @@ class BeaconSenderService : Service() {
             .setId3("0")
             .setManufacturer(MANUFACTURER)
             .setTxPower(-59)
-            .setDataFields(mutableListOf(0L))
+            .setDataFields(listOf(0L))
             .build()
 
         beaconTransmitter?.startAdvertising(beacon, object : AdvertiseCallback() {
@@ -67,7 +67,7 @@ class BeaconSenderService : Service() {
     }
 
     private fun initTransmitter() {
-        beaconTransmitter = BeaconTransmitter(applicationContext, BeaconParser().setBeaconLayout(IBEACON))
+        beaconTransmitter = BeaconTransmitter(baseContext, BeaconParser().setBeaconLayout(IBEACON))
         beaconTransmitter?.advertiseMode = AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY
     }
 

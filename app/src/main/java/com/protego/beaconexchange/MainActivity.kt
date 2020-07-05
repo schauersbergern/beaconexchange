@@ -1,6 +1,10 @@
 package com.protego.beaconexchange
 
+import android.bluetooth.BluetoothAdapter
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.PowerManager
@@ -58,11 +62,14 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                 excludedViewModel.addExcluded(excluded)
             }
         })
+
+       registerReceiver(bluetoothOffReceiver, IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED))
     }
 
     override fun onDestroy() {
         super.onDestroy()
         beaconManager.unbind(this)
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(bluetoothOffReceiver)
     }
 
     fun startServices(deviceId: String) {
@@ -104,7 +111,7 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
         beaconManager.removeAllRangeNotifiers()
         beaconManager.addRangeNotifier { beacons, _ ->
-            beacons.map { beacon: Beacon ->
+            beacons.forEach { beacon: Beacon ->
                 Log.d(name(), "RangeNotifier beacon detected: $beacon")
 
                 var send = true
@@ -144,6 +151,19 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
     private fun String.log() {
         if (settingsViewModel.isLoggingEnabled()) {
             log.i(", $timestamp, $this")
+        }
+    }
+
+    private val bluetoothOffReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if(intent.action == BluetoothAdapter.ACTION_STATE_CHANGED) {
+                if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                    if (serviceRunning) {
+                        stopServices()
+                        context.showNotification("Bluetooth disconected", "Please reconnect")
+                    }
+                }
+            }
         }
     }
 }

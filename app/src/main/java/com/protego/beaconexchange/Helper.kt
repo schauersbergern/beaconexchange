@@ -32,6 +32,13 @@ fun getStandardSettings(context: Context) : Settings {
         loggingEnabled = false)
 }
 
+fun randomString(length: Int) : String {
+    val allowedChars = ('A'..'Z') + ('a'..'z')
+    return (1..length)
+        .map { allowedChars.random() }
+        .joinToString("")
+}
+
 fun initLogger(ctx : Context) = FileLoggerTree.Builder()
         .withFileName(LOG_FILE)
         .withDirName(LOG_DIR)
