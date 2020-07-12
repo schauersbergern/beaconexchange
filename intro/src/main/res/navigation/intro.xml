@@ -33,6 +33,4 @@
 
     </fragment>
 
-    <include app:graph="@navigation/permissions" />
-
 </navigation>

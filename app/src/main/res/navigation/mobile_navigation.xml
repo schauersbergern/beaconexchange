@@ -62,5 +62,6 @@
         tools:layout="@layout/fragment_monitoring" />
 
     <include app:graph="@navigation/intro" />
+    <include app:graph="@navigation/permissions" />
 
 </navigation>

@@ -1,5 +1,6 @@
 package com.protego.beaconexchange.ui.monitoring
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -220,7 +221,7 @@ class MonitoringFragment : Fragment() {
 
     private fun verifyPermissions() {
         if (!hasPermissions(requireContext())) {
-            //findNavController().navigate(MonitoringFragmentDirections.showPermissions())
+            findNavController().navigate(MonitoringFragmentDirections.showPermissions())
         }
     }
 
