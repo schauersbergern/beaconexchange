@@ -22,6 +22,7 @@ import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
 import com.protego.beaconexchange.Constants.Companion.BEACON_MESSAGE
 import com.protego.beaconexchange.Constants.Companion.BEACON_UPDATE
+import com.protego.beaconexchange.Constants.Companion.FIRST_NOTIFICATION_KEY
 import com.protego.beaconexchange.databinding.FragmentMonitoringBinding
 import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.permissions.presentation.activateBatteryOptimizations
@@ -61,20 +62,11 @@ class MonitoringFragment : Fragment() {
             }
         })
 
-        viewModel.commands.observe(viewLifecycleOwner, Observer { command ->
-            when (command) {
-                is ShowFirstUseNotification -> requireContext().showNotification(
-                    "you are not alone",
-                    "Thommy!"
-                )
-            }
-        })
-
         binding?.mainSwitch?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 checkPreConditions()
                 viewModel.startServiceIfAllEnabledOrStop()
-                viewModel.checkAndShowFirstNotification()
+                checkAndShowFirstNotification()
             } else {
                 viewModel.setOff()
             }
@@ -86,6 +78,17 @@ class MonitoringFragment : Fragment() {
 
         binding?.showSettings?.setOnClickListener {
             findNavController().navigate(MonitoringFragmentDirections.showSettings())
+        }
+    }
+
+    private fun checkAndShowFirstNotification() {
+
+        val firstNotification = requireActivity().getPreferences(Context.MODE_PRIVATE)
+            .getBoolean(FIRST_NOTIFICATION_KEY, true)
+
+        if (firstNotification) {
+            requireContext().showNotification( null, getString(R.string.first_use_notification), true)
+            requireActivity().getPreferences(Context.MODE_PRIVATE).edit().putBoolean(FIRST_NOTIFICATION_KEY, false).apply()
         }
     }
 

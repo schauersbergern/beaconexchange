@@ -27,18 +27,19 @@ import kotlin.random.Random
 
 
 @Suppress("DEPRECATION")
-fun <T> Context.isServiceRunning(service: Class<T>) = (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
-    .getRunningServices(Integer.MAX_VALUE)
-    .any { it.service.className == service.name }
+fun <T> Context.isServiceRunning(service: Class<T>) =
+    (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
+        .getRunningServices(Integer.MAX_VALUE)
+        .any { it.service.className == service.name }
 
-fun Context.getForegroundNotification(title: String, body: String? = null) : Notification {
+fun Context.getForegroundNotification(title: String, body: String? = null): Notification {
     createNotificationChannel(SERVICE_CHANNEL)
     val notificationIntent = Intent(this, MainActivity::class.java)
     val pendingIntent = PendingIntent.getActivity(
         this,
         0, notificationIntent, 0
     )
-    return  NotificationCompat.Builder(this, SERVICE_CHANNEL)
+    return NotificationCompat.Builder(this, SERVICE_CHANNEL)
         .setContentTitle(title)
         .setContentText(body)
         .setSmallIcon(R.drawable.shield)
@@ -47,11 +48,12 @@ fun Context.getForegroundNotification(title: String, body: String? = null) : Not
 
 }
 
-private fun Context.createNotificationChannel(channelId : String) {
+private fun Context.createNotificationChannel(channelId: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val serviceChannel = NotificationChannel(
             channelId, "Foreground Service Channel",
-            NotificationManager.IMPORTANCE_DEFAULT)
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
         val manager = getSystemService(NotificationManager::class.java)
         manager!!.createNotificationChannel(serviceChannel)
     }
@@ -69,32 +71,41 @@ fun BeaconManager.setUpForBackgroundRunning() {
     backgroundBetweenScanPeriod = 0
 }
 
-fun Context.alertDialog(title: String, message: String, positive: () -> Unit, negative: () -> Unit): AlertDialog.Builder = 
+fun Context.alertDialog(
+    title: String,
+    message: String,
+    positive: () -> Unit,
+    negative: () -> Unit
+): AlertDialog.Builder =
     AlertDialog.Builder(this)
         .setTitle(title)
         .setMessage(message)
         .setPositiveButton(android.R.string.ok) { _: DialogInterface, _: Int -> positive() }
-        .setNegativeButton(android.R.string.no ) { _: DialogInterface, _: Int -> negative() }
+        .setNegativeButton(android.R.string.no) { _: DialogInterface, _: Int -> negative() }
 
 
-fun Context.getRingtoneName(uri : Uri) = RingtoneManager.getRingtone(this, uri).getTitle(this)
+fun Context.getRingtoneName(uri: Uri) = RingtoneManager.getRingtone(this, uri).getTitle(this)
 
-fun Context.showNotification(title: String, message: String) {
+fun Context.showNotification(title: String?, message: String?, bigMessage: Boolean = false) {
     val channelId = randomString(5)
     val id = Random.nextInt(1200)
 
     createNotificationChannel(channelId)
     val builder = NotificationCompat.Builder(this, channelId)
         .setSmallIcon(R.drawable.shield)
-        .setContentTitle(title)
-        .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .setAutoCancel(true)
+        .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+
+    title?.apply { builder.setContentTitle(this) }
+    message?.apply { builder.setContentText(this) }
+
+    if (bigMessage && message != null) NotificationCompat.BigTextStyle().bigText(message)
 
     NotificationManagerCompat.from(this).notify(id, builder.build())
 }
 
-fun Beacon.getBluetoothMessage() : BluetoothMessage {
+fun Beacon.getBluetoothMessage(): BluetoothMessage {
     return BluetoothMessage(
         id1.toString(),
         bluetoothName ?: "No Name",
@@ -104,11 +115,11 @@ fun Beacon.getBluetoothMessage() : BluetoothMessage {
     )
 }
 
-fun Beacon.isProtego() : Boolean{
-    return (id2.toString() ==  Constants.PROTEGO_ID)
+fun Beacon.isProtego(): Boolean {
+    return (id2.toString() == Constants.PROTEGO_ID)
 }
 
-fun Activity.getWakeLock() : PowerManager.WakeLock{
+fun Activity.getWakeLock(): PowerManager.WakeLock {
     return (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
         newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, name()).apply {
             acquire(WAKELOCK_TIMEOUT)
@@ -118,7 +129,7 @@ fun Activity.getWakeLock() : PowerManager.WakeLock{
 
 fun Activity.openPowerManager() {
     for (intent in Constants.POWERMANAGER_INTENTS) {
-        if (packageManager.resolveActivity( intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+        if (packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
             startActivityForResult(intent, Constants.POWERMANAGER_REQUEST)
         }
     }

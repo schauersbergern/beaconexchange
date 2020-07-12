@@ -17,13 +17,9 @@ data class ServiceState(
     val firstStart: Boolean = true
 )
 
-sealed class Command
-object ShowFirstUseNotification : Command()
-
 class MonitoringViewModel(application: Application) : AndroidViewModel(application) {
 
     var state : MutableLiveData<ServiceState> = MutableLiveData( ServiceState())
-    var commands : MutableLiveData<Command> = MutableLiveData()
     var app = application
 
     init {
@@ -81,15 +77,6 @@ class MonitoringViewModel(application: Application) : AndroidViewModel(applicati
 
     fun stopService() {
         state.value = state.value?.copy(serviceShouldRun = false)
-    }
-
-    fun checkAndShowFirstNotification() {
-        state.value?.firstStart?.let { firstStart ->
-            if (firstStart) {
-                commands.postValue(ShowFirstUseNotification)
-                state.postValue(state.value?.copy(firstStart = false))
-            }
-        }
     }
 
     fun startServiceIfAllEnabledOrStop() {

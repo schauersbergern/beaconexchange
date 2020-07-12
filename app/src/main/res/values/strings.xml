@@ -37,5 +37,9 @@
         With a low sensitivity devices have to be near to
         get an alert and with a high sensitivity you will also get alerts when device is more far
         away</string>
+    <string name="first_use_notification">To receive an alert, the other device
+        also has to install Protego</string>
+    <string name="bluetooth_turned_off">Bluetooth was turned off</string>
+    <string name="bluetooth_turn_on">Please enable Bluetooth</string>
 
 </resources>

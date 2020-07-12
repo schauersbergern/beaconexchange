@@ -160,7 +160,10 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
                 if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
                     if (serviceRunning) {
                         stopServices()
-                        context.showNotification("Bluetooth disconected", "Please reconnect")
+                        context.showNotification(
+                            getString(R.string.bluetooth_turned_off),
+                            getString(R.string.bluetooth_turn_on)
+                        )
                     }
                 }
             }

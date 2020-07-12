@@ -36,5 +36,8 @@
     <string name="sensitivity_explanation">Hier können Sie die Entfernung einstellen, wann Sie eine alarmiert werden.
 Bei einer geringen Empfindlichkeit müssen die Geräte in der Nähe sein um eine Warnung zu erhalten,
         bei einer hohen Empfindlichkeit erhalten Sie auch Warnungen wenn das Gerät weiter entfernt ist.</string>
+    <string name="first_use_notification">Um alarmiert zu werden muss Protego auf allen Geräten installiert sein</string>
+    <string name="bluetooth_turned_off">Bluetooth ausgeschalten</string>
+    <string name="bluetooth_turn_on">Bitte aktivieren sie Bluetooth</string>
 
 </resources>
