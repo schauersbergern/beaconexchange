@@ -15,19 +15,26 @@
     <string name="not_enabled_location">Standortdienst ist nicht aktiviert</string>
     <string name="prompt_enable_location">Bitte aktivieren sie den Standortdienst</string>
     <string name="not_enabled_ble">Bluetooth ist nicht eingeschalten</string>
-    <string name="prompt_enable_ble">Erlauben sie Protego Bluetooth einzuschalten</string>
+    <string name="prompt_enable_ble">Bluetooth aktivieren?</string>
     <string name="not_available_ble">Bluetooth ist leider nicht verfügbar</string>
     <string name="not_supported_ble">Bluetooth wird leider auf ihrem Gerät nicht unterstützt</string>
     <string name="settings_headline">Einstellungen</string>
     <string name="set_alarmtone">Alarmton einstellen</string>
     <string name="set_sensivity">Abstand einstellen</string>
-    <string name="warn_with_vibration">Vibrationswarnung</string>
-    <string name="warn_with_audio">Audiowarnung</string>
+    <string name="warn_with_vibration">Vibrationsalarm</string>
+    <string name="warn_with_audio">Audioalarm</string>
     <string name="log_to_file">Auf Datei loggen</string>
     <string name="log_dir">Logdir:</string>
     <string name="no_devices_in_excluded">Keine Geräte Exkludiert, füge welche hinzu</string>
     <string name="cancel">Abbrechen</string>
     <string name="add_device_to_excluded">Gerät %s wurde exkludiert</string>
     <string name="add_device_to_excluded_q">Gerät %s exkludieren?</string>
+    <string name="your_alert_settings">DEINE ALARM EINSTELLUNGEN</string>
+    <string name="your_sensitivity_settings">DEINE EMPFINDLICHKEITS EINSTELLUNGEN</string>
+    <string name="low">Niedrig</string>
+    <string name="high">Hoch</string>
+    <string name="sensitivity_explanation">Hier können Sie die Entfernung einstellen, wann Sie eine alarmiert werden.
+Bei einer geringen Empfindlichkeit müssen die Geräte in der Nähe sein um eine Warnung zu erhalten,
+        bei einer hohen Empfindlichkeit erhalten Sie auch Warnungen wenn das Gerät weiter entfernt ist.</string>
 
 </resources>

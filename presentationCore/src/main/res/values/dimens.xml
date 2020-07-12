@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="spacing05">5dp</dimen>
     <dimen name="spacing2">20dp</dimen>
     <dimen name="spacing3">30dp</dimen>
     <dimen name="spacing4">40dp</dimen>

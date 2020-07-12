@@ -51,11 +51,10 @@ class SettingsFragment : Fragment() {
 
             val rssiVal = liveSettings.rssi.toFloat()
             binding?.rssiSlider?.value = rssiVal
-            binding?.rssiMonitor?.text = rssiVal.toString()
-            binding?.setAlarmtoneButton?.text =
+            binding?.alarmtoneLabel?.text =
                 requireContext().getRingtoneName(Uri.parse(liveSettings.ringtone))
 
-            binding?.setAlarmtoneButton?.setOnClickListener {
+            binding?.arrow?.setOnClickListener {
                 showRingtonePicker(Uri.parse(liveSettings.ringtone),
                     RingtonePickerListener { _, ringtoneUri ->
                         viewModel.updateAlarmUri(ringtoneUri.toString())
@@ -67,7 +66,6 @@ class SettingsFragment : Fragment() {
     private fun initViews() {
 
         binding?.rssiSlider?.addOnChangeListener { _, value, _ ->
-            binding?.rssiMonitor?.text = value.toString()
             viewModel.setRssi(value.toInt())
         }
 

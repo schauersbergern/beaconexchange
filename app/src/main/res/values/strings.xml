@@ -19,15 +19,23 @@
     <string name="not_available_ble">Bluetooth LE not available</string>
     <string name="not_supported_ble">Sorry, this device does not support Bluetooth LE</string>
     <string name="settings_headline">Settings</string>
-    <string name="set_alarmtone">Set alarm tone</string>
+    <string name="set_alarmtone">Alert tone</string>
     <string name="set_sensivity">Set sensivity</string>
-    <string name="warn_with_vibration">Warn with vibration</string>
-    <string name="warn_with_audio">Warn with audio</string>
+    <string name="warn_with_vibration">Alert with vibration</string>
+    <string name="warn_with_audio">Alert with tone</string>
     <string name="log_to_file">Log to file</string>
     <string name="log_dir">Logdir:</string>
     <string name="no_devices_in_excluded">There are no devices excluded. Go and add one!</string>
     <string name="cancel">Cancel</string>
     <string name="add_device_to_excluded">Device %s was excluded</string>
     <string name="add_device_to_excluded_q">Exclude %s ?</string>
+    <string name="your_alert_settings">YOUR ALERT SETTINGS</string>
+    <string name="your_sensitivity_settings">YOUR SENSITIVITY SETTINGS</string>
+    <string name="low">Low</string>
+    <string name="high">High</string>
+    <string name="sensitivity_explanation">Here you can set the distance, when you get an alert.
+        With a low sensitivity devices have to be near to
+        get an alert and with a high sensitivity you will also get alerts when device is more far
+        away</string>
 
 </resources>

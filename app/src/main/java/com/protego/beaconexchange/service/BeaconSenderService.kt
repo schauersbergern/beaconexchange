@@ -6,14 +6,11 @@ import android.bluetooth.le.AdvertiseSettings
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
-import com.protego.beaconexchange.Constants
+import com.protego.beaconexchange.*
 import com.protego.beaconexchange.Constants.Companion.FOREGROUND_ID
 import com.protego.beaconexchange.Constants.Companion.IBEACON
 import com.protego.beaconexchange.Constants.Companion.MANUFACTURER
 import com.protego.beaconexchange.Constants.Companion.PROTEGO_ID
-import com.protego.beaconexchange.R
-import com.protego.beaconexchange.getForegroundNotification
-import com.protego.beaconexchange.name
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconParser
 import org.altbeacon.beacon.BeaconTransmitter
@@ -31,7 +28,7 @@ class BeaconSenderService : Service() {
             initTransmitter()
             intent?.getStringExtra(Constants.DEVICE_ID)?.let {
                 Log.i(name(), "starting service")
-
+                startDummyAdvertisingForBluetoothName()
                 startAdvertising(it)
             }
             startForeground(FOREGROUND_ID, baseContext.getForegroundNotification(getString(R.string.bg_notification_title)))

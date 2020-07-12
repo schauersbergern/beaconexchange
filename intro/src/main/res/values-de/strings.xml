@@ -6,7 +6,7 @@
     <string name="how_it_works">Wie es funktioniert</string>
     <string name="activate">Aktivieren</string>
 
-    <string name="slideshow_1">Installiere die App und aktiviere Bluetooth</string>
+    <string name="slideshow_1">Protego kann Sie nur warnen, wenn es auch auf anderen Geräten installiert ist. Installieren Sie Protego daher auf allen Geräten, für die Sie eine Warnung erhalten möchten</string>
     <string name="slideshow_2">Erlaube das die App immer den Gerätestandort abrufen kann. Dieser wird für Bluetooth benötigt, aber niemals gespeichert</string>
     <string name="slideshow_3">Wenn du den Sicherheitsabstand nicht einhalten kannst, warnt dich Protego mit Vibration und Ton</string>
     <string name="slideshow_4">Dein Telefon benachrichtigt dich möglicherweise von jemandem, dem du nahe stehen möchtest. Exkludiere das Gerät und erhalte keine Benachrichtigungen mehr.</string>

@@ -61,9 +61,12 @@ class MonitoringFragment : Fragment() {
             }
         })
 
-        viewModel.commands.observe(viewLifecycleOwner, Observer {command ->
+        viewModel.commands.observe(viewLifecycleOwner, Observer { command ->
             when (command) {
-                is ShowFirstUseNotification -> requireContext().showNotification("you are not alone", "Thommy!")
+                is ShowFirstUseNotification -> requireContext().showNotification(
+                    "you are not alone",
+                    "Thommy!"
+                )
             }
         })
 
@@ -95,7 +98,8 @@ class MonitoringFragment : Fragment() {
     }
 
     private fun shouldShowOnboarding() =
-        requireActivity().getPreferences(Context.MODE_PRIVATE).getBoolean(com.protego.permissions.presentation.Constants.ONBOARDING_KEY, true)
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+            .getBoolean(com.protego.permissions.presentation.Constants.ONBOARDING_KEY, true)
 
     private fun setExcludedText(msg: BluetoothMessage) {
         val txt = getString(R.string.add_device_to_excluded_q).replace("%s", msg.deviceId)
@@ -193,8 +197,8 @@ class MonitoringFragment : Fragment() {
             requireContext().alertDialog(
                 getString(R.string.not_available_ble),
                 getString(R.string.not_supported_ble),
-                {viewModel.disableBlueTooth()},
-                {viewModel.disableBlueTooth()}
+                { viewModel.disableBlueTooth() },
+                { viewModel.disableBlueTooth() }
             ).show()
         } else if (!mBluetoothAdapter.isEnabled) {
             requireContext().alertDialog(
@@ -204,7 +208,7 @@ class MonitoringFragment : Fragment() {
                     BluetoothAdapter.getDefaultAdapter().enable()
                     viewModel.enableBlueTooth()
                 },
-                {viewModel.disableBlueTooth()}
+                { viewModel.disableBlueTooth() }
             ).show()
         } else {
             viewModel.enableBlueTooth()

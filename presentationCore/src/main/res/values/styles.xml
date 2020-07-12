@@ -28,11 +28,18 @@
     </style>
 
     <style name="ProtegoSwitch" parent="TextRegular">
-        <item name="android:layout_marginTop">@dimen/spacing3</item>
-        <item name="android:layout_marginStart">@dimen/spacing3</item>
-        <item name="android:layout_marginEnd">@dimen/spacing3</item>
+        <item name="android:layout_marginStart">@dimen/spacing05</item>
+        <item name="android:layout_marginEnd">@dimen/spacing05</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="settings_section_line">
+        <item name="android:textColor">#828188</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:background">#EFEEF5</item>
     </style>
     
 </resources>

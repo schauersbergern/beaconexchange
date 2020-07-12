@@ -1,95 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
-        style="@style/HeadlineBold"
         android:id="@+id/settings_headline"
+        style="@style/HeadlineBold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings_headline"
-        android:paddingLeft="@dimen/spacing2" />
+        android:paddingLeft="@dimen/spacing2"
+        android:text="@string/settings_headline" />
 
+    <TextView
+        android:id="@+id/settings_alert_section_line"
+        style="@style/settings_section_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing2"
+        android:text="@string/your_alert_settings" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DADADF" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        style="@style/ProtegoSwitch"
         android:id="@+id/alarm_switch"
+        style="@style/ProtegoSwitch"
         android:text="@string/warn_with_audio" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        style="@style/ProtegoSwitch"
         android:id="@+id/vibration_switch"
+        style="@style/ProtegoSwitch"
         android:text="@string/warn_with_vibration" />
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/spacing5"
-        android:orientation="horizontal">
+        android:paddingLeft="@dimen/spacing05"
+        android:paddingTop="@dimen/spacing1"
+        android:paddingBottom="@dimen/spacing1">
 
         <TextView
+            android:id="@+id/set_alarm_label"
             style="@style/TextRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/set_sensivity" />
+            android:layout_alignParentStart="true"
+            android:text="@string/set_alarmtone" />
 
         <TextView
+            android:id="@+id/alarmtone_label"
             style="@style/TextRegular"
-            android:id="@+id/rssi_monitor"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing2" />
+            android:layout_toStartOf="@id/arrow"
+            android:layout_toEndOf="@id/set_alarm_label"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:lines="1"
+            tools:text="Current Tone" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="@dimen/spacing1"
+            android:src="@drawable/arrow_right" />
 
-
-    <com.google.android.material.slider.Slider
-        android:id="@+id/rssi_slider"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:valueFrom="@integer/rssi_value_max_range"
-        android:valueTo="@integer/rssi_value_min_range"
-        android:stepSize="@integer/rssi_value_step_size" />
+    </RelativeLayout>
 
     <TextView
-        style="@style/TextRegular"
+        android:id="@+id/settings_sensitivity_section_line"
+        style="@style/settings_section_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/set_alarmtone"
-        android:layout_marginTop="@dimen/spacing3"
-        />
+        android:layout_marginTop="@dimen/spacing2"
+        android:text="@string/your_sensitivity_settings" />
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/ProtegoButton"
-        android:layout_gravity="center"
-        android:id="@+id/set_alarmtone_button"
-        android:text="@string/set_alarmtone"
-        android:layout_marginTop="@dimen/spacing1"
-        android:layout_marginBottom="@dimen/spacing3" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DADADF" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/spacing05"
+        android:paddingEnd="@dimen/spacing05">
+
+        <TextView
+            android:id="@+id/label_high"
+            style="@style/TextRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/high"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_low"
+            style="@style/TextRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/low"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/rssi_slider"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:valueFrom="@integer/rssi_value_max_range"
+            android:valueTo="@integer/rssi_value_min_range"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/label_high"
+            app:layout_constraintRight_toLeftOf="@id/label_low"
+            app:layout_constraintTop_toTopOf="parent"
+            app:labelBehavior="gone"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing05"
+        android:text="@string/sensitivity_explanation"
+        android:textColor="#828188" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        style="@style/ProtegoSwitch"
-        android:visibility="gone"
         android:id="@+id/logging_switch"
-        android:text="@string/log_to_file" />
+        style="@style/ProtegoSwitch"
+        android:text="@string/log_to_file"
+        android:visibility="gone" />
 
     <TextView
-        style="@style/TextRegular"
-        android:visibility="gone"
         android:id="@+id/logdir"
+        style="@style/TextRegular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        tools:text="This is the logdirectory"
-        />
+        android:visibility="gone"
+        tools:text="This is the logdirectory" />
 
 </LinearLayout>

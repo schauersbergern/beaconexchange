@@ -1,5 +1,10 @@
 package com.protego.beaconexchange
 
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.le.AdvertiseCallback
+import android.bluetooth.le.AdvertiseData
+import android.bluetooth.le.AdvertiseSettings
+import android.bluetooth.le.BluetoothLeAdvertiser
 import android.content.Context
 import android.media.RingtoneManager
 import android.util.Log
@@ -9,6 +14,8 @@ import com.protego.localdatasource.entities.Settings
 import fr.bipi.tressence.file.FileLoggerTree
 import org.altbeacon.beacon.Region
 import timber.log.Timber
+import java.util.*
+import kotlin.concurrent.schedule
 
 class RegionFactory {
     companion object {
@@ -50,3 +57,28 @@ fun initLogger(ctx : Context) = FileLoggerTree.Builder()
         .build().also {
             Timber.plant(it)
         }
+
+fun startDummyAdvertisingForBluetoothName() {
+    val advertiser: BluetoothLeAdvertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
+    val data: AdvertiseData = AdvertiseData.Builder().setIncludeDeviceName(true).build()
+    val advertiseSettings = AdvertiseSettings.Builder()
+        .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
+        .build()
+
+    val callback: AdvertiseCallback = object : AdvertiseCallback() {
+
+        private var timer: TimerTask? = null
+        private val cb = this
+
+        override fun onStartSuccess(settingsInEffect: AdvertiseSettings?) {
+            super.onStartSuccess(settingsInEffect)
+            Log.d("Booo", "Start")
+
+            timer = Timer("", false).schedule(20000) {
+                advertiser.stopAdvertising(cb)
+                Log.d("Booo", "Stop")
+            }
+        }
+    }
+    advertiser.startAdvertising(advertiseSettings, data, callback)
+}
