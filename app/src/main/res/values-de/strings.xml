@@ -25,7 +25,8 @@
     <string name="warn_with_audio">Audioalarm</string>
     <string name="log_to_file">Auf Datei loggen</string>
     <string name="log_dir">Logdir:</string>
-    <string name="no_devices_in_excluded">Keine Geräte Exkludiert, füge welche hinzu</string>
+    <string name="no_devices_in_excluded">Noch keine Geräte vom Alarm exkludiert. Füge Geräte vom
+        Alarmbildschirm hinzu wenn du zu nahe bist</string>
     <string name="cancel">Abbrechen</string>
     <string name="add_device_to_excluded">Gerät %s wurde exkludiert</string>
     <string name="add_device_to_excluded_q">Gerät %s exkludieren?</string>

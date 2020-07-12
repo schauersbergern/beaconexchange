@@ -6,6 +6,7 @@ import android.util.Log
 import com.protego.beaconexchange.Constants.Companion.FOREGROUND_ID
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.Region
+import org.altbeacon.beacon.powersave.BackgroundPowerSaver
 import org.altbeacon.beacon.service.ArmaRssiFilter
 import org.altbeacon.beacon.startup.BootstrapNotifier
 import org.altbeacon.beacon.startup.RegionBootstrap
@@ -13,7 +14,7 @@ import org.altbeacon.beacon.startup.RegionBootstrap
 class BeaconExchangeApplication : Application(), BootstrapNotifier {
 
     private lateinit var regionBootstrap : RegionBootstrap
-    //private lateinit var backgroundPowerSaver : BackgroundPowerSaver
+    private lateinit var backgroundPowerSaver : BackgroundPowerSaver
     private lateinit var beaconManager: BeaconManager
 
     override fun onCreate() {
@@ -21,7 +22,7 @@ class BeaconExchangeApplication : Application(), BootstrapNotifier {
 
         beaconManager = BeaconManager.getInstanceForApplication(this)
         regionBootstrap = getRegionBootstrap()
-        //backgroundPowerSaver = BackgroundPowerSaver(this)
+        backgroundPowerSaver = BackgroundPowerSaver(this)
 
         BeaconManager.setRssiFilterImplClass(ArmaRssiFilter::class.java)
         // Enable/Disable verbose logging

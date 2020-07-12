@@ -1,6 +1,6 @@
 package com.protego.beaconexchange.service
 
-import android.app.*
+import android.app.Service
 import android.bluetooth.le.AdvertiseCallback
 import android.bluetooth.le.AdvertiseSettings
 import android.content.Intent
@@ -28,7 +28,7 @@ class BeaconSenderService : Service() {
             initTransmitter()
             intent?.getStringExtra(Constants.DEVICE_ID)?.let {
                 Log.i(name(), "starting service")
-                startDummyAdvertisingForBluetoothName()
+                //startDummyAdvertisingForBluetoothName()
                 startAdvertising(it)
             }
             startForeground(FOREGROUND_ID, baseContext.getForegroundNotification(getString(R.string.bg_notification_title)))

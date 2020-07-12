@@ -25,7 +25,8 @@
     <string name="warn_with_audio">Alert with tone</string>
     <string name="log_to_file">Log to file</string>
     <string name="log_dir">Logdir:</string>
-    <string name="no_devices_in_excluded">There are no devices excluded. Go and add one!</string>
+    <string name="no_devices_in_excluded">No excluded devices yet. Add more excluded devices in the tracker by
+    by coming close to them first</string>
     <string name="cancel">Cancel</string>
     <string name="add_device_to_excluded">Device %s was excluded</string>
     <string name="add_device_to_excluded_q">Exclude %s ?</string>
