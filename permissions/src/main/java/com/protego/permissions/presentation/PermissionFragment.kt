@@ -83,16 +83,24 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @AfterPermissionGranted(LOCATION)
     private fun getPermissions() {
         if (!hasPermissions(requireContext())) {
-            EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *permissions)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q){
+                EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *permissionsQ)
+            } else{
+                EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *permissions)
+            }
         }
     }
 
     companion object {
         const val LOCATION = 1
         const val BATTERY_OPTIMIZATIONS_REQUEST = 25
+        val permissionsQ = arrayOf(
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WAKE_LOCK
+        )
         val permissions = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
             Manifest.permission.WAKE_LOCK
         )
     }
