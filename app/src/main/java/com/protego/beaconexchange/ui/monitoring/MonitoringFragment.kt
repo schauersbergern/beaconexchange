@@ -1,6 +1,5 @@
 package com.protego.beaconexchange.ui.monitoring
 
-import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -21,11 +20,15 @@ import androidx.navigation.fragment.findNavController
 import com.protego.beaconexchange.*
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
-import com.protego.beaconexchange.Constants.Companion.BEACON_MESSAGE
-import com.protego.beaconexchange.Constants.Companion.BEACON_UPDATE
-import com.protego.beaconexchange.Constants.Companion.FIRST_NOTIFICATION_KEY
+import com.protego.beaconexchange.helper.Constants.Companion.BEACON_MESSAGE
+import com.protego.beaconexchange.helper.Constants.Companion.BEACON_UPDATE
+import com.protego.beaconexchange.helper.Constants.Companion.FIRST_NOTIFICATION_KEY
 import com.protego.beaconexchange.databinding.FragmentMonitoringBinding
 import com.protego.beaconexchange.domain.BluetoothMessage
+import com.protego.beaconexchange.helper.Constants
+import com.protego.beaconexchange.helper.alertDialog
+import com.protego.beaconexchange.helper.name
+import com.protego.beaconexchange.helper.showNotification
 import com.protego.permissions.presentation.activateBatteryOptimizations
 import com.protego.permissions.presentation.hasPermissions
 import com.protego.permissions.presentation.ignoresBatteryOptimizations

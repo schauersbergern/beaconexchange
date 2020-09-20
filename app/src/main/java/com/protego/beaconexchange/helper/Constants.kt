@@ -1,4 +1,4 @@
-package com.protego.beaconexchange
+package com.protego.beaconexchange.helper
 
 import android.content.ComponentName
 import android.content.Intent

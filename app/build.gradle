@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "com.protego.beaconexchange"
         minSdkVersion 26
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 6
         versionName "1.6"
 
@@ -59,11 +59,12 @@ dependencies {
 
     implementation ThirdPartyLibs.timber
     implementation ThirdPartyLibs.ringtonePicker
+    implementation ThirdPartyLibs.koin
+    implementation ThirdPartyLibs.rxBluetooth
 
     implementation Google.analytics
     implementation Google.crashlythics
 
-    implementation project(path: ':altbeaconlib')
     implementation project(path: ':intro')
     implementation project(path: ':permissions')
     implementation project(path: ':localDatasource')

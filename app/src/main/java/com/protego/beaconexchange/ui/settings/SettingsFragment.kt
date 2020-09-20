@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.kevalpatel.ringtonepicker.RingtonePickerListener
-import com.protego.beaconexchange.Constants.Companion.LOG_DIR
-import com.protego.beaconexchange.Constants.Companion.LOG_FILE
+import com.protego.beaconexchange.helper.Constants.Companion.LOG_DIR
+import com.protego.beaconexchange.helper.Constants.Companion.LOG_FILE
 import com.protego.beaconexchange.R
 import com.protego.beaconexchange.databinding.FragmentSettingsBinding
-import com.protego.beaconexchange.getRingtoneName
-import com.protego.beaconexchange.getStandardSettings
-import com.protego.beaconexchange.showRingtonePicker
+import com.protego.beaconexchange.helper.getRingtoneName
+import com.protego.beaconexchange.helper.getStandardSettings
+import com.protego.beaconexchange.helper.showRingtonePicker
 
 class SettingsFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.protego.beaconexchange
+package com.protego.beaconexchange.helper
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.AdvertiseCallback
@@ -8,22 +8,14 @@ import android.bluetooth.le.BluetoothLeAdvertiser
 import android.content.Context
 import android.media.RingtoneManager
 import android.util.Log
-import com.protego.beaconexchange.Constants.Companion.LOG_DIR
-import com.protego.beaconexchange.Constants.Companion.LOG_FILE
+import com.protego.beaconexchange.helper.Constants.Companion.LOG_DIR
+import com.protego.beaconexchange.helper.Constants.Companion.LOG_FILE
+import com.protego.beaconexchange.R
 import com.protego.localdatasource.entities.Settings
 import fr.bipi.tressence.file.FileLoggerTree
-import org.altbeacon.beacon.Region
 import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.schedule
-
-class RegionFactory {
-    companion object {
-        fun getRegion() : Region {
-            return Region(Constants.REGION_ID, null, null, null)
-        }
-    }
-}
 
 fun getDefaultRingtone() : String {
     return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString()

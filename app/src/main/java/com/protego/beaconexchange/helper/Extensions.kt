@@ -1,4 +1,4 @@
-package com.protego.beaconexchange
+package com.protego.beaconexchange.helper
 
 import android.app.*
 import android.content.Context
@@ -15,13 +15,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import com.kevalpatel.ringtonepicker.RingtonePickerDialog
 import com.kevalpatel.ringtonepicker.RingtonePickerListener
-import com.protego.beaconexchange.Constants.Companion.SERVICE_CHANNEL
-import com.protego.beaconexchange.Constants.Companion.WAKELOCK_TIMEOUT
+import com.protego.beaconexchange.MainActivity
+import com.protego.beaconexchange.R
+import com.protego.beaconexchange.helper.Constants.Companion.SERVICE_CHANNEL
+import com.protego.beaconexchange.helper.Constants.Companion.WAKELOCK_TIMEOUT
 import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.presentationcore.ProgressDialogFragment
-import org.altbeacon.beacon.Beacon
-import org.altbeacon.beacon.BeaconManager
-import org.altbeacon.beacon.BeaconParser
 import timber.log.Timber
 import kotlin.random.Random
 
@@ -59,17 +58,6 @@ private fun Context.createNotificationChannel(channelId: String) {
     }
 }
 
-fun BeaconManager.setUpForBackgroundRunning() {
-    setEnableScheduledScanJobs(false)
-
-    val parser = BeaconParser()
-    parser.setBeaconLayout(Constants.IBEACON)
-    parser.setHardwareAssistManufacturerCodes(intArrayOf(Constants.MANUFACTURER))
-    beaconParsers.clear()
-    beaconParsers.add(parser)
-    backgroundScanPeriod = 1000
-    backgroundBetweenScanPeriod = 0
-}
 
 fun Context.alertDialog(
     title: String,
@@ -103,20 +91,6 @@ fun Context.showNotification(title: String?, message: String?, bigMessage: Boole
     if (bigMessage && message != null) NotificationCompat.BigTextStyle().bigText(message)
 
     NotificationManagerCompat.from(this).notify(id, builder.build())
-}
-
-fun Beacon.getBluetoothMessage(): BluetoothMessage {
-    return BluetoothMessage(
-        id1.toString(),
-        bluetoothName ?: "No Name",
-        bluetoothAddress,
-        (distance * 100).toInt(),
-        rssi
-    )
-}
-
-fun Beacon.isProtego(): Boolean {
-    return (id2.toString() == Constants.PROTEGO_ID)
 }
 
 fun Activity.getWakeLock(): PowerManager.WakeLock {

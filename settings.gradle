@@ -1,9 +1,7 @@
 include ':app',
-        ':altbeaconlib',
         ':intro',
         ':presentationCore',
         ':permissions',
         ':localDatasource',
         ':nameGenerator',
         ':treessence'
-project(':altbeaconlib').projectDir = new File(rootDir, 'altbeacon/lib/')

@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import com.protego.beaconexchange.helper.getStandardSettings
 import com.protego.localdatasource.entities.Settings
 
 class AlarmManager(private val ctx: Context) {

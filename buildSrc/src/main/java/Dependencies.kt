@@ -2,6 +2,7 @@ const val kotlin = "1.2.71"
 const val ROOM_VERSION = "2.2.5"
 const val NAVIGATION_VERSION = "2.2.1"
 const val KOIN_VERSION = "2.1.5"
+const val RX_BLUETOOTH = "1.11.1"
 
 object Kotlin {
     val kotlinStandardLibrary = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin}"
@@ -34,6 +35,10 @@ object ThirdPartyLibs {
     val timber = "com.jakewharton.timber:timber:4.7.1"
     val timberTrees = "fr.bipi.treessence:treessence:0.3.2"
     val ringtonePicker = "com.kevalpatel2106:ringtonepicker:1.2"
+    val koin = "org.koin:koin-android:$KOIN_VERSION"
+    val koinLifecycle = "org.koin:koin-androidx-scope:$KOIN_VERSION"
+    val koinViewModel = "org.koin:koin-androidx-viewmodel:$KOIN_VERSION"
+    val rxBluetooth = "com.polidea.rxandroidble2:rxandroidble:$RX_BLUETOOTH"
 }
 
 object Google {

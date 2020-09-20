@@ -8,25 +8,20 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.PowerManager
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
-import com.protego.beaconexchange.service.BeaconSenderService
+import com.protego.beaconexchange.bluetooth.BluetoothService
+import com.protego.beaconexchange.helper.*
 import com.protego.beaconexchange.ui.settings.SettingsViewModel
 import com.protego.beaconexchange.ui.excluded.ExcludedViewModel
-import org.altbeacon.beacon.Beacon
-import org.altbeacon.beacon.BeaconConsumer
-import org.altbeacon.beacon.BeaconManager
 import timber.log.Timber
 
+class MainActivity : AppCompatActivity() {
 
-class MainActivity : AppCompatActivity(), BeaconConsumer {
-
-    private lateinit var beaconManager: BeaconManager
     private lateinit var settingsViewModel : SettingsViewModel
     private lateinit var excludedViewModel : ExcludedViewModel
     private lateinit var log: Timber.Tree
@@ -43,7 +38,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         setContentView(R.layout.activity_main)
 
         alarmManager = AlarmManager(this)
-        beaconManager = BeaconManager.getInstanceForApplication(this)
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
         excludedViewModel = ViewModelProvider(this).get(ExcludedViewModel::class.java)
 
@@ -68,7 +62,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
 
     override fun onDestroy() {
         super.onDestroy()
-        beaconManager.unbind(this)
         LocalBroadcastManager.getInstance(this).unregisterReceiver(bluetoothOffReceiver)
     }
 
@@ -76,10 +69,8 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         if (!serviceRunning){
             "start".log()
             wakeLock = getWakeLock()
-            beaconManager.unbind(this)
             startService(getSenderServiceIntent(deviceId))
-            (application as BeaconExchangeApplication).startBeaconForegroundService()
-            beaconManager.bind(this)
+            //BluetoothService.start(this)
             serviceRunning = true
         }
     }
@@ -88,15 +79,14 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         if (serviceRunning) {
             "stop".log()
             wakeLock?.release()
-            beaconManager.unbind(this)
-            stopService(Intent(this, BeaconSenderService::class.java))
-            (application as BeaconExchangeApplication).stopBeaconForegroundService()
+            stopService(Intent(this, BluetoothService::class.java))
+            //BluetoothService.stop()
             serviceRunning = false
         }
     }
 
     private fun getSenderServiceIntent(deviceId: String): Intent {
-        return Intent(this, BeaconSenderService::class.java).apply {
+        return Intent(this, BluetoothService::class.java).apply {
             putExtra(Constants.DEVICE_ID, deviceId)
         }
     }
@@ -105,29 +95,6 @@ class MainActivity : AppCompatActivity(), BeaconConsumer {
         val intent = Intent(Constants.BEACON_UPDATE)
         intent.putExtra(Constants.BEACON_MESSAGE, msg)
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
-    }
-
-    override fun onBeaconServiceConnect() {
-
-        beaconManager.removeAllRangeNotifiers()
-        beaconManager.addRangeNotifier { beacons, _ ->
-            beacons.forEach { beacon: Beacon ->
-                Log.d(name(), "RangeNotifier beacon detected: $beacon")
-
-                var send = true
-                if (excludedViewModel.isInExcluded(beacon.id1.toString())) {
-                    send = false
-                }
-
-                if (beacon.isProtego() && serviceRunning && send) {
-                    val data = beacon.getBluetoothMessage()
-                    alarmManager.checkRssiDistance(data.rssi)
-                    sendMessageToFragment(data)
-                    "${data.deviceId}, ${data.rssi}".log()
-                }
-            }
-        }
-        beaconManager.startRangingBeaconsInRegion(RegionFactory.getRegion())
     }
 
     fun addToExcluded(deviceId: String) {
