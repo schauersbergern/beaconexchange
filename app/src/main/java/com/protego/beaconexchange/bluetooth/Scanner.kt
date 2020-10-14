@@ -1,12 +1,16 @@
 package com.protego.beaconexchange.bluetooth
 
+import android.content.Context
+import android.content.Intent
 import android.os.ParcelUuid
+import android.os.Parcelable
 import android.util.Base64
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.polidea.rxandroidble2.*
-import com.polidea.rxandroidble2.scan.ScanCallbackType
-import com.polidea.rxandroidble2.scan.ScanFilter
-import com.polidea.rxandroidble2.scan.ScanResult
-import com.polidea.rxandroidble2.scan.ScanSettings
+import com.polidea.rxandroidble2.scan.*
+import com.protego.beaconexchange.AlarmManager
+import com.protego.beaconexchange.domain.BluetoothMessage
+import com.protego.beaconexchange.helper.Constants
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +19,10 @@ import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 class Scanner(private val scanner: RxBleClient,
-              private val listener: ScanEventListener) {
+              private val listener: ScanEventListener,
+              private val alarmManager: AlarmManager,
+              private val context: Context
+) {
 
     fun scan(): Disposable {
         // From Android Nougat scanning is throttled to 5 times in 30 seconds
@@ -40,10 +47,10 @@ class Scanner(private val scanner: RxBleClient,
             .filter { it.callbackType != ScanCallbackType.CALLBACK_TYPE_MATCH_LOST}
             .take(2, TimeUnit.SECONDS)
             .flatMap {
-                scanDevice(it, it.scanRecord.txPowerLevel)
+                scanDevice(it, it.scanRecord)
             }
 
-    fun scanDevice(device: ScanResult, txPower: Int) =
+    fun scanDevice(device: ScanResult, scanRecord: ScanRecord) =
         device.bleDevice
             .establishConnection(false)
             .subscribeOn(Schedulers.io())
@@ -61,8 +68,25 @@ class Scanner(private val scanner: RxBleClient,
             .take(1)
             .map {
                 Timber.d("RSSI: ${it} Mac: ${device.bleDevice.macAddress}, Manufacturer data: ${Base64.encodeToString(device.scanRecord.getManufacturerSpecificData(76) ?: "a".toByteArray(Charsets.US_ASCII), Base64.DEFAULT)}")
-                ScanEvent(device = device.bleDevice.macAddress, rssi = it, txPower = txPower)
+
+                val data = BluetoothMessage(
+                    "",
+                    device.bleDevice.name ?: "",
+                    device.bleDevice.macAddress,
+                    0,
+                    it
+                )
+                alarmManager.checkRssiDistance(data.rssi)
+                sendMessageToFragment(data)
+
+                ScanEvent(device = device.bleDevice.macAddress, rssi = it, txPower = scanRecord.txPowerLevel)
             }
+
+    private fun sendMessageToFragment(msg: Parcelable) {
+        val intent = Intent(Constants.BEACON_UPDATE)
+        intent.putExtra(Constants.BEACON_MESSAGE, msg)
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+    }
 
     private fun workspaceServiceFilter(): ScanFilter =
         ScanFilter.Builder()

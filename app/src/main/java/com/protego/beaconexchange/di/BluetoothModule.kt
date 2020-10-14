@@ -38,5 +38,5 @@ val bluetoothModule = module {
     single { bluetoothAdvertiser(get()) }
     single { rxBluetoothClient(get()) }
     single { scanEventListener() }
-    single { Scanner(get(), get()) }
+    single { Scanner(get(), get(), get(), get()) }
 }
