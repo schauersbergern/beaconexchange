@@ -17,6 +17,7 @@ import android.os.ParcelUuid
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.protego.beaconexchange.R
+import com.protego.beaconexchange.helper.Constants
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.plugins.RxJavaPlugins
@@ -47,7 +48,13 @@ class BluetoothService : Service() {
             .setContentText("Looking for other devices")
 
         startForeground(5432, builder.build())
-        start()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        intent?.extras?.getString(Constants.DEVICE_ID)?.let {
+            start(it)
+        }
+        return super.onStartCommand(intent, flags, startId)
     }
 
     fun createChannel(): String {
@@ -63,21 +70,23 @@ class BluetoothService : Service() {
         return "workspace-service"
     }
 
-    fun start() {
-        startAdvertising()
+    fun start(deviceId : String) {
+        startAdvertising(deviceId)
         startScanning()
         startServing()
     }
 
-    fun startAdvertising() {
+    fun startAdvertising(deviceId: String) {
         val settings = AdvertiseSettings.Builder()
             .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
             .setConnectable(true)
             .setTimeout(0)
             .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)
             .build()
+
         val data = AdvertiseData.Builder()
             .addServiceUuid(ParcelUuid(SERVICE_ID))
+            //.addServiceData(ParcelUuid(SERVICE_ID), byteArrayOf(5))
             .setIncludeTxPowerLevel(true)
             .build()
         bluetoothAdvertiser.startAdvertising(settings, data, AdCallback())
@@ -94,8 +103,10 @@ class BluetoothService : Service() {
             BluetoothGattCharacteristic.PERMISSION_READ or BluetoothGattCharacteristic.PERMISSION_WRITE
         )
         keepaliveCharacteristic.addDescriptor(
-            BluetoothGattDescriptor(CLIENT_CONFIG,
-                BluetoothGattDescriptor.PERMISSION_READ or BluetoothGattDescriptor.PERMISSION_WRITE)
+            BluetoothGattDescriptor(
+                CLIENT_CONFIG,
+                BluetoothGattDescriptor.PERMISSION_READ or BluetoothGattDescriptor.PERMISSION_WRITE
+            )
         )
         val service = BluetoothGattService(KEEPALIVE_SERVICE_ID, SERVICE_TYPE_PRIMARY)
         service.addCharacteristic(keepaliveCharacteristic)
@@ -121,8 +132,11 @@ class BluetoothService : Service() {
                     devicesToNotify.forEach {
                         try {
                             server.notifyCharacteristicChanged(it, keepaliveCharacteristic, false)
-                        } catch(ex: Exception) {
-                            Timber.e(ex, "Exception when notifying client of keepalive characteristic")
+                        } catch (ex: Exception) {
+                            Timber.e(
+                                ex,
+                                "Exception when notifying client of keepalive characteristic"
+                            )
                         }
                     }
                 }

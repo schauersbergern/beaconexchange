@@ -69,8 +69,14 @@ class Scanner(private val scanner: RxBleClient,
             .map {
                 Timber.d("RSSI: ${it} Mac: ${device.bleDevice.macAddress}, Manufacturer data: ${Base64.encodeToString(device.scanRecord.getManufacturerSpecificData(76) ?: "a".toByteArray(Charsets.US_ASCII), Base64.DEFAULT)}")
 
+                val bla = device.scanRecord.serviceData
+
+                val ja = bla[ParcelUuid(BluetoothService.SERVICE_ID)] as ByteArray
+
+                val ka = ja.toString(Charsets.UTF_8)
+
                 val data = BluetoothMessage(
-                    "",
+                    ka,
                     device.bleDevice.name ?: "",
                     device.bleDevice.macAddress,
                     0,
