@@ -12,6 +12,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,19 +30,25 @@ import com.protego.beaconexchange.helper.Constants
 import com.protego.beaconexchange.helper.alertDialog
 import com.protego.beaconexchange.helper.name
 import com.protego.beaconexchange.helper.showNotification
+import com.protego.beaconexchange.ui.excluded.ExcludedViewModel
 import com.protego.permissions.presentation.activateBatteryOptimizations
 import com.protego.permissions.presentation.hasPermissions
 import com.protego.permissions.presentation.ignoresBatteryOptimizations
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import java.util.*
 import kotlin.concurrent.schedule
 
-class MonitoringFragment : Fragment() {
+class MonitoringFragment : Fragment(), KoinComponent {
 
     private lateinit var viewModel: MonitoringViewModel
+    private lateinit var excludedViewModel : ExcludedViewModel
     private var binding: FragmentMonitoringBinding? = null
     private val _binding get() = binding
 
     private var timer: TimerTask? = null
+
+    private val alarmManager : AlarmManager by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +56,7 @@ class MonitoringFragment : Fragment() {
     ): View? {
         binding = FragmentMonitoringBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(MonitoringViewModel::class.java)
+        excludedViewModel = ViewModelProvider(this).get(ExcludedViewModel::class.java)
         return _binding?.root
     }
 
@@ -63,6 +71,12 @@ class MonitoringFragment : Fragment() {
             } else if (!state.serviceShouldRun) {
                 setOffState()
                 (requireActivity() as MainActivity).stopServices()
+            }
+        })
+
+        excludedViewModel.excludedLive.observe(viewLifecycleOwner, Observer { excluded ->
+            if (excluded != null) {
+                excludedViewModel.addExcluded(excluded)
             }
         })
 
@@ -112,7 +126,7 @@ class MonitoringFragment : Fragment() {
         val txt = getString(R.string.add_device_to_excluded_q).replace("%s", msg.deviceId)
         binding?.addToExcludedText?.text = txt
         binding?.addToExcludedText?.setOnClickListener {
-            (activity as MainActivity).addToExcluded(msg.deviceId)
+            addToExcluded(msg.deviceId)
         }
     }
 
@@ -236,11 +250,28 @@ class MonitoringFragment : Fragment() {
         }
     }
 
+    fun addToExcluded(deviceId: String) {
+        excludedViewModel.addToExcluded(deviceId)
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.add_device_to_excluded).replace("%s", deviceId),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    fun deviceExcluded(deviceId: String) = excludedViewModel.isInExcluded(deviceId)
+
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
 
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
+
+            if (deviceExcluded(message.deviceId)) {
+                return
+            }
+
             setExcludedText(message)
+            alarmManager.checkRssiDistance(message.rssi)
 
             when ((activity as MainActivity).alarmManager.getRssiSeverity(message.rssi)) {
                 SEVERITY_MEDIUM -> {

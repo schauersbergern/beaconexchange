@@ -19,24 +19,10 @@ class AppDataRepository(private val dataDao: AppDataDao, private val ctx: Contex
     }
 
     private fun generateAndSaveAppID() : String {
-        val id = rand_string()
+        val id = UUID.randomUUID().toString()
         val deviceName = RandomNameGenerator(ctx).next()
         dataDao.insert(AppData(0, id, deviceName))
         return id
-    }
-
-    private fun rand_string() : String {
-        val leftLimit = 33 // letter !
-        val rightLimit = 126 // letter ''
-        val targetStringLength = 6
-        val random = Random()
-        val buffer = StringBuilder(targetStringLength)
-        for (i in 0 until targetStringLength) {
-            val randomLimitedInt =
-                leftLimit + (random.nextFloat() * (rightLimit - leftLimit + 1)).toInt()
-            buffer.append(randomLimitedInt.toChar())
-        }
-        return buffer.toString()
     }
 
 }

@@ -43,7 +43,7 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun finishHim() {
-        requireActivity().getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean(ONBOARDING_KEY, false)?.commit()
+        requireActivity().getPreferences(Context.MODE_PRIVATE)?.edit()?.putBoolean(ONBOARDING_KEY, false)?.apply()
         findNavController().navigate(Uri.parse("https://www.protego.com/start"))
     }
 
@@ -83,7 +83,7 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @AfterPermissionGranted(LOCATION)
     private fun getPermissions() {
         if (!hasPermissions(requireContext())) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q){
+            if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.Q){
                 EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *permissionsQ)
             } else{
                 EasyPermissions.requestPermissions(this, getString(R.string.permission_needed), LOCATION, *permissions)

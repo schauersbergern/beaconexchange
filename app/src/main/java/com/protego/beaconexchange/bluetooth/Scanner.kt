@@ -11,10 +11,14 @@ import com.polidea.rxandroidble2.scan.*
 import com.protego.beaconexchange.AlarmManager
 import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.beaconexchange.helper.Constants
+import com.protego.beaconexchange.helper.Constants.Companion.ANDROID_MANUFACTURE_ID
+import com.protego.beaconexchange.helper.Constants.Companion.ANDROID_MANUFACTURE_SUBSTRING
+import com.protego.beaconexchange.helper.Constants.Companion.ANDROID_MANUFACTURE_SUBSTRING_MASK
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.nio.charset.StandardCharsets
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
@@ -69,20 +73,22 @@ class Scanner(private val scanner: RxBleClient,
             .map {
                 Timber.d("RSSI: ${it} Mac: ${device.bleDevice.macAddress}, Manufacturer data: ${Base64.encodeToString(device.scanRecord.getManufacturerSpecificData(76) ?: "a".toByteArray(Charsets.US_ASCII), Base64.DEFAULT)}")
 
-                val bla = device.scanRecord.serviceData
+                var deviceId = ""
 
-                val ja = bla[ParcelUuid(BluetoothService.SERVICE_ID)] as ByteArray
-
-                val ka = ja.toString(Charsets.UTF_8)
+                if (device.scanRecord.serviceUuids?.isEmpty() == false ) {
+                   device.scanRecord.serviceUuids?.let { ids ->
+                       deviceId = ids[0].toString()
+                   }
+                }
 
                 val data = BluetoothMessage(
-                    ka,
+                    deviceId,
                     device.bleDevice.name ?: "",
                     device.bleDevice.macAddress,
                     0,
                     it
                 )
-                alarmManager.checkRssiDistance(data.rssi)
+
                 sendMessageToFragment(data)
 
                 ScanEvent(device = device.bleDevice.macAddress, rssi = it, txPower = scanRecord.txPowerLevel)
@@ -96,7 +102,9 @@ class Scanner(private val scanner: RxBleClient,
 
     private fun workspaceServiceFilter(): ScanFilter =
         ScanFilter.Builder()
-            .setServiceUuid(ParcelUuid(BluetoothService.SERVICE_ID))
+            .setManufacturerData(ANDROID_MANUFACTURE_ID,
+                ANDROID_MANUFACTURE_SUBSTRING.toByteArray(StandardCharsets.UTF_8),
+                ANDROID_MANUFACTURE_SUBSTRING_MASK.toByteArray(StandardCharsets.UTF_8))
             .build()
 
     private fun iOSBackgroundFilter(): ScanFilter =

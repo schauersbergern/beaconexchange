@@ -1,31 +1,27 @@
 package com.protego.beaconexchange.bluetooth
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
 import android.bluetooth.*
 import android.bluetooth.BluetoothGattService.SERVICE_TYPE_PRIMARY
-import android.bluetooth.le.AdvertiseCallback
-import android.bluetooth.le.AdvertiseData
-import android.bluetooth.le.AdvertiseSettings
-import android.bluetooth.le.BluetoothLeAdvertiser
+import android.bluetooth.le.*
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.os.ParcelUuid
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.protego.beaconexchange.R
 import com.protego.beaconexchange.helper.Constants
+import com.protego.beaconexchange.helper.Constants.Companion.ANDROID_MANUFACTURE_ID
+import com.protego.beaconexchange.helper.Constants.Companion.ANDROID_MANUFACTURE_SUBSTRING
+import com.protego.beaconexchange.helper.Constants.Companion.FOREGROUND_ID
+import com.protego.beaconexchange.helper.getForegroundNotification
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 import timber.log.Timber
-import java.util.UUID
-import java.util.Arrays
+import java.nio.charset.StandardCharsets
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class BluetoothService : Service() {
@@ -42,12 +38,12 @@ class BluetoothService : Service() {
             // A catch-all error handler
             Timber.e(it, "Error thrown: $it")
         }
-        val builder = NotificationCompat.Builder(this, createChannel())
-            .setSmallIcon(R.drawable.shield)
-            .setContentTitle("Bluetooth scanning")
-            .setContentText("Looking for other devices")
 
-        startForeground(5432, builder.build())
+        startForeground(FOREGROUND_ID, this.getForegroundNotification(
+            "Protego is engaged",
+            "You will be warned if you come too close"
+        ))
+
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -57,20 +53,7 @@ class BluetoothService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    fun createChannel(): String {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "workspace-service",
-                "bluetooth-service",
-                NotificationManager.IMPORTANCE_LOW
-            )
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-        return "workspace-service"
-    }
-
-    fun start(deviceId : String) {
+    fun start(deviceId: String) {
         startAdvertising(deviceId)
         startScanning()
         startServing()
@@ -85,8 +68,11 @@ class BluetoothService : Service() {
             .build()
 
         val data = AdvertiseData.Builder()
-            .addServiceUuid(ParcelUuid(SERVICE_ID))
-            //.addServiceData(ParcelUuid(SERVICE_ID), byteArrayOf(5))
+            .addManufacturerData(
+                ANDROID_MANUFACTURE_ID,
+                ANDROID_MANUFACTURE_SUBSTRING.toByteArray(StandardCharsets.UTF_8)
+            )
+            .addServiceUuid(ParcelUuid(UUID.fromString(deviceId)))
             .setIncludeTxPowerLevel(true)
             .build()
         bluetoothAdvertiser.startAdvertising(settings, data, AdCallback())

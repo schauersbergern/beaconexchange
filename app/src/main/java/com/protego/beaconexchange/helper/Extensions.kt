@@ -19,7 +19,6 @@ import com.protego.beaconexchange.MainActivity
 import com.protego.beaconexchange.R
 import com.protego.beaconexchange.helper.Constants.Companion.SERVICE_CHANNEL
 import com.protego.beaconexchange.helper.Constants.Companion.WAKELOCK_TIMEOUT
-import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.presentationcore.ProgressDialogFragment
 import timber.log.Timber
 import kotlin.random.Random
@@ -53,8 +52,8 @@ private fun Context.createNotificationChannel(channelId: String) {
             channelId, "Foreground Service Channel",
             NotificationManager.IMPORTANCE_DEFAULT
         )
-        val manager = getSystemService(NotificationManager::class.java)
-        manager!!.createNotificationChannel(serviceChannel)
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(serviceChannel)
     }
 }
 

@@ -23,7 +23,6 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity() {
 
     private lateinit var settingsViewModel : SettingsViewModel
-    private lateinit var excludedViewModel : ExcludedViewModel
     private lateinit var log: Timber.Tree
     lateinit var alarmManager: AlarmManager
 
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
         alarmManager = AlarmManager(this)
         settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-        excludedViewModel = ViewModelProvider(this).get(ExcludedViewModel::class.java)
 
         log = initLogger(this)
 
@@ -48,12 +46,6 @@ class MainActivity : AppCompatActivity() {
                 alarmManager.changeSettings(getStandardSettings(this))
             } else {
                 alarmManager.changeSettings(it)
-            }
-        })
-
-        excludedViewModel.excludedLive.observe(this, Observer { excluded ->
-            if (excluded != null) {
-                excludedViewModel.addExcluded(excluded)
             }
         })
 
@@ -89,21 +81,6 @@ class MainActivity : AppCompatActivity() {
         return Intent(this, BluetoothService::class.java).apply {
             putExtra(Constants.DEVICE_ID, deviceId)
         }
-    }
-
-    private fun sendMessageToFragment(msg: Parcelable) {
-        val intent = Intent(Constants.BEACON_UPDATE)
-        intent.putExtra(Constants.BEACON_MESSAGE, msg)
-        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
-    }
-
-    fun addToExcluded(deviceId: String) {
-        excludedViewModel.addToExcluded(deviceId)
-        Toast.makeText(
-            this,
-            getString(R.string.add_device_to_excluded).replace("%s", deviceId),
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     override fun onBackPressed() {
