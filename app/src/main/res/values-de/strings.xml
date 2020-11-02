@@ -40,5 +40,7 @@ Bei einer geringen Empfindlichkeit müssen die Geräte in der Nähe sein um eine
     <string name="first_use_notification">Um alarmiert zu werden muss Protego auf allen Geräten installiert sein</string>
     <string name="bluetooth_turned_off">Bluetooth ausgeschalten</string>
     <string name="bluetooth_turn_on">Bitte aktivieren sie Bluetooth</string>
+    <string name="bg_location_title">Erlaubnis Problem</string>
+    <string name="bg_location_message">Wir lesen ihren Standort niemals aus, aber leider benötigt Bluetooth ihre Erlaubis den Standort auch im Hintergrund zu nutzen</string>
 
 </resources>

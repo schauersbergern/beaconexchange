@@ -1,5 +1,6 @@
 package com.protego.beaconexchange.ui.monitoring
 
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -18,20 +19,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
-import com.protego.beaconexchange.*
+import com.protego.beaconexchange.AlarmManager
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_MEDIUM
 import com.protego.beaconexchange.AlarmManager.Companion.SEVERITY_SEVERE
-import com.protego.beaconexchange.helper.Constants.Companion.BEACON_MESSAGE
-import com.protego.beaconexchange.helper.Constants.Companion.BEACON_UPDATE
-import com.protego.beaconexchange.helper.Constants.Companion.FIRST_NOTIFICATION_KEY
+import com.protego.beaconexchange.MainActivity
+import com.protego.beaconexchange.R
 import com.protego.beaconexchange.databinding.FragmentMonitoringBinding
 import com.protego.beaconexchange.domain.BluetoothMessage
 import com.protego.beaconexchange.helper.Constants
+import com.protego.beaconexchange.helper.Constants.Companion.BACKGROUND_PERMISSION
+import com.protego.beaconexchange.helper.Constants.Companion.BEACON_MESSAGE
+import com.protego.beaconexchange.helper.Constants.Companion.BEACON_UPDATE
+import com.protego.beaconexchange.helper.Constants.Companion.FIRST_NOTIFICATION_KEY
 import com.protego.beaconexchange.helper.alertDialog
 import com.protego.beaconexchange.helper.name
 import com.protego.beaconexchange.helper.showNotification
 import com.protego.beaconexchange.ui.excluded.ExcludedViewModel
 import com.protego.permissions.presentation.activateBatteryOptimizations
+import com.protego.permissions.presentation.hasBackgroundLocationPermission
 import com.protego.permissions.presentation.hasPermissions
 import com.protego.permissions.presentation.ignoresBatteryOptimizations
 import org.koin.core.KoinComponent
@@ -105,8 +110,15 @@ class MonitoringFragment : Fragment(), KoinComponent {
             .getBoolean(FIRST_NOTIFICATION_KEY, true)
 
         if (firstNotification) {
-            requireContext().showNotification( null, getString(R.string.first_use_notification), true)
-            requireActivity().getPreferences(Context.MODE_PRIVATE).edit().putBoolean(FIRST_NOTIFICATION_KEY, false).apply()
+            requireContext().showNotification(
+                null,
+                getString(R.string.first_use_notification),
+                true
+            )
+            requireActivity().getPreferences(Context.MODE_PRIVATE).edit().putBoolean(
+                FIRST_NOTIFICATION_KEY,
+                false
+            ).apply()
         }
     }
 
@@ -179,7 +191,6 @@ class MonitoringFragment : Fragment(), KoinComponent {
 
     override fun onResume() {
         super.onResume()
-        checkPreConditions()
         viewModel.startServiceIfAllEnabledOrStop()
     }
 
@@ -188,6 +199,40 @@ class MonitoringFragment : Fragment(), KoinComponent {
         verifyPermissions()
         verifyLocationEnabled()
         verifyBatteryOptimizations()
+        verifyBackgroundPermission()
+    }
+
+    private fun verifyBackgroundPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R){
+            if (!hasBackgroundLocationPermission(requireContext()) ) {
+                requestPermissions(
+                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                    BACKGROUND_PERMISSION
+                )
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == BACKGROUND_PERMISSION) {
+            if (permissions.isNotEmpty() && (grantResults[0] == -1)) {
+                requireContext().alertDialog(
+                    getString(R.string.bg_location_title),
+                    getString(R.string.bg_location_message),
+                    {
+                        verifyBackgroundPermission()
+                    },
+                    {
+                    }
+                ).show()
+            }
+        }
     }
 
     private fun verifyLocationEnabled() {
@@ -266,22 +311,24 @@ class MonitoringFragment : Fragment(), KoinComponent {
 
             val message = intent.getParcelableExtra<BluetoothMessage>(BEACON_MESSAGE)
 
-            if (deviceExcluded(message.deviceId)) {
-                return
-            }
-
-            setExcludedText(message)
-            alarmManager.checkRssiDistance(message.rssi)
-
-            when ((activity as MainActivity).alarmManager.getRssiSeverity(message.rssi)) {
-                SEVERITY_MEDIUM -> {
-                    viewModel.setAlarm()
+            message?.let {
+                if (deviceExcluded(it.deviceId)) {
+                    return
                 }
-                SEVERITY_SEVERE -> {
-                    viewModel.setAlarm()
-                }
-                else -> {
-                    viewModel.setSurveilance()
+
+                setExcludedText(it)
+                alarmManager.checkRssiDistance(it.rssi)
+
+                when ((activity as MainActivity).alarmManager.getRssiSeverity(it.rssi)) {
+                    SEVERITY_MEDIUM -> {
+                        viewModel.setAlarm()
+                    }
+                    SEVERITY_SEVERE -> {
+                        viewModel.setAlarm()
+                    }
+                    else -> {
+                        viewModel.setSurveilance()
+                    }
                 }
             }
         }

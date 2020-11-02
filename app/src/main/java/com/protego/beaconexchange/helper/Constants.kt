@@ -28,6 +28,8 @@ class Constants {
         const val ALARM_REQUEST = 25
         const val ONBOARDING_REQUEST = 24
 
+        const val BACKGROUND_PERMISSION = 64
+
         const val FOREGROUND_ID = 34
         const val MANUFACTURER = 0x0118
 

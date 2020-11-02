@@ -80,7 +80,6 @@ class PermissionFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    @AfterPermissionGranted(LOCATION)
     private fun getPermissions() {
         if (!hasPermissions(requireContext())) {
             if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.Q){

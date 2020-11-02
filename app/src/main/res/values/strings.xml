@@ -42,5 +42,7 @@
         also has to install Protego</string>
     <string name="bluetooth_turned_off">Bluetooth was turned off</string>
     <string name="bluetooth_turn_on">Please enable Bluetooth</string>
+    <string name="bg_location_title">Permisson problem</string>
+    <string name="bg_location_message">We never check you location but bluetooth stops working when the app is in the background when the permission is not given</string>
 
 </resources>
